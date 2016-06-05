@@ -47,7 +47,6 @@ static NSInteger const kLVMAlertButtonCellButtonBaseTag = 555555;
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
         btn.frame = frame;
         btn.tag = kLVMAlertButtonCellButtonBaseTag + i;
-        btn.backgroundColor = [UIColor whiteColor];
         btn.titleLabel.font = [UIFont systemFontOfSize:14];
         [btn setTitleColor:[self _textColorWithAlertAction:action] forState:UIControlStateNormal];
         [btn setTitle:action.title forState:UIControlStateNormal];
@@ -59,10 +58,6 @@ static NSInteger const kLVMAlertButtonCellButtonBaseTag = 555555;
         line.backgroundColor = kLVMAlertHUDSeparatorColor;
         [btn addSubview:line];
     }
-    CGRect frame = CGRectMake(0, 0, CGRectGetWidth(self.bounds), kLVMSingleLineWidth);
-    UIView *lineView = [[UIView alloc] initWithFrame:frame];
-    lineView.backgroundColor = kLVMAlertHUDSeparatorColor;
-    [self addSubview:lineView];
 }
 
 - (UIColor *)_textColorWithAlertAction:(LVMAlertAction *)action {

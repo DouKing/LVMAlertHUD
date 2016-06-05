@@ -26,7 +26,9 @@ static inline NSAttributedString * LVMAlertHeaderViewAttributeStringFor(NSString
                        range:NSMakeRange(0, attribute.length)];
     
     if (message.length) {
-        message = [@"\n" stringByAppendingString:message];
+        if (attribute.length) {
+            message = [@"\n" stringByAppendingString:message];
+        }
         NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:message];
         [text addAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:kLVMAlertHeaderViewMessageFontSize],
                               NSForegroundColorAttributeName : [UIColor lightGrayColor]}
@@ -55,6 +57,7 @@ static inline CGFloat LVMAttributeStringHeightFor(NSAttributedString *attributeS
 
 @property (nonatomic, weak) UILabel *titleLabel;
 @property (nonatomic, weak) UIImageView *imageView;
+@property (nonatomic, weak) UIView *lineView;
 @property (nonatomic, strong) NSArray<UITextField *> *textFields;
 
 @end
@@ -89,6 +92,8 @@ static inline CGFloat LVMAttributeStringHeightFor(NSAttributedString *attributeS
 - (instancetype)initWithReuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithReuseIdentifier:reuseIdentifier];
     if (self) {
+        self.backgroundView = [[UIView alloc] init];
+        self.backgroundView.backgroundColor = [UIColor clearColor];
         [self _setupSubViews];
     }
     return self;
@@ -122,6 +127,9 @@ static inline CGFloat LVMAttributeStringHeightFor(NSAttributedString *attributeS
         textField.frame = frame;
         lastView = textField;
     }
+    
+    frame = CGRectMake(0, maxHeight - kLVMSingleLineWidth, maxWidth, kLVMSingleLineWidth);
+    self.lineView.frame = frame;
 }
 
 - (void)setupWithTitle:(NSString *)title message:(NSString *)message image:(UIImage *)image textFields:(NSArray<UITextField *> *)textFields {
@@ -144,6 +152,11 @@ static inline CGFloat LVMAttributeStringHeightFor(NSAttributedString *attributeS
     imageView.clipsToBounds = YES;
     _imageView = imageView;
     [self.contentView addSubview:imageView];
+    
+    UIView *lineView = [[UIView alloc] init];
+    lineView.backgroundColor = kLVMAlertHUDSeparatorColor;
+    _lineView = lineView;
+    [self.contentView addSubview:lineView];
 }
 
 - (void)_removeTextFields {

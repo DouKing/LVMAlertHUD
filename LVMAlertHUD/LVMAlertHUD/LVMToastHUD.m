@@ -29,6 +29,10 @@ static CGFloat const kLVMToastHUDHeight = 40.0f;
 
 @implementation LVMToastHUD
 
+- (void)dealloc {
+    [_timer invalidate];
+}
+
 + (void)showMessage:(NSString *)message toView:(UIView *)view {
     LVMToastHUD *hud = [self toastHUDWithMessage:message view:view];
     hud.messageLabel.text = message;

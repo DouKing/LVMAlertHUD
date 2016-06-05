@@ -155,7 +155,7 @@ static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按�
     }
     CGRect frame = CGRectMake(0, 0, CGRectGetWidth(self.containerView.bounds), height);
     UITableView *tableView = [[UITableView alloc] initWithFrame:frame style:UITableViewStylePlain];
-    tableView.backgroundColor = [UIColor clearColor];
+    tableView.backgroundColor = [UIColor colorWithWhite:1 alpha:0.96];
     tableView.layer.cornerRadius = kLVMAlertControllerCornerRadius;
     tableView.layer.masksToBounds = YES;
     tableView.separatorColor = kLVMAlertHUDSeparatorColor;
@@ -233,7 +233,7 @@ static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按�
     NSMutableArray<UITextField *> *tempTextFields = [NSMutableArray arrayWithArray:self.textFields];
     UITextField *textField = [[UITextField alloc] init];
     textField.font = [UIFont systemFontOfSize:14];
-    textField.backgroundColor = [UIColor lightTextColor];
+    textField.backgroundColor = [UIColor colorWithRed:245 / 255.0 green:245 / 255.0 blue:245 / 255.0 alpha:1];
     textField.delegate = self;
     [tempTextFields addObject:textField];
     _textFields = [NSArray arrayWithArray:tempTextFields];

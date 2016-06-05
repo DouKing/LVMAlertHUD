@@ -25,7 +25,7 @@ static NSString * const kMainViewControllerCellId = @"kMainViewControllerCellId"
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.dataSource = @[@"下一级", @"导航条提示", @"Alert", @"ActionSheet", @"Toast", @"Alert Convenience", @"ActionSheet Convenience"];
+    self.dataSource = @[@"下一级", @"导航条提示", @"Alert", @"ActionSheet", @"Toast", @"Alert Convenience", @"ActionSheet Convenience", @"Alert NO Title"];
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:kMainViewControllerCellId];
 }
 
@@ -77,7 +77,12 @@ static NSString * const kMainViewControllerCellId = @"kMainViewControllerCellId"
             [self _actionSheetConvenience];
             break;
         }
-            
+        
+        case 7: {
+            [self _alertNOTitle];
+            break;
+        }
+        
         default:
             break;
     }
@@ -167,6 +172,15 @@ static NSString * const kMainViewControllerCellId = @"kMainViewControllerCellId"
             NSLog(@"Convenience 取消");
         }
     } cancelButtonTitle:@"取消" otherButtonTitles:@"神秘", @"男", @"女", nil];
+    [alertController showWithCompletion:nil];
+}
+
+- (void)_alertNOTitle {
+    LVMAlertController *alertController = [LVMAlertController alertWithTitle:nil message:@"This is a message" preferredStyle:LVMAlertControllerStyleAlert actionHandler:^(NSInteger index) {
+        if (0 == index) {
+            NSLog(@"Convenience 确定");
+        }
+    } cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
     [alertController showWithCompletion:nil];
 }
 
