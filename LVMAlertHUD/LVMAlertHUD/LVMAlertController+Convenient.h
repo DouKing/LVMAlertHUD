@@ -28,6 +28,6 @@
                 preferredStyle:(LVMAlertControllerStyle)preferredStyle
                  actionHandler:(void (^)(NSInteger index))actionHandler
              cancelButtonTitle:(NSString *)cancelButtonTitle
-             otherButtonTitles:(NSString *)otherButtonTitles, ... ;
+             otherButtonTitles:(NSString *)otherButtonTitles, ... NS_REQUIRES_NIL_TERMINATION;
 
 @end
