@@ -1,3 +1,5 @@
+![](https://travis-ci.org/DouKing/LVMAlertHUD.svg?branch=master)
+
 # LVMAlertHUD
 
 > 自定义弹框控件
