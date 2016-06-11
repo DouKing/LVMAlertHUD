@@ -56,7 +56,7 @@ static CGFloat const kLVMToastHUDHeight = 40.0f;
     }
     
     hud = [[LVMToastHUD alloc] initWithFrame:CGRectMake(0.5 * (maxWidth - width),
-                                                        0.5 * (maxHeight - kLVMToastHUDHeight),
+                                                        0.6 * (maxHeight - kLVMToastHUDHeight),
                                                         width,
                                                         kLVMToastHUDHeight)];
     hud.backgroundColor = [UIColor colorWithRed:26 / 255.0 green:25 / 255.0 blue:30 / 255.0 alpha:1];
@@ -151,6 +151,7 @@ static CGFloat const kLVMToastHUDHeight = 40.0f;
 
 - (void)_startTimer {
     self.timer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(_handleTimerAction:) userInfo:nil repeats:YES];
+    [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSDefaultRunLoopMode];
 }
 
 - (void)_handleTimerAction:(NSTimer *)timer {

@@ -142,6 +142,7 @@ static CGFloat const kLVMStatusBarHUDAnimateDuration = 0.3f;
 
 - (void)_startTimer {
     self.timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(_handleTimerAction:) userInfo:nil repeats:YES];
+    [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSDefaultRunLoopMode];
 }
 
 - (void)_handleTimerAction:(NSTimer *)timer {
