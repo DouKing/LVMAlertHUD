@@ -1,5 +1,5 @@
 language: objective-c
-osx_image: xcode7.3
+osx_image: xcode7.3.1
 xcode_project: LVMAlertHUD.xcodeproj
 xcode_scheme: LVMAlertHUD
 xcode_sdk: iphonesimulator8.4
