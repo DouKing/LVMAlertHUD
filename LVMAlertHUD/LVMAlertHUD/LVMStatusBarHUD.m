@@ -11,7 +11,7 @@
 static NSInteger const kLVMStatusBarHUDTag = 999999;
 static CGFloat const kLVMStatusBarHeight = 20;
 static CGFloat const kLVMStatusBarHUDHeight = 64;
-static CGFloat const kLVMStatusBarHUDDismissDelay = 4.0f;
+static CGFloat const kLVMStatusBarHUDDismissDelay = 3.0f;
 static CGFloat const kLVMStatusBarHUDAnimateDuration = 0.3f;
 
 @interface LVMStatusBarHUD ()
@@ -25,6 +25,7 @@ static CGFloat const kLVMStatusBarHUDAnimateDuration = 0.3f;
 
 @property (nonatomic, weak)   UIImageView *imageView;
 @property (nonatomic, weak)   UILabel *textLabel;
+@property (nonatomic, assign) LVMStatusBarHUDType type;
 
 @end
 
@@ -39,21 +40,27 @@ static CGFloat const kLVMStatusBarHUDAnimateDuration = 0.3f;
 }
 
 + (instancetype)showWithMessage:(NSString *)message type:(LVMStatusBarHUDType)type completion:(LVMStatusBarHUDAnimationHandler)completion {
-    LVMStatusBarHUD *hud = [self statusBarHUD];
+    LVMStatusBarHUD *hud = [[[UIApplication sharedApplication] keyWindow] viewWithTag:kLVMStatusBarHUDTag];
+    if (hud) {
+        if ([message isEqualToString:hud.textLabel.text] &&
+            type == hud.type) {
+            return hud;
+        }
+    } else {
+        hud = [self statusBarHUD];
+    }
     hud.textLabel.text = message;
     hud.imageView.image = [hud _imageWithType:type];
+    hud.type = type;
     [hud _showWithCompletion:completion];
     return hud;
 }
 
 + (instancetype)statusBarHUD {
-    LVMStatusBarHUD *hud = [[[UIApplication sharedApplication] keyWindow] viewWithTag:kLVMStatusBarHUDTag];
-    if (!hud) {
-        hud = [[self alloc] init];
-        hud.backgroundColor = [UIColor colorWithRed:26 / 255.0 green:25 / 255.0 blue:30 / 255.0 alpha:1];
-        hud.tag = kLVMStatusBarHUDTag;
-        [[[UIApplication sharedApplication] keyWindow] addSubview:hud];
-    }
+    LVMStatusBarHUD *hud = [[self alloc] init];
+    hud.backgroundColor = [UIColor colorWithRed:26 / 255.0 green:25 / 255.0 blue:30 / 255.0 alpha:1];
+    hud.tag = kLVMStatusBarHUDTag;
+    [[[UIApplication sharedApplication] keyWindow] addSubview:hud];
     return hud;
 }
 

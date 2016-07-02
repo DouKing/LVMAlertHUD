@@ -149,9 +149,7 @@ static NSString * const kMainViewControllerCellId = @"kMainViewControllerCellId"
 }
 
 - (void)_showToastHUD {
-    NSInteger i = arc4random() % 2;
-    NSString *message = (0 == i) ? @"提示信息" : @"提示信息提示信息提示信息提示信息提示信息提示";
-    [LVMToastHUD showMessage:message toView:self.view];
+    [LVMToastHUD showMessage:@"提示信息" toView:self.view];
 }
 
 - (void)_alertConvenience {
