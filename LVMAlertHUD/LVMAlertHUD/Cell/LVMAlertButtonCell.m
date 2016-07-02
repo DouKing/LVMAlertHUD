@@ -21,6 +21,7 @@ static NSInteger const kLVMAlertButtonCellButtonBaseTag = 555555;
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.layer.masksToBounds = YES;
+        self.backgroundColor = [UIColor clearColor];
     }
     return self;
 }
@@ -32,8 +33,10 @@ static NSInteger const kLVMAlertButtonCellButtonBaseTag = 555555;
 }
 
 - (void)_removeButtons {
-    for (UIView *subView in [self.contentView subviews]) {
-        [subView removeFromSuperview];
+    for (UIView *subView in [self subviews]) {
+        if ([subView isKindOfClass:[UIButton class]]) {
+            [subView removeFromSuperview];
+        }
     }
 }
 

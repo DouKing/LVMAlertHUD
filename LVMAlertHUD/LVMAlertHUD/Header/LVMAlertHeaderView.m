@@ -13,15 +13,15 @@ NSString * const kLVMAlertHeaderViewId = @"kLVMAlertHeaderViewId";
 
 static CGFloat const kLVMAlertHeaderViewTextFieldHeight = 35;
 static CGFloat const kLVMAlertHeaderViewVerticalInsert = 10;
-static CGFloat const kLVMAlertHeaderViewTitleFontSize = 15;
-static CGFloat const kLVMAlertHeaderViewMessageFontSize = 13;
+static CGFloat const kLVMAlertHeaderViewTitleFontSize = 18;
+static CGFloat const kLVMAlertHeaderViewMessageFontSize = 16;
 static CGFloat const kLVMAlertHeaderViewParagraphSpace = 5;
-static CGFloat const kLVMAlertHeaderViewContentInsert  = 15;
+static CGFloat const kLVMAlertHeaderViewContentInsert  = 20;
 
 static inline NSAttributedString * LVMAlertHeaderViewAttributeStringFor(NSString *title, NSString *message) {
     title = title ?: @"";
     NSMutableAttributedString *attribute = [[NSMutableAttributedString alloc] initWithString:title];
-    [attribute addAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:kLVMAlertHeaderViewTitleFontSize],
+    [attribute addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:kLVMAlertHeaderViewTitleFontSize],
                                NSForegroundColorAttributeName : [UIColor blackColor]}
                        range:NSMakeRange(0, attribute.length)];
     
@@ -31,7 +31,7 @@ static inline NSAttributedString * LVMAlertHeaderViewAttributeStringFor(NSString
         }
         NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:message];
         [text addAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:kLVMAlertHeaderViewMessageFontSize],
-                              NSForegroundColorAttributeName : [UIColor lightGrayColor]}
+                              NSForegroundColorAttributeName : [UIColor colorWithRed:71/255.0 green:71/255.0 blue:71/255.0 alpha:1]}
                       range:NSMakeRange(0, text.length)];
         [attribute appendAttributedString:text];
     }
@@ -66,7 +66,7 @@ static inline CGFloat LVMAttributeStringHeightFor(NSAttributedString *attributeS
 
 + (CGFloat)heightWithTitle:(NSString *)title message:(NSString *)message image:(UIImage *)image textFields:(NSArray<UITextField *> *)textFields maxWidth:(CGFloat)maxWidth {
     CGFloat maxHeight = CGRectGetHeight([UIScreen mainScreen].bounds);
-    CGFloat totalHeight = kLVMAlertHeaderViewContentInsert * 2;
+    CGFloat totalHeight = 0;
     NSAttributedString *attributeString = LVMAlertHeaderViewAttributeStringFor(title, message);
     BOOL has = NO;
     if (image) {
@@ -86,14 +86,15 @@ static inline CGFloat LVMAttributeStringHeightFor(NSAttributedString *attributeS
         totalHeight += textFields.count * kLVMAlertHeaderViewTextFieldHeight;
         totalHeight += (textFields.count - 1) * kLVMAlertHeaderViewVerticalInsert;
     }
+    if (has) {
+        totalHeight += kLVMAlertHeaderViewContentInsert * 2;
+    }
     return totalHeight;
 }
 
 - (instancetype)initWithReuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithReuseIdentifier:reuseIdentifier];
     if (self) {
-        self.backgroundView = [[UIView alloc] init];
-        self.backgroundView.backgroundColor = [UIColor clearColor];
         [self _setupSubViews];
     }
     return self;

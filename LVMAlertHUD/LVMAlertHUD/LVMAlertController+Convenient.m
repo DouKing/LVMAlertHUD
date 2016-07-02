@@ -32,8 +32,7 @@
     LVMAlertController *alertController = [LVMAlertController alertControllerWithTitle:title message:message image:image preferredStyle:preferredStyle];
     for (NSInteger i = 0; i < otherButtonTitles.count; ++i) {
         NSString *actionTitle = otherButtonTitles[i];
-        LVMAlertActionStyle style = (LVMAlertControllerStyleAlert == preferredStyle) ? LVMAlertActionStyleDefault : LVMAlertActionStyleDestructive;
-        LVMAlertAction *action = [LVMAlertAction actionWithTitle:actionTitle style:style handler:^(LVMAlertAction * _Nonnull action) {
+        LVMAlertAction *action = [LVMAlertAction actionWithTitle:actionTitle style:LVMAlertActionStyleDefault handler:^(LVMAlertAction * _Nonnull action) {
             if (actionHandler) {
                 actionHandler(i);
             }

@@ -16,13 +16,15 @@
 #define DEFAULT_COLOR   [UIColor colorWithWhite:0 alpha:0.3]
 #define HIDDEN_COLOR    [UIColor clearColor]
 
-static CGFloat const kLVMAlertControllerActionHeight = 44.0f;
+static CGFloat const kLVMAlertControllerActionHeight = 50.0f;
 static CGFloat const kLVMAlertControllerCornerRadius = 5.0f;
 static CGFloat const kLVMAlertControllerAnimationDuration = 0.3f;
+static CGFloat const kLVMAlertControllerFastAnimationDuration = 0.2f;
 
 static CGFloat const kLVMAlertControllerCancelInsert = 2.5f;
 
-static CGFloat const kLVMAlertControllerAlertWidthRatio = 0.8;
+static CGFloat const kLVMAlertControllerAlertWidthRatio = 0.7;
+static CGFloat const kLVMAlertControllerAlertContrainerRatio = 0.8;
 static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按钮个数限制
 
 @interface LVMAlertController ()<UITableViewDelegate, UITableViewDataSource, LVMAlertButtonCellDelegate, UITextFieldDelegate>
@@ -128,7 +130,8 @@ static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按�
     [self.view addSubview:containerView];
     
     containerView.alpha = 0;
-    containerView.transform = CGAffineTransformMakeScale(0.5, 0.5);
+    containerView.transform = CGAffineTransformMakeScale(kLVMAlertControllerAlertContrainerRatio,
+                                                         kLVMAlertControllerAlertContrainerRatio);
 }
 
 - (void)_setupCancelButtonForActionSheet {
@@ -155,13 +158,13 @@ static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按�
     }
     CGRect frame = CGRectMake(0, 0, CGRectGetWidth(self.containerView.bounds), height);
     UITableView *tableView = [[UITableView alloc] initWithFrame:frame style:UITableViewStylePlain];
-    tableView.backgroundColor = [UIColor colorWithWhite:1 alpha:0.96];
     tableView.layer.cornerRadius = kLVMAlertControllerCornerRadius;
     tableView.layer.masksToBounds = YES;
     tableView.separatorColor = kLVMAlertHUDSeparatorColor;
     tableView.bounces = NO;
     tableView.delegate = self;
     tableView.dataSource = self;
+    tableView.rowHeight = kLVMAlertControllerActionHeight;
     tableView.sectionHeaderHeight = [LVMAlertHeaderView heightWithTitle:self.alertTitle message:self.alertMessage image:self.alertImage textFields:self.textFields maxWidth:CGRectGetWidth(self.containerView.bounds)];
     [tableView registerClass:[LVMAlertCell class] forCellReuseIdentifier:kLVMAlertCellId];
     [tableView registerClass:[LVMAlertHeaderView class] forHeaderFooterViewReuseIdentifier:kLVMAlertHeaderViewId];
@@ -233,7 +236,7 @@ static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按�
     NSMutableArray<UITextField *> *tempTextFields = [NSMutableArray arrayWithArray:self.textFields];
     UITextField *textField = [[UITextField alloc] init];
     textField.font = [UIFont systemFontOfSize:14];
-    textField.backgroundColor = [UIColor colorWithRed:245 / 255.0 green:245 / 255.0 blue:245 / 255.0 alpha:1];
+    textField.backgroundColor = [UIColor whiteColor];
     textField.delegate = self;
     [tempTextFields addObject:textField];
     _textFields = [NSArray arrayWithArray:tempTextFields];
@@ -278,8 +281,11 @@ static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按�
 }
 
 - (void)_showContainerViewForAlert {
-    [UIView animateWithDuration:kLVMAlertControllerAnimationDuration delay:0 usingSpringWithDamping:0.8 initialSpringVelocity:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+    [UIView animateWithDuration:kLVMAlertControllerAnimationDuration delay:0 usingSpringWithDamping:0.7 initialSpringVelocity:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.containerView.transform = CGAffineTransformIdentity;
+    } completion:nil];
+    
+    [UIView animateWithDuration:kLVMAlertControllerFastAnimationDuration delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.containerView.alpha = 1;
         self.view.backgroundColor = DEFAULT_COLOR;
     } completion:nil];
@@ -296,21 +302,28 @@ static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按�
 
 - (void)_dismissContainerViewForAlertWithCompletion:(void (^)())completion {
     [UIView animateWithDuration:kLVMAlertControllerAnimationDuration animations:^{
-        self.containerView.transform = CGAffineTransformMakeScale(0.5, 0.5);
-        self.containerView.alpha = 0;
-        self.view.backgroundColor = HIDDEN_COLOR;
+        self.containerView.transform = CGAffineTransformMakeScale(kLVMAlertControllerAlertContrainerRatio,
+                                                                  kLVMAlertControllerAlertContrainerRatio);
     } completion:^(BOOL finished) {
         if (completion) { completion(); }
     }];
+    
+    [UIView animateWithDuration:kLVMAlertControllerFastAnimationDuration delay:kLVMAlertControllerAnimationDuration - kLVMAlertControllerFastAnimationDuration options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        self.containerView.alpha = 0;
+        self.view.backgroundColor = HIDDEN_COLOR;
+    } completion:nil];
 }
 
 #pragma mark - Actions
 
 - (void)_cancelAction {
-    if (self.cancelAction.actionHandler) {
-        self.cancelAction.actionHandler(self.cancelAction);
-    }
-    [self dismissWithCompletion:nil];
+    __weak typeof(self) weakSelf = self;
+    [self dismissWithCompletion:^{
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        if (strongSelf.cancelAction.actionHandler) {
+            strongSelf.cancelAction.actionHandler(strongSelf.cancelAction);
+        }
+    }];
 }
 
 - (void)_handleCancelButtonAction:(UIButton *)sender {
@@ -393,19 +406,22 @@ static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按�
         action = self.userActions[indexPath.row];
     }
     
-    if (action.actionHandler) {
-        action.actionHandler(action);
-    }
-    [self dismissWithCompletion:nil];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [self dismissWithCompletion:^{
+        if (action.actionHandler) {
+            action.actionHandler(action);
+        }
+    }];
 }
 
 #pragma mark - LVMAlertButtonCellDelegate
 
 - (void)alertButtonCell:(LVMAlertButtonCell *)cell didSelectAction:(LVMAlertAction *)action {
-    if (action.actionHandler) {
-        action.actionHandler(action);
-    }
-    [self dismissWithCompletion:nil];
+    [self dismissWithCompletion:^{
+        if (action.actionHandler) {
+            action.actionHandler(action);
+        }
+    }];
 }
 
 #pragma mark - UITextFieldDelegate
