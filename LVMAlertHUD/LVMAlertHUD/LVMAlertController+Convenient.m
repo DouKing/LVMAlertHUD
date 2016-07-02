@@ -23,10 +23,17 @@
         va_end(varList);
     }
     
-    LVMAlertController *alertController = [LVMAlertController alertControllerWithTitle:title message:message preferredStyle:preferredStyle];
-    for (NSInteger i = 0; i < argsArray.count; ++i) {
-        NSString *actionTitle = argsArray[i];
-        LVMAlertAction *action = [LVMAlertAction actionWithTitle:actionTitle style:LVMAlertActionStyleDefault handler:^(LVMAlertAction * _Nonnull action) {
+    LVMAlertController *alertController = [LVMAlertController alertControllerWithTitle:title message:message image:nil preferredStyle:preferredStyle cancelButtonTitle:cancelButtonTitle otherButtonTitles:argsArray actionHandler:actionHandler];
+    return alertController;
+}
+
++ (instancetype)alertControllerWithTitle:(NSString *)title message:(NSString *)message image:(UIImage *)image preferredStyle:(LVMAlertControllerStyle)preferredStyle cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSArray<NSString *> *)otherButtonTitles actionHandler:(void (^)(NSInteger))actionHandler {
+    
+    LVMAlertController *alertController = [LVMAlertController alertControllerWithTitle:title message:message image:image preferredStyle:preferredStyle];
+    for (NSInteger i = 0; i < otherButtonTitles.count; ++i) {
+        NSString *actionTitle = otherButtonTitles[i];
+        LVMAlertActionStyle style = (LVMAlertControllerStyleAlert == preferredStyle) ? LVMAlertActionStyleDefault : LVMAlertActionStyleDestructive;
+        LVMAlertAction *action = [LVMAlertAction actionWithTitle:actionTitle style:style handler:^(LVMAlertAction * _Nonnull action) {
             if (actionHandler) {
                 actionHandler(i);
             }
@@ -35,7 +42,7 @@
     }
     
     if (cancelButtonTitle) {
-        NSInteger index = argsArray.count;
+        NSInteger index = otherButtonTitles.count;
         LVMAlertAction *action = [LVMAlertAction actionWithTitle:cancelButtonTitle style:LVMAlertActionStyleCancel handler:^(LVMAlertAction * _Nonnull action) {
             if (actionHandler) {
                 actionHandler(index);
