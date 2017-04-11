@@ -1,4 +1,4 @@
-![](https://travis-ci.org/DouKing/LVMAlertHUD.svg?branch=master)
+![](https://travis-ci.org/secootech/LVMAlertHUD.svg?branch=master)
 
 # LVMAlertHUD
 
