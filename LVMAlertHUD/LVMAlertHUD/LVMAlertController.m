@@ -12,6 +12,8 @@
 #import "LVMAlertCell.h"
 #import "LVMAlertButtonCell.h"
 #import "LVMAlertHeaderView.h"
+#import "LVMAlertPresentationController.h"
+#import "LVMAlertTransition.h"
 
 #define DEFAULT_COLOR   [UIColor colorWithWhite:0 alpha:0.3]
 #define HIDDEN_COLOR    [UIColor clearColor]
@@ -27,7 +29,7 @@ static CGFloat const kLVMAlertControllerAlertWidthRatio = 0.7;
 static CGFloat const kLVMAlertControllerAlertContrainerRatio = 0.8;
 static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按钮个数限制
 
-@interface LVMAlertController ()<UITableViewDelegate, UITableViewDataSource, LVMAlertButtonCellDelegate, UITextFieldDelegate>
+@interface LVMAlertController ()<UITableViewDelegate, UITableViewDataSource, LVMAlertButtonCellDelegate, UITextFieldDelegate, UIViewControllerTransitioningDelegate>
 
 @property (nonatomic, strong) NSArray<LVMAlertAction *> *userActions;
 @property (nonatomic, strong) LVMAlertAction *cancelAction;
@@ -55,9 +57,8 @@ static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按�
 - (instancetype)initWithTitle:(NSString *)title message:(NSString *)message image:(UIImage *)image preferredStyle:(LVMAlertControllerStyle)preferredStyle {
     self = [super init];
     if (self) {
-        if (IOS_8_LATER) {
-            self.modalPresentationStyle = UIModalPresentationOverCurrentContext;
-        }
+        self.transitioningDelegate = self;
+        self.modalPresentationStyle = UIModalPresentationCustom;
         _alertTitle = [title copy];
         _alertMessage = [message copy];
         _alertImage = [image copy];
@@ -101,12 +102,12 @@ static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按�
     if (totalHeight > maxHeight) {
         totalHeight = maxHeight;
     }
-    CGRect frame = CGRectMake(0, maxHeight - totalHeight, maxWidth, totalHeight);
+    CGRect frame = CGRectMake(0, 0, maxWidth, totalHeight);
+    self.preferredContentSize = frame.size;
     UIView *containerView = [[UIView alloc] initWithFrame:frame];
     containerView.backgroundColor = [UIColor clearColor];
     _containerView = containerView;
     [self.view addSubview:containerView];
-    containerView.transform = CGAffineTransformMakeTranslation(0, totalHeight);
 }
 
 - (void)_setupContainerViewForAlert {
@@ -120,18 +121,14 @@ static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按�
         totalHeight = maxHeight;
     }
     
-    CGRect frame = CGRectMake((1 - kLVMAlertControllerAlertWidthRatio) / 2.0 * maxWidth,
-                              0.5 * (maxHeight - totalHeight),
+    CGRect frame = CGRectMake(0, 0,
                               maxWidth * kLVMAlertControllerAlertWidthRatio,
                               totalHeight);
+    self.preferredContentSize = frame.size;
     UIView *containerView = [[UIView alloc] initWithFrame:frame];
     containerView.backgroundColor = [UIColor clearColor];
     _containerView = containerView;
     [self.view addSubview:containerView];
-    
-    containerView.alpha = 0;
-    containerView.transform = CGAffineTransformMakeScale(kLVMAlertControllerAlertContrainerRatio,
-                                                         kLVMAlertControllerAlertContrainerRatio);
 }
 
 - (void)_setupCancelButtonForActionSheet {
@@ -195,30 +192,30 @@ static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按�
 
 #pragma mark - Public Methods
 
-- (void)showWithCompletion:(void (^)())completion {
-    if (self.presentingViewController) { return; }
-    UIViewController *topVC = [self _stackTopViewController];
-    if (!IOS_8_LATER) {
-        topVC.modalPresentationStyle = UIModalPresentationCurrentContext;
-    }
-    __weak typeof(topVC) weakTopVC = topVC;
-    [topVC presentViewController:self animated:NO completion:^{
-        if (!IOS_8_LATER) {
-            __strong typeof(weakTopVC) strongTopVC = weakTopVC;
-            strongTopVC.modalPresentationStyle = UIModalPresentationFullScreen;
-        }
-        [self _showContainerView];
-        if (completion) { completion(); }
-    }];
-}
-
-- (void)dismissWithCompletion:(void (^)())completion {
-    [self _dismissContainerViewWithCompletion:^{
-        [self dismissViewControllerAnimated:NO completion:^{
-            if (completion) { completion(); }
-        }];
-    }];
-}
+//- (void)showWithCompletion:(void (^)())completion {
+//    if (self.presentingViewController) { return; }
+//    UIViewController *topVC = [self _stackTopViewController];
+//    if (!IOS_8_LATER) {
+//        topVC.modalPresentationStyle = UIModalPresentationCurrentContext;
+//    }
+//    __weak typeof(topVC) weakTopVC = topVC;
+//    [topVC presentViewController:self animated:NO completion:^{
+//        if (!IOS_8_LATER) {
+//            __strong typeof(weakTopVC) strongTopVC = weakTopVC;
+//            strongTopVC.modalPresentationStyle = UIModalPresentationFullScreen;
+//        }
+//        [self _showContainerView];
+//        if (completion) { completion(); }
+//    }];
+//}
+//
+//- (void)dismissWithCompletion:(void (^)())completion {
+//    [self _dismissContainerViewWithCompletion:^{
+//        [self dismissViewControllerAnimated:NO completion:^{
+//            if (completion) { completion(); }
+//        }];
+//    }];
+//}
 
 - (void)addAction:(LVMAlertAction *)action {
     if (!action) { return; }
@@ -318,7 +315,7 @@ static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按�
 
 - (void)_cancelAction {
     __weak typeof(self) weakSelf = self;
-    [self dismissWithCompletion:^{
+    [self dismissViewControllerAnimated:YES completion:^{
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if (strongSelf.cancelAction.actionHandler) {
             strongSelf.cancelAction.actionHandler(strongSelf.cancelAction);
@@ -407,7 +404,7 @@ static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按�
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    [self dismissWithCompletion:^{
+    [self dismissViewControllerAnimated:YES completion:^{
         if (action.actionHandler) {
             action.actionHandler(action);
         }
@@ -417,7 +414,7 @@ static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按�
 #pragma mark - LVMAlertButtonCellDelegate
 
 - (void)alertButtonCell:(LVMAlertButtonCell *)cell didSelectAction:(LVMAlertAction *)action {
-    [self dismissWithCompletion:^{
+    [self dismissViewControllerAnimated:YES completion:^{
         if (action.actionHandler) {
             action.actionHandler(action);
         }
@@ -429,6 +426,35 @@ static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按�
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
     return YES;
+}
+
+#pragma mark - UIViewControllerTransitioningDelegate
+
+- (UIPresentationController *)presentationControllerForPresentedViewController:(UIViewController *)presented presentingViewController:(nullable UIViewController *)presenting sourceViewController:(UIViewController *)source {
+    if (LVMAlertControllerStyleAlert == self.preferredStyle) {
+        LVMAlertPresentationController *presentationController = [[LVMAlertPresentationController alloc] initWithPresentedViewController:presented presentingViewController:presenting];
+        return presentationController;
+    }
+    LVMActionSheetPresentationController *presentationController = [[LVMActionSheetPresentationController alloc] initWithPresentedViewController:presented presentingViewController:presenting];
+    return presentationController;
+}
+
+- (id <UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source {
+    if (LVMAlertControllerStyleAlert == self.preferredStyle) {
+        LVMAlertTransition *transition = [[LVMAlertTransition alloc] initWithTransitionType:LVMAlertTransitionTypePresent];
+        return transition;
+    }
+    LVMActionSheetTransition *transition = [[LVMActionSheetTransition alloc] initWithTransitionType:LVMAlertTransitionTypePresent];
+    return transition;
+}
+
+- (id <UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed {
+    if (LVMAlertControllerStyleAlert == self.self.preferredStyle) {
+        LVMAlertTransition *transition = [[LVMAlertTransition alloc] initWithTransitionType:LVMAlertTransitionTypeDismiss];
+        return transition;
+    }
+    LVMActionSheetTransition *transition = [[LVMActionSheetTransition alloc] initWithTransitionType:LVMAlertTransitionTypeDismiss];
+    return transition;
 }
 
 #pragma mark - 

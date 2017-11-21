@@ -39,8 +39,8 @@ typedef NS_ENUM(NSInteger, LVMAlertControllerStyle) {
 
 @property (nonatomic, readonly) LVMAlertControllerStyle preferredStyle;
 
-- (void)showWithCompletion:(void (^ __nullable)())completion;
-- (void)dismissWithCompletion:(void (^ __nullable)())completion;
+//- (void)showWithCompletion:(void (^ __nullable)())completion;
+//- (void)dismissWithCompletion:(void (^ __nullable)())completion;
 
 @end
 
