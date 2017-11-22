@@ -12,6 +12,7 @@
 #import "LVMToastHUD.h"
 #import "LVMAlertController.h"
 #import "LVMAlertController+Convenient.h"
+#import "DetailViewController.h"
 
 static NSString * const kMainViewControllerCellId = @"kMainViewControllerCellId";
 
@@ -124,7 +125,7 @@ static NSString * const kMainViewControllerCellId = @"kMainViewControllerCellId"
        textField.placeholder = @"这是输入框";
     }];
     
-    [alertController showWithCompletion:nil];
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 - (void)_showActionSheet {
@@ -145,7 +146,7 @@ static NSString * const kMainViewControllerCellId = @"kMainViewControllerCellId"
         NSLog(@"%@", action.title);
     }];
     [alertController addAction:action];
-    [alertController showWithCompletion:nil];
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 - (void)_showToastHUD {
@@ -160,7 +161,7 @@ static NSString * const kMainViewControllerCellId = @"kMainViewControllerCellId"
             NSLog(@"Convenience 取消");
         }
     } cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-    [alertController showWithCompletion:nil];
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 - (void)_actionSheetConvenience {
@@ -175,7 +176,7 @@ static NSString * const kMainViewControllerCellId = @"kMainViewControllerCellId"
             NSLog(@"Convenience 取消");
         }
     } cancelButtonTitle:@"取消" otherButtonTitles:@"神秘", @"男", @"女", nil];
-    [alertController showWithCompletion:nil];
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 - (void)_alertNOTitle {
@@ -184,7 +185,7 @@ static NSString * const kMainViewControllerCellId = @"kMainViewControllerCellId"
             NSLog(@"Convenience 确定");
         }
     } cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-    [alertController showWithCompletion:nil];
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 - (void)_actionSheetNOTitle {
@@ -195,7 +196,7 @@ static NSString * const kMainViewControllerCellId = @"kMainViewControllerCellId"
             NSLog(@"Convenience 取消");
         }
     } cancelButtonTitle:@"取消" otherButtonTitles:@"啦啦", nil];
-    [alertController showWithCompletion:nil];
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 @end

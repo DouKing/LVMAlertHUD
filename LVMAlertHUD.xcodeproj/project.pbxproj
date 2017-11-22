@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		000B0A341FC435E4002DBE03 /* LVMAlertTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 000B0A321FC435E4002DBE03 /* LVMAlertTransition.m */; };
+		000B0A371FC43780002DBE03 /* LVMAlertPresentationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 000B0A361FC43780002DBE03 /* LVMAlertPresentationController.m */; };
 		B843D8281CF87E36001A5CB9 /* POPAnimatableProperty.mm in Sources */ = {isa = PBXBuildFile; fileRef = B843D7F71CF87E36001A5CB9 /* POPAnimatableProperty.mm */; };
 		B843D8291CF87E36001A5CB9 /* POPAnimation.mm in Sources */ = {isa = PBXBuildFile; fileRef = B843D7F91CF87E36001A5CB9 /* POPAnimation.mm */; };
 		B843D82A1CF87E36001A5CB9 /* POPAnimationEvent.mm in Sources */ = {isa = PBXBuildFile; fileRef = B843D7FB1CF87E36001A5CB9 /* POPAnimationEvent.mm */; };
@@ -48,6 +50,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		000B0A321FC435E4002DBE03 /* LVMAlertTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVMAlertTransition.m; sourceTree = "<group>"; };
+		000B0A331FC435E4002DBE03 /* LVMAlertTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVMAlertTransition.h; sourceTree = "<group>"; };
+		000B0A351FC43780002DBE03 /* LVMAlertPresentationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LVMAlertPresentationController.h; sourceTree = "<group>"; };
+		000B0A361FC43780002DBE03 /* LVMAlertPresentationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LVMAlertPresentationController.m; sourceTree = "<group>"; };
 		B843D7F41CF87E36001A5CB9 /* POP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = POP.h; sourceTree = "<group>"; };
 		B843D7F51CF87E36001A5CB9 /* POPAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = POPAction.h; sourceTree = "<group>"; };
 		B843D7F61CF87E36001A5CB9 /* POPAnimatableProperty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = POPAnimatableProperty.h; sourceTree = "<group>"; };
@@ -147,6 +153,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		000B0A311FC435DB002DBE03 /* Animation */ = {
+			isa = PBXGroup;
+			children = (
+				000B0A331FC435E4002DBE03 /* LVMAlertTransition.h */,
+				000B0A321FC435E4002DBE03 /* LVMAlertTransition.m */,
+				000B0A351FC43780002DBE03 /* LVMAlertPresentationController.h */,
+				000B0A361FC43780002DBE03 /* LVMAlertPresentationController.m */,
+			);
+			path = Animation;
+			sourceTree = "<group>";
+		};
 		B843D7F31CF87E36001A5CB9 /* pop */ = {
 			isa = PBXGroup;
 			children = (
@@ -316,6 +333,7 @@
 		B8719F8E1CF834550049FD5B /* LVMAlertHUD */ = {
 			isa = PBXGroup;
 			children = (
+				000B0A311FC435DB002DBE03 /* Animation */,
 				B8719F921CF836CD0049FD5B /* LVMStatusBarHUD.h */,
 				B8719F931CF836CD0049FD5B /* LVMStatusBarHUD.m */,
 				B865707C1CFEB2E5002AE898 /* LVMToastHUD.h */,
@@ -410,7 +428,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				B843D8321CF87E36001A5CB9 /* POPDecayAnimation.mm in Sources */,
+				000B0A341FC435E4002DBE03 /* LVMAlertTransition.m in Sources */,
 				B843D8351CF87E36001A5CB9 /* POPMath.mm in Sources */,
+				000B0A371FC43780002DBE03 /* LVMAlertPresentationController.m in Sources */,
 				B865707A1CFE97EA002AE898 /* LVMAlertHeaderView.m in Sources */,
 				B843D8941CFC5155001A5CB9 /* LVMAlertAction.m in Sources */,
 				B843D8421CFBEB6F001A5CB9 /* LVMAlertController.m in Sources */,
