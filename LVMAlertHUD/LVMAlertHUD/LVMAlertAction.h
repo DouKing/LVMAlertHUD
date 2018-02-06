@@ -17,6 +17,7 @@ typedef void(^LVMAlertActionHandler)(LVMAlertAction *action);
 typedef NS_ENUM(NSInteger, LVMAlertActionStyle) {
     LVMAlertActionStyleDefault = 0,
     LVMAlertActionStyleCancel,
+    LVMAlertActionStyleMessage,
     LVMAlertActionStyleDestructive
 };
 

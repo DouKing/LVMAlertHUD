@@ -8,6 +8,8 @@
 
 #import "LVMAlertCell.h"
 #import "LVMAlertAction.h"
+#import "LVMAlertHUDDefinition.h"
+#import "LVMAlertHUDConfigure.h"
 
 NSString * const kLVMAlertCellId = @"kLVMAlertCellId";
 
@@ -17,12 +19,15 @@ NSString * const kLVMAlertCellId = @"kLVMAlertCellId";
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.backgroundColor = [UIColor clearColor];
+        self.selectedBackgroundView = [[UIView alloc] init];
+        self.selectedBackgroundView.backgroundColor = kLVMAlertButtonSelectedColor;
         if ([self respondsToSelector:@selector(setSeparatorInset:)]) {
             self.separatorInset = UIEdgeInsetsZero;
         }
         if ([self respondsToSelector:@selector(setLayoutMargins:)]) {
             self.layoutMargins = UIEdgeInsetsZero;
         }
+        self.textLabel.font = [UIFont systemFontOfSize:15];
         self.textLabel.textAlignment = NSTextAlignmentCenter;
     }
     return self;
@@ -34,20 +39,8 @@ NSString * const kLVMAlertCellId = @"kLVMAlertCellId";
 }
 
 - (void)_changeTextColorWithAlertAction:(LVMAlertAction *)action {
-    switch (action.style) {
-        case LVMAlertActionStyleDefault: {
-            self.textLabel.textColor = [UIColor colorWithRed:26 / 255.0 green:25 / 255.0 blue:30 / 255.0 alpha:1];
-            break;
-        }
-        case LVMAlertActionStyleCancel: {
-            self.textLabel.textColor = [UIColor blackColor];
-            break;
-        }
-        case LVMAlertActionStyleDestructive: {
-            self.textLabel.textColor = [UIColor redColor];
-            break;
-        }
-    }
+    self.textLabel.textColor = LVMAlertActionColorWithActionStytle(action.style);
+    self.textLabel.font = LVMAlertActionFontWithActionStytle(action.style);
 }
 
 @end

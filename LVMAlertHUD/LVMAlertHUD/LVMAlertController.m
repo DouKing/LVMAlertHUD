@@ -7,6 +7,7 @@
 //
 
 #import "LVMAlertController.h"
+#import "_LVMAlertController+Private.h"
 #import "LVMAlertHUDDefinition.h"
 #import "UIView+LVMCornerRadius.h"
 #import "LVMAlertCell.h"
@@ -192,30 +193,30 @@ static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按�
 
 #pragma mark - Public Methods
 
-//- (void)showWithCompletion:(void (^)())completion {
-//    if (self.presentingViewController) { return; }
-//    UIViewController *topVC = [self _stackTopViewController];
-//    if (!IOS_8_LATER) {
-//        topVC.modalPresentationStyle = UIModalPresentationCurrentContext;
-//    }
-//    __weak typeof(topVC) weakTopVC = topVC;
-//    [topVC presentViewController:self animated:NO completion:^{
-//        if (!IOS_8_LATER) {
-//            __strong typeof(weakTopVC) strongTopVC = weakTopVC;
-//            strongTopVC.modalPresentationStyle = UIModalPresentationFullScreen;
-//        }
-//        [self _showContainerView];
-//        if (completion) { completion(); }
-//    }];
-//}
-//
-//- (void)dismissWithCompletion:(void (^)())completion {
-//    [self _dismissContainerViewWithCompletion:^{
-//        [self dismissViewControllerAnimated:NO completion:^{
-//            if (completion) { completion(); }
-//        }];
-//    }];
-//}
+- (void)presentOn:(UIViewController *)presentingVC withCompletion:(void (^)())completion {
+  if (self.presentingViewController) { return; }
+  UIViewController *topVC = presentingVC ?: [self _stackTopViewController];
+  topVC.modalPresentationStyle = UIModalPresentationCurrentContext;
+  __weak typeof(topVC) weakTopVC = topVC;
+  [topVC presentViewController:self animated:NO completion:^{
+    __strong typeof(weakTopVC) strongTopVC = weakTopVC;
+    strongTopVC.modalPresentationStyle = UIModalPresentationFullScreen;
+    [self _showContainerView];
+    if (completion) { completion(); }
+  }];
+}
+
+- (void)showWithCompletion:(void (^)())completion {
+  [self presentOn:nil withCompletion:completion];
+}
+
+- (void)dismissWithCompletion:(void (^)())completion {
+    [self _dismissContainerViewWithCompletion:^{
+        [self dismissViewControllerAnimated:NO completion:^{
+            if (completion) { completion(); }
+        }];
+    }];
+}
 
 - (void)addAction:(LVMAlertAction *)action {
     if (!action) { return; }

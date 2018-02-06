@@ -33,14 +33,15 @@ typedef NS_ENUM(NSInteger, LVMAlertControllerStyle) {
 - (void)addTextFieldWithConfigurationHandler:(void (^ __nullable)(UITextField *textField))configurationHandler;
 @property (nullable, nonatomic, readonly) NSArray<UITextField *> *textFields;
 
-@property (nullable, nonatomic, copy) NSString *alertTitle;
-@property (nullable, nonatomic, copy) NSString *alertMessage;
-@property (nullable, nonatomic, copy) UIImage *alertImage;
-
+@property (nullable, nonatomic, copy, readonly) NSString *alertTitle;
+@property (nullable, nonatomic, copy, readonly) NSString *alertMessage;
+@property (nullable, nonatomic, copy, readonly) UIImage *alertImage;
 @property (nonatomic, readonly) LVMAlertControllerStyle preferredStyle;
 
-//- (void)showWithCompletion:(void (^ __nullable)())completion;
-//- (void)dismissWithCompletion:(void (^ __nullable)())completion;
+/// if presenting vc is nil, use the top vc
+- (void)presentOn:(nullable UIViewController *)presentingVC withCompletion:(void (^ __nullable)())completion;
+- (void)showWithCompletion:(void (^ __nullable)())completion;
+- (void)dismissWithCompletion:(void (^ __nullable)())completion;
 
 @end
 

@@ -95,6 +95,8 @@ static inline CGFloat LVMAttributeStringHeightFor(NSAttributedString *attributeS
 - (instancetype)initWithReuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithReuseIdentifier:reuseIdentifier];
     if (self) {
+        self.backgroundView = [[UIView alloc] init];
+        self.backgroundView.backgroundColor = [UIColor clearColor];
         [self _setupSubViews];
     }
     return self;

@@ -9,6 +9,12 @@
 /* Begin PBXBuildFile section */
 		000B0A341FC435E4002DBE03 /* LVMAlertTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 000B0A321FC435E4002DBE03 /* LVMAlertTransition.m */; };
 		000B0A371FC43780002DBE03 /* LVMAlertPresentationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 000B0A361FC43780002DBE03 /* LVMAlertPresentationController.m */; };
+		0074F9F22029AC800045A158 /* LVMAlertHUDConfigure.m in Sources */ = {isa = PBXBuildFile; fileRef = 0074F9F02029AC800045A158 /* LVMAlertHUDConfigure.m */; };
+		0074F9F42029AE720045A158 /* LVMAlertButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0074F9F32029AE720045A158 /* LVMAlertButtonCell.m */; };
+		0074F9FA2029B2590045A158 /* _LVMAlertAction+Private.m in Sources */ = {isa = PBXBuildFile; fileRef = 0074F9F72029B2590045A158 /* _LVMAlertAction+Private.m */; };
+		0074F9FB2029B2590045A158 /* _LVMAlertController+Private.m in Sources */ = {isa = PBXBuildFile; fileRef = 0074F9F92029B2590045A158 /* _LVMAlertController+Private.m */; };
+		0074FA002029B2870045A158 /* LVMAlertAction+DSL.m in Sources */ = {isa = PBXBuildFile; fileRef = 0074F9FC2029B2860045A158 /* LVMAlertAction+DSL.m */; };
+		0074FA012029B2870045A158 /* LVMAlertController+DSL.m in Sources */ = {isa = PBXBuildFile; fileRef = 0074F9FF2029B2870045A158 /* LVMAlertController+DSL.m */; };
 		B843D8281CF87E36001A5CB9 /* POPAnimatableProperty.mm in Sources */ = {isa = PBXBuildFile; fileRef = B843D7F71CF87E36001A5CB9 /* POPAnimatableProperty.mm */; };
 		B843D8291CF87E36001A5CB9 /* POPAnimation.mm in Sources */ = {isa = PBXBuildFile; fileRef = B843D7F91CF87E36001A5CB9 /* POPAnimation.mm */; };
 		B843D82A1CF87E36001A5CB9 /* POPAnimationEvent.mm in Sources */ = {isa = PBXBuildFile; fileRef = B843D7FB1CF87E36001A5CB9 /* POPAnimationEvent.mm */; };
@@ -32,7 +38,6 @@
 		B843D8941CFC5155001A5CB9 /* LVMAlertAction.m in Sources */ = {isa = PBXBuildFile; fileRef = B843D8931CFC5155001A5CB9 /* LVMAlertAction.m */; };
 		B86570691CFE9587002AE898 /* secoo_logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B86570671CFE9587002AE898 /* secoo_logo@2x.png */; };
 		B865706A1CFE9587002AE898 /* secoo_logo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B86570681CFE9587002AE898 /* secoo_logo@3x.png */; };
-		B86570781CFE97EA002AE898 /* LVMAlertButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B865706D1CFE97EA002AE898 /* LVMAlertButtonCell.m */; };
 		B86570791CFE97EA002AE898 /* LVMAlertCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B865706F1CFE97EA002AE898 /* LVMAlertCell.m */; };
 		B865707A1CFE97EA002AE898 /* LVMAlertHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = B86570741CFE97EA002AE898 /* LVMAlertHeaderView.m */; };
 		B865707B1CFE97EA002AE898 /* UIView+LVMCornerRadius.m in Sources */ = {isa = PBXBuildFile; fileRef = B86570771CFE97EA002AE898 /* UIView+LVMCornerRadius.m */; };
@@ -54,6 +59,17 @@
 		000B0A331FC435E4002DBE03 /* LVMAlertTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVMAlertTransition.h; sourceTree = "<group>"; };
 		000B0A351FC43780002DBE03 /* LVMAlertPresentationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LVMAlertPresentationController.h; sourceTree = "<group>"; };
 		000B0A361FC43780002DBE03 /* LVMAlertPresentationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LVMAlertPresentationController.m; sourceTree = "<group>"; };
+		0074F9F02029AC800045A158 /* LVMAlertHUDConfigure.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVMAlertHUDConfigure.m; sourceTree = "<group>"; };
+		0074F9F12029AC800045A158 /* LVMAlertHUDConfigure.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVMAlertHUDConfigure.h; sourceTree = "<group>"; };
+		0074F9F32029AE720045A158 /* LVMAlertButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVMAlertButtonCell.m; sourceTree = "<group>"; };
+		0074F9F62029B2590045A158 /* _LVMAlertAction+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "_LVMAlertAction+Private.h"; sourceTree = "<group>"; };
+		0074F9F72029B2590045A158 /* _LVMAlertAction+Private.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "_LVMAlertAction+Private.m"; sourceTree = "<group>"; };
+		0074F9F82029B2590045A158 /* _LVMAlertController+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "_LVMAlertController+Private.h"; sourceTree = "<group>"; };
+		0074F9F92029B2590045A158 /* _LVMAlertController+Private.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "_LVMAlertController+Private.m"; sourceTree = "<group>"; };
+		0074F9FC2029B2860045A158 /* LVMAlertAction+DSL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LVMAlertAction+DSL.m"; sourceTree = "<group>"; };
+		0074F9FD2029B2860045A158 /* LVMAlertAction+DSL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LVMAlertAction+DSL.h"; sourceTree = "<group>"; };
+		0074F9FE2029B2860045A158 /* LVMAlertController+DSL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LVMAlertController+DSL.h"; sourceTree = "<group>"; };
+		0074F9FF2029B2870045A158 /* LVMAlertController+DSL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LVMAlertController+DSL.m"; sourceTree = "<group>"; };
 		B843D7F41CF87E36001A5CB9 /* POP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = POP.h; sourceTree = "<group>"; };
 		B843D7F51CF87E36001A5CB9 /* POPAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = POPAction.h; sourceTree = "<group>"; };
 		B843D7F61CF87E36001A5CB9 /* POPAnimatableProperty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = POPAnimatableProperty.h; sourceTree = "<group>"; };
@@ -114,7 +130,6 @@
 		B86570671CFE9587002AE898 /* secoo_logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "secoo_logo@2x.png"; sourceTree = "<group>"; };
 		B86570681CFE9587002AE898 /* secoo_logo@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "secoo_logo@3x.png"; sourceTree = "<group>"; };
 		B865706C1CFE97EA002AE898 /* LVMAlertButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVMAlertButtonCell.h; sourceTree = "<group>"; };
-		B865706D1CFE97EA002AE898 /* LVMAlertButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVMAlertButtonCell.m; sourceTree = "<group>"; };
 		B865706E1CFE97EA002AE898 /* LVMAlertCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVMAlertCell.h; sourceTree = "<group>"; };
 		B865706F1CFE97EA002AE898 /* LVMAlertCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVMAlertCell.m; sourceTree = "<group>"; };
 		B86570711CFE97EA002AE898 /* LVMAlertHUDDefinition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVMAlertHUDDefinition.h; sourceTree = "<group>"; };
@@ -162,6 +177,17 @@
 				000B0A361FC43780002DBE03 /* LVMAlertPresentationController.m */,
 			);
 			path = Animation;
+			sourceTree = "<group>";
+		};
+		0074F9F52029B2590045A158 /* Private */ = {
+			isa = PBXGroup;
+			children = (
+				0074F9F62029B2590045A158 /* _LVMAlertAction+Private.h */,
+				0074F9F72029B2590045A158 /* _LVMAlertAction+Private.m */,
+				0074F9F82029B2590045A158 /* _LVMAlertController+Private.h */,
+				0074F9F92029B2590045A158 /* _LVMAlertController+Private.m */,
+			);
+			path = Private;
 			sourceTree = "<group>";
 		};
 		B843D7F31CF87E36001A5CB9 /* pop */ = {
@@ -234,7 +260,7 @@
 			isa = PBXGroup;
 			children = (
 				B865706C1CFE97EA002AE898 /* LVMAlertButtonCell.h */,
-				B865706D1CFE97EA002AE898 /* LVMAlertButtonCell.m */,
+				0074F9F32029AE720045A158 /* LVMAlertButtonCell.m */,
 				B865706E1CFE97EA002AE898 /* LVMAlertCell.h */,
 				B865706F1CFE97EA002AE898 /* LVMAlertCell.m */,
 			);
@@ -245,6 +271,8 @@
 			isa = PBXGroup;
 			children = (
 				B86570711CFE97EA002AE898 /* LVMAlertHUDDefinition.h */,
+				0074F9F12029AC800045A158 /* LVMAlertHUDConfigure.h */,
+				0074F9F02029AC800045A158 /* LVMAlertHUDConfigure.m */,
 			);
 			path = Configuration;
 			sourceTree = "<group>";
@@ -333,6 +361,7 @@
 		B8719F8E1CF834550049FD5B /* LVMAlertHUD */ = {
 			isa = PBXGroup;
 			children = (
+				0074F9F52029B2590045A158 /* Private */,
 				000B0A311FC435DB002DBE03 /* Animation */,
 				B8719F921CF836CD0049FD5B /* LVMStatusBarHUD.h */,
 				B8719F931CF836CD0049FD5B /* LVMStatusBarHUD.m */,
@@ -342,6 +371,10 @@
 				B843D8411CFBEB6F001A5CB9 /* LVMAlertController.m */,
 				B86570881CFEDBE9002AE898 /* LVMAlertController+Convenient.h */,
 				B86570891CFEDBE9002AE898 /* LVMAlertController+Convenient.m */,
+				0074F9FD2029B2860045A158 /* LVMAlertAction+DSL.h */,
+				0074F9FC2029B2860045A158 /* LVMAlertAction+DSL.m */,
+				0074F9FE2029B2860045A158 /* LVMAlertController+DSL.h */,
+				0074F9FF2029B2870045A158 /* LVMAlertController+DSL.m */,
 				B843D8921CFC5155001A5CB9 /* LVMAlertAction.h */,
 				B843D8931CFC5155001A5CB9 /* LVMAlertAction.m */,
 				B86570831CFED640002AE898 /* Resource */,
@@ -428,6 +461,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B843D8321CF87E36001A5CB9 /* POPDecayAnimation.mm in Sources */,
+				0074F9FA2029B2590045A158 /* _LVMAlertAction+Private.m in Sources */,
 				000B0A341FC435E4002DBE03 /* LVMAlertTransition.m in Sources */,
 				B843D8351CF87E36001A5CB9 /* POPMath.mm in Sources */,
 				000B0A371FC43780002DBE03 /* LVMAlertPresentationController.m in Sources */,
@@ -442,14 +476,17 @@
 				B843D8391CF87E36001A5CB9 /* TransformationMatrix.cpp in Sources */,
 				B86570791CFE97EA002AE898 /* LVMAlertCell.m in Sources */,
 				B843D8291CF87E36001A5CB9 /* POPAnimation.mm in Sources */,
+				0074FA012029B2870045A158 /* LVMAlertController+DSL.m in Sources */,
 				B8719F7B1CF833FE0049FD5B /* AppDelegate.m in Sources */,
 				B865707B1CFE97EA002AE898 /* UIView+LVMCornerRadius.m in Sources */,
 				B8719F941CF836CD0049FD5B /* LVMStatusBarHUD.m in Sources */,
 				B843D82B1CF87E36001A5CB9 /* POPAnimationExtras.mm in Sources */,
+				0074F9F22029AC800045A158 /* LVMAlertHUDConfigure.m in Sources */,
 				B8719F911CF834C70049FD5B /* MainViewController.m in Sources */,
+				0074FA002029B2870045A158 /* LVMAlertAction+DSL.m in Sources */,
 				B865707E1CFEB2E5002AE898 /* LVMToastHUD.m in Sources */,
-				B86570781CFE97EA002AE898 /* LVMAlertButtonCell.m in Sources */,
 				B843D8311CF87E36001A5CB9 /* POPCustomAnimation.mm in Sources */,
+				0074F9FB2029B2590045A158 /* _LVMAlertController+Private.m in Sources */,
 				B843D8371CF87E36001A5CB9 /* POPSpringAnimation.mm in Sources */,
 				B843D82F1CF87E36001A5CB9 /* POPBasicAnimation.mm in Sources */,
 				B843D82A1CF87E36001A5CB9 /* POPAnimationEvent.mm in Sources */,
@@ -459,6 +496,7 @@
 				B8719F781CF833FE0049FD5B /* main.m in Sources */,
 				B843D8301CF87E36001A5CB9 /* POPCGUtils.mm in Sources */,
 				B843D82E1CF87E36001A5CB9 /* POPAnimator.mm in Sources */,
+				0074F9F42029AE720045A158 /* LVMAlertButtonCell.m in Sources */,
 				B843D8281CF87E36001A5CB9 /* POPAnimatableProperty.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -9,10 +9,16 @@
 #ifndef LVMAlertHUDDefinition_h
 #define LVMAlertHUDDefinition_h
 
-#define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
+// color
+#define LVMAlertRGBColor(rgb)                 LVMAlertRGBColorAndAlpha(rgb, 1.0)
+#define LVMAlertRGBColorAndAlpha(rgb, a)      [UIColor colorWithRed:((float)((rgb & 0xFF0000) >> 16)) / 255.0 \
+                                                              green:((float)((rgb & 0xFF00) >> 8)) / 255.0  \
+                                                               blue:((float)(rgb & 0xFF)) / 255.0  \
+                                                              alpha:a]
 
-#define IOS_8_LATER                                  SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")
 #define kLVMSingleLineWidth                          (1.f / [UIScreen mainScreen].scale)
-#define kLVMAlertHUDSeparatorColor                   [UIColor lightGrayColor]
+#define kLVMAlertHUDSeparatorColor                   LVMAlertRGBColor(0xECECEC)
+#define kLVMActionSheetSeparatorColor                LVMAlertRGBColor(0xDDDDDD)
+#define kLVMAlertButtonSelectedColor                 LVMAlertRGBColor(0xF5F5F5)
 
 #endif /* LVMAlertHUDDefinition_h */

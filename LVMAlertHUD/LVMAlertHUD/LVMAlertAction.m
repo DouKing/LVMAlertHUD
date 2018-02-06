@@ -7,6 +7,7 @@
 //
 
 #import "LVMAlertAction.h"
+#import "_LVMAlertAction+Private.h"
 
 @implementation LVMAlertAction
 
