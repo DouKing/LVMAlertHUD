@@ -15,6 +15,7 @@
 		0074F9FB2029B2590045A158 /* _LVMAlertController+Private.m in Sources */ = {isa = PBXBuildFile; fileRef = 0074F9F92029B2590045A158 /* _LVMAlertController+Private.m */; };
 		0074FA002029B2870045A158 /* LVMAlertAction+DSL.m in Sources */ = {isa = PBXBuildFile; fileRef = 0074F9FC2029B2860045A158 /* LVMAlertAction+DSL.m */; };
 		0074FA012029B2870045A158 /* LVMAlertController+DSL.m in Sources */ = {isa = PBXBuildFile; fileRef = 0074F9FF2029B2870045A158 /* LVMAlertController+DSL.m */; };
+		11B345147C62EFF2768195FF /* Pods_LVMAlertHUD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7141002772F78B936C928362 /* Pods_LVMAlertHUD.framework */; };
 		B843D8281CF87E36001A5CB9 /* POPAnimatableProperty.mm in Sources */ = {isa = PBXBuildFile; fileRef = B843D7F71CF87E36001A5CB9 /* POPAnimatableProperty.mm */; };
 		B843D8291CF87E36001A5CB9 /* POPAnimation.mm in Sources */ = {isa = PBXBuildFile; fileRef = B843D7F91CF87E36001A5CB9 /* POPAnimation.mm */; };
 		B843D82A1CF87E36001A5CB9 /* POPAnimationEvent.mm in Sources */ = {isa = PBXBuildFile; fileRef = B843D7FB1CF87E36001A5CB9 /* POPAnimationEvent.mm */; };
@@ -70,6 +71,8 @@
 		0074F9FD2029B2860045A158 /* LVMAlertAction+DSL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LVMAlertAction+DSL.h"; sourceTree = "<group>"; };
 		0074F9FE2029B2860045A158 /* LVMAlertController+DSL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LVMAlertController+DSL.h"; sourceTree = "<group>"; };
 		0074F9FF2029B2870045A158 /* LVMAlertController+DSL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LVMAlertController+DSL.m"; sourceTree = "<group>"; };
+		20241C9C478EBEA8D05D6235 /* Pods-LVMAlertHUD.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LVMAlertHUD.release.xcconfig"; path = "Pods/Target Support Files/Pods-LVMAlertHUD/Pods-LVMAlertHUD.release.xcconfig"; sourceTree = "<group>"; };
+		7141002772F78B936C928362 /* Pods_LVMAlertHUD.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LVMAlertHUD.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B843D7F41CF87E36001A5CB9 /* POP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = POP.h; sourceTree = "<group>"; };
 		B843D7F51CF87E36001A5CB9 /* POPAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = POPAction.h; sourceTree = "<group>"; };
 		B843D7F61CF87E36001A5CB9 /* POPAnimatableProperty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = POPAnimatableProperty.h; sourceTree = "<group>"; };
@@ -155,6 +158,7 @@
 		B8719F901CF834C70049FD5B /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		B8719F921CF836CD0049FD5B /* LVMStatusBarHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVMStatusBarHUD.h; sourceTree = "<group>"; };
 		B8719F931CF836CD0049FD5B /* LVMStatusBarHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVMStatusBarHUD.m; sourceTree = "<group>"; };
+		FC5EB230218CF443F21B184D /* Pods-LVMAlertHUD.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LVMAlertHUD.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LVMAlertHUD/Pods-LVMAlertHUD.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -162,6 +166,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				11B345147C62EFF2768195FF /* Pods_LVMAlertHUD.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -188,6 +193,23 @@
 				0074F9F92029B2590045A158 /* _LVMAlertController+Private.m */,
 			);
 			path = Private;
+			sourceTree = "<group>";
+		};
+		29AC0CDB3054F6FACCC3B398 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				FC5EB230218CF443F21B184D /* Pods-LVMAlertHUD.debug.xcconfig */,
+				20241C9C478EBEA8D05D6235 /* Pods-LVMAlertHUD.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		57B3872E8AACC39AC80D237A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7141002772F78B936C928362 /* Pods_LVMAlertHUD.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		B843D7F31CF87E36001A5CB9 /* pop */ = {
@@ -309,6 +331,8 @@
 			children = (
 				B8719F751CF833FE0049FD5B /* LVMAlertHUD */,
 				B8719F741CF833FE0049FD5B /* Products */,
+				29AC0CDB3054F6FACCC3B398 /* Pods */,
+				57B3872E8AACC39AC80D237A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -393,9 +417,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B8719F8A1CF833FE0049FD5B /* Build configuration list for PBXNativeTarget "LVMAlertHUD" */;
 			buildPhases = (
+				95478C49A4BF4A73FAC02AE0 /* [CP] Check Pods Manifest.lock */,
 				B8719F6F1CF833FE0049FD5B /* Sources */,
 				B8719F701CF833FE0049FD5B /* Frameworks */,
 				B8719F711CF833FE0049FD5B /* Resources */,
+				5A0F2BDA727E681AC59362E7 /* [CP] Embed Pods Frameworks */,
+				B57A6574058E08B40438B9C7 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -454,6 +481,60 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		5A0F2BDA727E681AC59362E7 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-LVMAlertHUD/Pods-LVMAlertHUD-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/pop/pop.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/pop.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LVMAlertHUD/Pods-LVMAlertHUD-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		95478C49A4BF4A73FAC02AE0 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-LVMAlertHUD-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B57A6574058E08B40438B9C7 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LVMAlertHUD/Pods-LVMAlertHUD-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		B8719F6F1CF833FE0049FD5B /* Sources */ = {
@@ -609,6 +690,7 @@
 		};
 		B8719F8B1CF833FE0049FD5B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FC5EB230218CF443F21B184D /* Pods-LVMAlertHUD.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = LVMAlertHUD/Info.plist;
@@ -621,6 +703,7 @@
 		};
 		B8719F8C1CF833FE0049FD5B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 20241C9C478EBEA8D05D6235 /* Pods-LVMAlertHUD.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = LVMAlertHUD/Info.plist;
