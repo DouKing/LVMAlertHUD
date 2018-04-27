@@ -49,3 +49,12 @@ LVMAlertController.alert
 
 - LVMStatusBarHUD	导航条提示
 - LVMToastHUD		toast提示
+
+## 使用 CocoaPods 安装
+
+```
+pod 'LVMAlertHUD'
+pod 'LVMAlertHUD/AlertController' 
+pod 'LVMAlertHUD/StatusBarHUD'
+pod 'LVMAlertHUD/Toast'
+```
