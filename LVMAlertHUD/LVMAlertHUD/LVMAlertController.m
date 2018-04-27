@@ -26,7 +26,7 @@ static CGFloat const kLVMAlertControllerFastAnimationDuration = 0.2f;
 
 static CGFloat const kLVMAlertControllerCancelInsert = 2.5f;
 
-static CGFloat const kLVMAlertControllerAlertWidthRatio = 0.7;
+static CGFloat const kLVMAlertControllerAlertWidth = 275.0f;
 static CGFloat const kLVMAlertControllerAlertContrainerRatio = 0.8;
 static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按钮个数限制
 
@@ -36,6 +36,8 @@ static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按�
 @property (nonatomic, strong) LVMAlertAction *cancelAction;
 
 @property (nonatomic, weak) UIView *containerView;
+@property (nonatomic, weak) UITableView *tableView;
+@property (nonatomic, weak) UIButton *cancelButton;
 
 @end
 
@@ -73,6 +75,46 @@ static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按�
     [self _setupSubViews];
 }
 
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    CGFloat maxHeight = CGRectGetHeight(self.view.bounds);
+    CGFloat maxWidth = CGRectGetWidth(self.view.bounds);
+    switch (self.preferredStyle) {
+        case LVMAlertControllerStyleActionSheet: {
+            CGFloat totalHeight = self.userActions.count * kLVMAlertControllerActionHeight;
+            totalHeight += [LVMAlertHeaderView heightWithTitle:self.alertTitle message:self.alertMessage image:self.alertImage textFields:self.textFields maxWidth:maxWidth];
+            if (self.cancelAction) {
+                totalHeight += kLVMAlertControllerActionHeight + kLVMAlertControllerCancelInsert;
+            }
+            if (totalHeight > maxHeight) { totalHeight = maxHeight; }
+            CGRect frame = CGRectMake(0, 0, maxWidth, totalHeight);
+            self.containerView.frame = frame;
+        } break;
+        case LVMAlertControllerStyleAlert: {
+            CGFloat maxHeight = CGRectGetHeight(self.view.bounds);
+            CGFloat count = self.actions.count;
+            if (kLVMAlertControllerAlertTiledLimit == count) { count = 1; }
+            CGFloat totalHeight = count * kLVMAlertControllerActionHeight;
+            totalHeight += [LVMAlertHeaderView heightWithTitle:self.alertTitle message:self.alertMessage image:self.alertImage textFields:self.textFields maxWidth:kLVMAlertControllerAlertWidth];
+            if (totalHeight > maxHeight) { totalHeight = maxHeight; }
+            CGRect frame = CGRectMake(0, 0, kLVMAlertControllerAlertWidth, totalHeight);
+            self.containerView.frame = frame;
+        } break;
+    }
+
+    CGRect frame = CGRectMake(0, CGRectGetHeight(self.containerView.bounds) - kLVMAlertControllerActionHeight,
+                              CGRectGetWidth(self.containerView.bounds), kLVMAlertControllerActionHeight);
+    self.cancelButton.frame = frame;
+
+    CGFloat height = CGRectGetHeight(self.containerView.bounds);
+    if (self.cancelAction &&
+        LVMAlertControllerStyleActionSheet == self.preferredStyle) {
+        height -= kLVMAlertControllerActionHeight + kLVMAlertControllerCancelInsert;
+    }
+    frame = CGRectMake(0, 0, CGRectGetWidth(self.containerView.bounds), height);
+    self.tableView.frame = frame;
+}
+
 #pragma mark - SubViews
 
 - (void)_setupSubViews {
@@ -86,7 +128,6 @@ static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按�
         case LVMAlertControllerStyleAlert: {
             [self _setupContainerViewForAlert];
             [self _setupTableView];
-            [self _addObserver];
             break;
         }
     }
@@ -112,19 +153,16 @@ static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按�
 }
 
 - (void)_setupContainerViewForAlert {
-    CGFloat maxWidth = CGRectGetWidth(self.view.bounds);
     CGFloat maxHeight = CGRectGetHeight(self.view.bounds);
     CGFloat count = self.actions.count;
     if (kLVMAlertControllerAlertTiledLimit == count) { count = 1; }
     CGFloat totalHeight = count * kLVMAlertControllerActionHeight;
-    totalHeight += [LVMAlertHeaderView heightWithTitle:self.alertTitle message:self.alertMessage image:self.alertImage textFields:self.textFields maxWidth:maxWidth * kLVMAlertControllerAlertWidthRatio];
+    totalHeight += [LVMAlertHeaderView heightWithTitle:self.alertTitle message:self.alertMessage image:self.alertImage textFields:self.textFields maxWidth:kLVMAlertControllerAlertWidth];
     if (totalHeight > maxHeight) {
         totalHeight = maxHeight;
     }
     
-    CGRect frame = CGRectMake(0, 0,
-                              maxWidth * kLVMAlertControllerAlertWidthRatio,
-                              totalHeight);
+    CGRect frame = CGRectMake(0, 0, kLVMAlertControllerAlertWidth, totalHeight);
     self.preferredContentSize = frame.size;
     UIView *containerView = [[UIView alloc] initWithFrame:frame];
     containerView.backgroundColor = [UIColor clearColor];
@@ -145,6 +183,7 @@ static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按�
                forRoundingCorners:UIRectCornerTopLeft | UIRectCornerTopRight];
     [cancelBtn setTitle:self.cancelAction.title forState:UIControlStateNormal];
     [cancelBtn addTarget:self action:@selector(_handleCancelButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+    _cancelButton = cancelBtn;
     [self.containerView addSubview:cancelBtn];
 }
 
@@ -163,7 +202,7 @@ static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按�
     tableView.delegate = self;
     tableView.dataSource = self;
     tableView.rowHeight = kLVMAlertControllerActionHeight;
-    tableView.sectionHeaderHeight = [LVMAlertHeaderView heightWithTitle:self.alertTitle message:self.alertMessage image:self.alertImage textFields:self.textFields maxWidth:CGRectGetWidth(self.containerView.bounds)];
+//    tableView.sectionHeaderHeight = [LVMAlertHeaderView heightWithTitle:self.alertTitle message:self.alertMessage image:self.alertImage textFields:self.textFields maxWidth:CGRectGetWidth(self.containerView.bounds)];
     [tableView registerClass:[LVMAlertCell class] forCellReuseIdentifier:kLVMAlertCellId];
     [tableView registerClass:[LVMAlertHeaderView class] forHeaderFooterViewReuseIdentifier:kLVMAlertHeaderViewId];
     if (LVMAlertControllerStyleAlert == self.preferredStyle) {
@@ -176,19 +215,13 @@ static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按�
     if ([tableView respondsToSelector:@selector(setLayoutMargins:)]) {
         [tableView setLayoutMargins:UIEdgeInsetsZero];
     }
+    _tableView = tableView;
     [self.containerView addSubview:tableView];
-}
 
-- (void)_addObserver {
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                            selector:@selector(_keyboardWillShow:)
-                                                name:UIKeyboardWillShowNotification
-                                              object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                            selector:@selector(_keyboardWillHide:)
-                                                name:UIKeyboardWillHideNotification
-                                              object:nil];
-
+    CGFloat h = [LVMAlertHeaderView heightWithTitle:self.alertTitle message:self.alertMessage image:self.alertImage textFields:self.textFields maxWidth:CGRectGetWidth(self.containerView.bounds)];
+    LVMAlertHeaderView *headerView = [[LVMAlertHeaderView alloc] initWithFrame:CGRectMake(0, 0, 0, h)];
+    [headerView setupWithTitle:self.alertTitle message:self.alertMessage image:self.alertImage textFields:self.textFields];
+    tableView.tableHeaderView = headerView;
 }
 
 #pragma mark - Public Methods
@@ -234,7 +267,7 @@ static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按�
     NSMutableArray<UITextField *> *tempTextFields = [NSMutableArray arrayWithArray:self.textFields];
     UITextField *textField = [[UITextField alloc] init];
     textField.font = [UIFont systemFontOfSize:14];
-    textField.backgroundColor = [UIColor whiteColor];
+    textField.backgroundColor = [UIColor colorWithRed:245/255.0 green:245/255.0 blue:245/255.0 alpha:1];
     textField.delegate = self;
     [tempTextFields addObject:textField];
     _textFields = [NSArray arrayWithArray:tempTextFields];
@@ -388,11 +421,11 @@ static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按�
     return cell;
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    LVMAlertHeaderView *headerView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:kLVMAlertHeaderViewId];
-    [headerView setupWithTitle:self.alertTitle message:self.alertMessage image:self.alertImage textFields:self.textFields];
-    return headerView;
-}
+//- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+//    LVMAlertHeaderView *headerView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:kLVMAlertHeaderViewId];
+//    [headerView setupWithTitle:self.alertTitle message:self.alertMessage image:self.alertImage textFields:self.textFields];
+//    return headerView;
+//}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     LVMAlertAction *action = nil;
@@ -456,25 +489,6 @@ static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按�
     }
     LVMActionSheetTransition *transition = [[LVMActionSheetTransition alloc] initWithTransitionType:LVMAlertTransitionTypeDismiss];
     return transition;
-}
-
-#pragma mark - 
-
-- (void)_keyboardWillShow:(NSNotification *)note {
-    CGRect keyboardRect = [note.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    CGFloat keyboardHeight = keyboardRect.size.height;
-    CGFloat blankHeight = CGRectGetHeight(self.view.bounds) - keyboardHeight;
-    CGFloat translationY = 0.5 * blankHeight - self.containerView.center.y;
-    if (translationY > 0) { translationY = 0; }
-    [UIView animateWithDuration:[note.userInfo[UIKeyboardAnimationDurationUserInfoKey] floatValue] animations:^{
-        self.view.transform = CGAffineTransformMakeTranslation(0, translationY);
-    }];
-}
-
-- (void)_keyboardWillHide:(NSNotification *)note {
-    [UIView animateWithDuration:[note.userInfo[UIKeyboardAnimationDurationUserInfoKey] floatValue] animations:^{
-        self.view.transform = CGAffineTransformIdentity;
-    }];
 }
 
 @end

@@ -17,13 +17,26 @@ static inline UIColor *LVMAlertDismissBackgroundColor() {
     return [UIColor clearColor];
 }
 
-@interface LVMAlertPresentationController ()
+@implementation LVMBasePresentationController {
+    @public
+    CGRect _keyboardRect;
+}
 
-@property (nonatomic, strong) UIView *bgView;
-
-@end
-
-@implementation LVMAlertPresentationController
+- (instancetype)initWithPresentedViewController:(UIViewController *)presentedViewController presentingViewController:(UIViewController *)presentingViewController {
+    self = [super initWithPresentedViewController:presentedViewController presentingViewController:presentingViewController];
+    if (self) {
+        _keyboardRect = CGRectZero;
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(_keyboardWillShow:)
+                                                     name:UIKeyboardWillShowNotification
+                                                   object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(_keyboardWillHide:)
+                                                     name:UIKeyboardWillHideNotification
+                                                   object:nil];
+    }
+    return self;
+}
 
 - (void)presentationTransitionWillBegin {
     if (!self.containerView) { return; }
@@ -55,16 +68,6 @@ static inline UIColor *LVMAlertDismissBackgroundColor() {
     return v;
 }
 
-- (CGRect)frameOfPresentedViewInContainerView {
-    if (!self.containerView) {
-        return CGRectZero;
-    }
-    CGSize contentSize = self.presentedViewController.preferredContentSize;
-    return CGRectMake((self.containerView.bounds.size.width - contentSize.width) / 2.0,
-                      (self.containerView.bounds.size.height - contentSize.height) / 2.0,
-                      contentSize.width, contentSize.height);
-}
-
 - (UIView *)bgView {
     if (!_bgView) {
         _bgView = [[UIView alloc] init];
@@ -72,18 +75,82 @@ static inline UIColor *LVMAlertDismissBackgroundColor() {
     return _bgView;
 }
 
+#pragma mark -
+
+- (void)_keyboardWillShow:(NSNotification *)note {
+    CGRect keyboardRect = [note.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    _keyboardRect = keyboardRect;
+    [UIView animateWithDuration:[note.userInfo[UIKeyboardAnimationDurationUserInfoKey] floatValue] animations:^{
+        self.presentedView.frame = self.frameOfPresentedViewInContainerView;
+    }];
+}
+
+- (void)_keyboardWillHide:(NSNotification *)note {
+    _keyboardRect = CGRectZero;
+    [UIView animateWithDuration:[note.userInfo[UIKeyboardAnimationDurationUserInfoKey] floatValue] animations:^{
+        self.presentedView.frame = self.frameOfPresentedViewInContainerView;
+    }];
+}
+
 @end
 
-@implementation LVMActionSheetPresentationController
+@implementation LVMAlertPresentationController
 
 - (CGRect)frameOfPresentedViewInContainerView {
     if (!self.containerView) {
         return CGRectZero;
     }
     CGSize contentSize = self.presentedViewController.preferredContentSize;
+    CGFloat height = MIN(contentSize.height, CGRectGetHeight(self.containerView.bounds) - _keyboardRect.size.height);
     return CGRectMake((self.containerView.bounds.size.width - contentSize.width) / 2.0,
-                      (self.containerView.bounds.size.height - contentSize.height),
-                      contentSize.width, contentSize.height);
+                      (self.containerView.bounds.size.height - height - _keyboardRect.size.height) / 2.0,
+                      contentSize.width, height);
+}
+
+@end
+
+@interface LVMActionSheetPresentationController ()
+
+@property (nonatomic, strong) UITapGestureRecognizer *tapGesture;
+
+@end
+
+@implementation LVMActionSheetPresentationController
+
+- (void)presentationTransitionWillBegin {
+    [super presentationTransitionWillBegin];
+    [self.bgView addGestureRecognizer:self.tapGesture];
+}
+
+- (void)dismissalTransitionDidEnd:(BOOL)completed {
+    [super dismissalTransitionDidEnd:completed];
+    [self.bgView removeGestureRecognizer:self.tapGesture];
+}
+
+- (CGRect)frameOfPresentedViewInContainerView {
+    if (!self.containerView) {
+        return CGRectZero;
+    }
+    CGFloat bottom = 0;
+    if (@available (iOS 11.0, *)) {
+        bottom = self.presentingViewController.view.safeAreaInsets.bottom;
+    }
+    CGSize contentSize = self.presentedViewController.preferredContentSize;
+    CGFloat height = MIN(contentSize.height, CGRectGetHeight(self.containerView.bounds) - _keyboardRect.size.height);
+    return CGRectMake((self.containerView.bounds.size.width - contentSize.width) / 2.0,
+                      (self.containerView.bounds.size.height - height - bottom),
+                      contentSize.width, height);
+}
+
+- (void)_dismiss {
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (UITapGestureRecognizer *)tapGesture {
+    if (!_tapGesture) {
+        _tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(_dismiss)];
+    }
+    return _tapGesture;
 }
 
 @end

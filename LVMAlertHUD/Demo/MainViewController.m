@@ -14,6 +14,31 @@
 #import "LVMAlertController+Convenient.h"
 #import "DetailViewController.h"
 
+typedef NS_ENUM(NSInteger, DataSourceType){
+    DataSourceTypeNextPage,
+    DataSourceTypeStatusBarHud,
+    DataSourceTypeAlert,
+    DataSourceTypeActionSheet,
+    DataSourceTypeToastHud,
+    DataSourceTypeAlertConvenience,
+    DataSourceTypeActionSheetConvenience,
+    DataSourceTypeAlertNoTitle,
+    DataSourceTypeActionSheetNoTitle,
+
+    DataSourceTypeCount
+};
+static NSString * const DataSourceTypeNameMapping[] = {
+    [DataSourceTypeNextPage] = @"下一级",
+    [DataSourceTypeStatusBarHud] = @"导航条提示",
+    [DataSourceTypeAlert] = @"Alert",
+    [DataSourceTypeActionSheet] = @"ActionSheet",
+    [DataSourceTypeToastHud] = @"Toast",
+    [DataSourceTypeAlertConvenience] = @"Alert Convenience",
+    [DataSourceTypeActionSheetConvenience] = @"ActionSheet Convenience",
+    [DataSourceTypeAlertNoTitle] = @"Alert NO Title",
+    [DataSourceTypeActionSheetNoTitle] = @"ActionSheet NO Title",
+};
+
 static NSString * const kMainViewControllerCellId = @"kMainViewControllerCellId";
 
 @interface MainViewController ()
@@ -26,7 +51,11 @@ static NSString * const kMainViewControllerCellId = @"kMainViewControllerCellId"
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.dataSource = @[@"下一级", @"导航条提示", @"Alert", @"ActionSheet", @"Toast", @"Alert Convenience", @"ActionSheet Convenience", @"Alert NO Title", @"ActionSheet NO Title"];
+    NSMutableArray<NSString *> *temp = [NSMutableArray arrayWithCapacity:DataSourceTypeCount - 1];
+    for (DataSourceType i = DataSourceTypeNextPage; i < DataSourceTypeCount; i++) {
+        [temp addObject:DataSourceTypeNameMapping[i]];
+    }
+    self.dataSource = [temp copy];
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:kMainViewControllerCellId];
 }
 
@@ -42,59 +71,41 @@ static NSString * const kMainViewControllerCellId = @"kMainViewControllerCellId"
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    switch (indexPath.row) {
-        case 0: {
+    DataSourceType type = indexPath.row;
+    switch (type) {
+        case DataSourceTypeNextPage: {
             DetailViewController *vc = [[DetailViewController alloc] init];
             [self.navigationController pushViewController:vc animated:YES];
-            break;
-        }
-         
-        case 1: {
+        } break;
+        case DataSourceTypeStatusBarHud: {
             [self _showStatusBarHUD];
-            break;
-        }
-            
-        case 2: {
+        } break;
+        case DataSourceTypeAlert: {
             [self _showAlert];
-            break;
-        }
-            
-        case 3: {
+        } break;
+        case DataSourceTypeActionSheet: {
             [self _showActionSheet];
-            break;
-        }
-        
-        case 4: {
+        } break;
+        case DataSourceTypeToastHud: {
             [self _showToastHUD];
             break;
         }
-            
-        case 5: {
+        case DataSourceTypeAlertConvenience: {
             [self _alertConvenience];
-            break;
-        }
-            
-        case 6: {
+        } break;
+        case DataSourceTypeActionSheetConvenience: {
             [self _actionSheetConvenience];
-            break;
-        }
-        
-        case 7: {
+        }  break;
+        case DataSourceTypeAlertNoTitle: {
             [self _alertNOTitle];
-            break;
-        }
-            
-        case 8: {
+        } break;
+        case DataSourceTypeActionSheetNoTitle: {
             [self _actionSheetNOTitle];
-            break;
-        }
-        
-        default:
-            break;
+        } break;
+        case DataSourceTypeCount: break;
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
-
 
 - (void)_showStatusBarHUD {
     NSString *text = [NSString stringWithFormat:@"message %d", arc4random()];

@@ -9,7 +9,13 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LVMAlertPresentationController : UIPresentationController
+@interface LVMBasePresentationController : UIPresentationController
+
+@property (nonatomic, strong) UIView *bgView;
+
+@end
+
+@interface LVMAlertPresentationController : LVMBasePresentationController
 
 @end
 
