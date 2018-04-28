@@ -34,16 +34,16 @@ action = [LVMAlertAction actionWithTitle:@"嘻嘻" style:LVMAlertActionStyleCanc
 ```
 
 LVMAlertController.alert
-	              .setupTitle(@"title")
-	              .setupMessage(@"message")
-	              .addActionsWithTitles(@"ok", @"later", @"know", nil)
-	              .addCancelActionWithTitle(@"cancel")
-	              .actionsHandler(^(NSInteger index, LVMAlertAction *action) {
-	                 NSLog(@"click %ld, %@", index, action.title);
-	              })
- 				  .show(^{
-				     NSLog(@"show");
-				  });
+	          .setupTitle(@"title")
+	          .setupMessage(@"message")
+	          .addActionsWithTitles(@"ok", @"later", @"know", nil)
+	          .addCancelActionWithTitle(@"cancel")
+	          .actionsHandler(^(NSInteger index, LVMAlertAction *action) {
+	             NSLog(@"click %ld, %@", index, action.title);
+	          })
+.show(^{
+    NSLog(@"show");
+});
 
 ```
 
