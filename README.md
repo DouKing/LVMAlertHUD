@@ -5,6 +5,8 @@
 
 > 仿系统API弹框
 
+![](./capture.gif)
+
 - 使用方式
 
 ```
@@ -54,6 +56,9 @@ LVMAlertController.alert
 
 ```
 pod 'LVMAlertHUD'
+
+或
+
 pod 'LVMAlertHUD/AlertController' 
 pod 'LVMAlertHUD/StatusBarHUD'
 pod 'LVMAlertHUD/Toast'
