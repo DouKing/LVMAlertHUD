@@ -26,7 +26,7 @@ static CGFloat const kLVMAlertControllerFastAnimationDuration = 0.2f;
 
 static CGFloat const kLVMAlertControllerCancelInsert = 2.5f;
 
-static CGFloat const kLVMAlertControllerAlertWidth = 275.0f;
+static CGFloat const kLVMAlertControllerAlertWidth = 285.0f;
 static CGFloat const kLVMAlertControllerAlertContrainerRatio = 0.8;
 static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按钮个数限制
 
@@ -49,6 +49,10 @@ static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按�
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
++ (instancetype)alertControllerWithPreferredStyle:(LVMAlertControllerStyle)preferredStyle {
+    return [self alertControllerWithTitle:nil message:nil preferredStyle:preferredStyle];
+}
+
 + (instancetype)alertControllerWithTitle:(NSString *)title message:(NSString *)message preferredStyle:(LVMAlertControllerStyle)preferredStyle {
     return [self alertControllerWithTitle:title message:message image:nil preferredStyle:preferredStyle];
 }
@@ -66,8 +70,20 @@ static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按�
         _alertMessage = [message copy];
         _alertImage = [image copy];
         _preferredStyle = preferredStyle;
+        _textAlignment = NSTextAlignmentCenter;
+
+        if (_alertTitle) {
+            _attributedAlertTitle = LVMAlertTitleAttributedStringFor(_alertTitle, NO);
+        }
+        if (_alertMessage) {
+            _attributedAlertMessage = LVMAlertMessageAttributedStringFor(_alertMessage, _textAlignment);
+        }
     }
     return self;
+}
+
+- (instancetype)init {
+    return [self initWithTitle:nil message:nil image:nil preferredStyle:LVMAlertControllerStyleAlert];
 }
 
 - (void)viewDidLoad {
@@ -82,7 +98,7 @@ static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按�
     switch (self.preferredStyle) {
         case LVMAlertControllerStyleActionSheet: {
             CGFloat totalHeight = self.userActions.count * kLVMAlertControllerActionHeight;
-            totalHeight += [LVMAlertHeaderView heightWithTitle:self.alertTitle message:self.alertMessage image:self.alertImage textFields:self.textFields maxWidth:maxWidth];
+            totalHeight += [LVMAlertHeaderView heightWithAttributedTitle:self.attributedAlertTitle attributedMessage:self.attributedAlertMessage image:self.alertImage textFields:self.textFields maxWidth:maxWidth];
             if (self.cancelAction) {
                 totalHeight += kLVMAlertControllerActionHeight + kLVMAlertControllerCancelInsert;
             }
@@ -95,7 +111,7 @@ static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按�
             CGFloat count = self.actions.count;
             if (kLVMAlertControllerAlertTiledLimit == count) { count = 1; }
             CGFloat totalHeight = count * kLVMAlertControllerActionHeight;
-            totalHeight += [LVMAlertHeaderView heightWithTitle:self.alertTitle message:self.alertMessage image:self.alertImage textFields:self.textFields maxWidth:kLVMAlertControllerAlertWidth];
+            totalHeight += [LVMAlertHeaderView heightWithAttributedTitle:self.attributedAlertTitle attributedMessage:self.attributedAlertMessage image:self.alertImage textFields:self.textFields maxWidth:kLVMAlertControllerAlertWidth];
             if (totalHeight > maxHeight) { totalHeight = maxHeight; }
             CGRect frame = CGRectMake(0, 0, kLVMAlertControllerAlertWidth, totalHeight);
             self.containerView.frame = frame;
@@ -137,7 +153,7 @@ static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按�
     CGFloat maxHeight = CGRectGetHeight(self.view.bounds);
     CGFloat maxWidth = CGRectGetWidth(self.view.bounds);
     CGFloat totalHeight = self.userActions.count * kLVMAlertControllerActionHeight;
-    totalHeight += [LVMAlertHeaderView heightWithTitle:self.alertTitle message:self.alertMessage image:self.alertImage textFields:self.textFields maxWidth:maxWidth];
+    totalHeight += [LVMAlertHeaderView heightWithAttributedTitle:self.attributedAlertTitle attributedMessage:self.attributedAlertMessage image:self.alertImage textFields:self.textFields maxWidth:maxWidth];
     if (self.cancelAction) {
         totalHeight += kLVMAlertControllerActionHeight + kLVMAlertControllerCancelInsert;
     }
@@ -157,7 +173,7 @@ static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按�
     CGFloat count = self.actions.count;
     if (kLVMAlertControllerAlertTiledLimit == count) { count = 1; }
     CGFloat totalHeight = count * kLVMAlertControllerActionHeight;
-    totalHeight += [LVMAlertHeaderView heightWithTitle:self.alertTitle message:self.alertMessage image:self.alertImage textFields:self.textFields maxWidth:kLVMAlertControllerAlertWidth];
+    totalHeight += [LVMAlertHeaderView heightWithAttributedTitle:self.attributedAlertTitle attributedMessage:self.attributedAlertMessage image:self.alertImage textFields:self.textFields maxWidth:kLVMAlertControllerAlertWidth];
     if (totalHeight > maxHeight) {
         totalHeight = maxHeight;
     }
@@ -218,38 +234,13 @@ static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按�
     _tableView = tableView;
     [self.containerView addSubview:tableView];
 
-    CGFloat h = [LVMAlertHeaderView heightWithTitle:self.alertTitle message:self.alertMessage image:self.alertImage textFields:self.textFields maxWidth:CGRectGetWidth(self.containerView.bounds)];
+    CGFloat h = [LVMAlertHeaderView heightWithAttributedTitle:self.attributedAlertTitle attributedMessage:self.attributedAlertMessage image:self.alertImage textFields:self.textFields maxWidth:CGRectGetWidth(self.containerView.bounds)];
     LVMAlertHeaderView *headerView = [[LVMAlertHeaderView alloc] initWithFrame:CGRectMake(0, 0, 0, h)];
-    [headerView setupWithTitle:self.alertTitle message:self.alertMessage image:self.alertImage textFields:self.textFields];
+    [headerView setupWithAttributedTitle:self.attributedAlertTitle attributedMessage:self.attributedAlertMessage image:self.alertImage textFields:self.textFields];
     tableView.tableHeaderView = headerView;
 }
 
 #pragma mark - Public Methods
-
-- (void)presentOn:(UIViewController *)presentingVC withCompletion:(void (^)())completion {
-  if (self.presentingViewController) { return; }
-  UIViewController *topVC = presentingVC ?: [self _stackTopViewController];
-  topVC.modalPresentationStyle = UIModalPresentationCurrentContext;
-  __weak typeof(topVC) weakTopVC = topVC;
-  [topVC presentViewController:self animated:NO completion:^{
-    __strong typeof(weakTopVC) strongTopVC = weakTopVC;
-    strongTopVC.modalPresentationStyle = UIModalPresentationFullScreen;
-    [self _showContainerView];
-    if (completion) { completion(); }
-  }];
-}
-
-- (void)showWithCompletion:(void (^)())completion {
-  [self presentOn:nil withCompletion:completion];
-}
-
-- (void)dismissWithCompletion:(void (^)())completion {
-    [self _dismissContainerViewWithCompletion:^{
-        [self dismissViewControllerAnimated:NO completion:^{
-            if (completion) { completion(); }
-        }];
-    }];
-}
 
 - (void)addAction:(LVMAlertAction *)action {
     if (!action) { return; }
@@ -380,6 +371,32 @@ static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按�
 
 #pragma mark - setter & getter
 
+- (void)setStrikethroughHeader:(BOOL)strikethroughHeader {
+    _strikethroughHeader = strikethroughHeader;
+    if (self.alertTitle) {
+        _attributedAlertTitle = LVMAlertTitleAttributedStringFor(self.alertTitle, strikethroughHeader);
+    }
+}
+
+- (void)setTextAlignment:(NSTextAlignment)textAlignment {
+    _textAlignment = textAlignment;
+    if (self.alertMessage) {
+        _attributedAlertMessage = LVMAlertMessageAttributedStringFor(self.alertMessage, textAlignment);
+    }
+}
+
+- (void)setAttributedAlertTitle:(NSAttributedString *)attributedAlertTitle {
+    if (_attributedAlertTitle == attributedAlertTitle) { return; }
+    _attributedAlertTitle = attributedAlertTitle;
+    _alertTitle = attributedAlertTitle.string;
+}
+
+- (void)setAttributedAlertMessage:(NSAttributedString *)attributedAlertMessage {
+    if (_attributedAlertMessage == attributedAlertMessage) { return; }
+    _attributedAlertMessage = attributedAlertMessage;
+    _alertMessage = attributedAlertMessage.string;
+}
+
 - (NSArray<LVMAlertAction *> *)actions {
     NSMutableArray *tempActions = [NSMutableArray arrayWithArray:self.userActions];
     if (self.cancelAction) {
@@ -492,3 +509,26 @@ static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按�
 }
 
 @end
+
+@implementation LVMAlertController (Deprecated)
+
+- (void)presentOn:(UIViewController *)presentingVC withCompletion:(void (^)())completion {
+  if (self.presentingViewController) { return; }
+  UIViewController *topVC = presentingVC ?: [self _stackTopViewController];
+  [topVC presentViewController:self animated:YES completion:completion];
+}
+
+- (void)showWithCompletion:(void (^)())completion {
+  [self presentOn:nil withCompletion:completion];
+}
+
+- (void)dismissWithCompletion:(void (^)())completion {
+  [self _dismissContainerViewWithCompletion:^{
+    [self dismissViewControllerAnimated:NO completion:^{
+      if (completion) { completion(); }
+    }];
+  }];
+}
+
+@end
+

@@ -35,10 +35,12 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)actionSheet;
 @property (nonatomic, copy, readonly) LVMAlertController *(^useStyle)(LVMAlertControllerStyle preferredStyle);
 @property (nonatomic, copy, readonly) LVMAlertController *(^setupTitle)(NSString *title);
+@property (nonatomic, copy, readonly) LVMAlertController *(^setupAttributedTitle)(NSAttributedString *attributedTitle);
 @property (nonatomic, copy, readonly) LVMAlertController *(^setupMessage)(NSString *message);
+@property (nonatomic, copy, readonly) LVMAlertController *(^setupattributedMessage)(NSAttributedString *attributedMessage);
 @property (nonatomic, copy, readonly) LVMAlertController *(^addAction)(LVMAlertAction *action);
 @property (nonatomic, copy, readonly) LVMAlertController *(^show)(void (^ __nullable completion)());
-@property (nonatomic, copy, readonly) LVMAlertController *(^showOn)(UIViewController * _Nullable presentingVC, void (^ __nullable completion)());
+@property (nonatomic, copy, readonly) LVMAlertController *(^showOn)(UIViewController * _Nullable presentingVC, BOOL animated, void (^ __nullable completion)());
 
 @property (nonatomic, copy, readonly) LVMAlertController *(^addActionsWithTitles)(NSString *actionTitles, ...);
 @property (nonatomic, copy, readonly) LVMAlertController *(^addCancelActionWithTitle)(NSString *cancelTitle);

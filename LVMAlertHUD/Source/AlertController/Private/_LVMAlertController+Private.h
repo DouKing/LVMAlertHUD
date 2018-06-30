@@ -16,4 +16,5 @@
 @property (nonatomic, copy) UIImage *alertImage;
 @property (nonatomic) LVMAlertControllerStyle preferredStyle;
 @property (nonatomic, copy) void(^actionHandler)(NSInteger index, LVMAlertAction *action);
+- (UIViewController *)_stackTopViewController;
 @end

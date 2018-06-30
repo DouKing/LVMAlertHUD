@@ -11,17 +11,20 @@
 #import "LVMAlertController+DSL.h"
 #import "_LVMAlertController+Private.h"
 
+FOUNDATION_EXPORT NSAttributedString * LVMAlertTitleAttributedStringFor(NSString *title, BOOL strikethroughHeader);
+FOUNDATION_EXPORT NSAttributedString * LVMAlertMessageAttributedStringFor(NSString *message, NSTextAlignment textAlignment);
+
 @implementation LVMAlertController (DSL)
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wobjc-protocol-method-implementation"
 
 + (instancetype)alert {
-  return [self alertControllerWithTitle:nil message:nil preferredStyle:LVMAlertControllerStyleAlert];
+  return [self alertControllerWithPreferredStyle:LVMAlertControllerStyleAlert];
 }
 
 + (instancetype)actionSheet {
-  return [self alertControllerWithTitle:nil message:nil preferredStyle:LVMAlertControllerStyleActionSheet];
+  return [self alertControllerWithPreferredStyle:LVMAlertControllerStyleActionSheet];
 }
 
 - (LVMAlertController *(^)(LVMAlertControllerStyle))useStyle {
@@ -34,6 +37,13 @@
 - (LVMAlertController *(^)(NSString *))setupTitle {
   return ^LVMAlertController *(NSString *title) {
     self.alertTitle = title;
+    return self.setupAttributedTitle(LVMAlertTitleAttributedStringFor(title, self.strikethroughHeader));
+  };
+}
+
+- (LVMAlertController * _Nonnull (^)(NSAttributedString * _Nonnull))setupAttributedTitle {
+  return ^LVMAlertController *(NSAttributedString *attributedTitle) {
+    self.attributedAlertTitle = attributedTitle;
     return self;
   };
 }
@@ -41,6 +51,13 @@
 - (LVMAlertController *(^)(NSString *))setupMessage {
   return ^LVMAlertController *(NSString *message) {
     self.alertMessage = message;
+    return self.setupattributedMessage(LVMAlertMessageAttributedStringFor(message, self.textAlignment));
+  };
+}
+
+- (LVMAlertController * _Nonnull (^)(NSAttributedString * _Nonnull))setupattributedMessage {
+  return ^LVMAlertController *(NSAttributedString *attributedMessage) {
+    self.attributedAlertMessage = attributedMessage;
     return self;
   };
 }
@@ -54,14 +71,17 @@
 
 - (LVMAlertController *(^)(void(^)()))show {
   return ^LVMAlertController *(void(^completion)()) {
-    [self showWithCompletion:completion];
+    self.showOn(nil, YES, completion);
     return self;
   };
 }
 
-- (LVMAlertController *(^)(UIViewController *, void(^)()))showOn {
-  return ^LVMAlertController *(UIViewController *presentingVC, void(^completion)()) {
-    [self presentOn:presentingVC withCompletion:completion];
+- (LVMAlertController *(^)(UIViewController *, BOOL, void(^)()))showOn {
+  return ^LVMAlertController *(UIViewController *presentingVC, BOOL animated, void(^completion)()) {
+    if (!self.presentingViewController) {
+      UIViewController *topVC = presentingVC ?: [self _stackTopViewController];
+      [topVC presentViewController:self animated:animated completion:completion];
+    }
     return self;
   };
 }

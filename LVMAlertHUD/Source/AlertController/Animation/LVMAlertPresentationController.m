@@ -42,7 +42,9 @@ static inline UIColor *LVMAlertDismissBackgroundColor() {
     if (!self.containerView) { return; }
     [self.containerView addSubview:self.bgView];
     [self.presentingViewController.transitionCoordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
-        self.bgView.backgroundColor = LVMAlertShowBackgroundColor();
+        [UIView animateWithDuration:0.25 animations:^{
+            self.bgView.backgroundColor = LVMAlertShowBackgroundColor();
+        }];
     } completion:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
     }];
 }
@@ -55,7 +57,9 @@ static inline UIColor *LVMAlertDismissBackgroundColor() {
 
 - (void)dismissalTransitionWillBegin {
     [self.presentingViewController.transitionCoordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
-        self.bgView.backgroundColor = LVMAlertDismissBackgroundColor();
+        [UIView animateWithDuration:0.25 animations:^{
+            self.bgView.backgroundColor = LVMAlertDismissBackgroundColor();
+        }];
     } completion:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
         [self.bgView removeFromSuperview];
     }];

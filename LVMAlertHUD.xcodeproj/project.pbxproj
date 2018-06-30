@@ -7,24 +7,24 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		006C7959209304C50061BCD7 /* LVMAlertPresentationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 006C792F209304C50061BCD7 /* LVMAlertPresentationController.m */; };
-		006C795A209304C50061BCD7 /* LVMAlertTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 006C7931209304C50061BCD7 /* LVMAlertTransition.m */; };
-		006C795B209304C50061BCD7 /* LVMAlertButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 006C7934209304C50061BCD7 /* LVMAlertButtonCell.m */; };
-		006C795C209304C50061BCD7 /* LVMAlertCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 006C7936209304C50061BCD7 /* LVMAlertCell.m */; };
-		006C795D209304C50061BCD7 /* LVMAlertHUDConfigure.m in Sources */ = {isa = PBXBuildFile; fileRef = 006C7939209304C50061BCD7 /* LVMAlertHUDConfigure.m */; };
-		006C795E209304C50061BCD7 /* LVMAlertHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 006C793D209304C50061BCD7 /* LVMAlertHeaderView.m */; };
-		006C795F209304C50061BCD7 /* LVMAlertAction+DSL.m in Sources */ = {isa = PBXBuildFile; fileRef = 006C793F209304C50061BCD7 /* LVMAlertAction+DSL.m */; };
-		006C7960209304C50061BCD7 /* LVMAlertAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 006C7941209304C50061BCD7 /* LVMAlertAction.m */; };
-		006C7961209304C50061BCD7 /* LVMAlertController+Convenient.m in Sources */ = {isa = PBXBuildFile; fileRef = 006C7943209304C50061BCD7 /* LVMAlertController+Convenient.m */; };
-		006C7962209304C50061BCD7 /* LVMAlertController+DSL.m in Sources */ = {isa = PBXBuildFile; fileRef = 006C7945209304C50061BCD7 /* LVMAlertController+DSL.m */; };
-		006C7963209304C50061BCD7 /* LVMAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 006C7947209304C50061BCD7 /* LVMAlertController.m */; };
-		006C7964209304C50061BCD7 /* _LVMAlertAction+Private.m in Sources */ = {isa = PBXBuildFile; fileRef = 006C794A209304C50061BCD7 /* _LVMAlertAction+Private.m */; };
-		006C7965209304C50061BCD7 /* _LVMAlertController+Private.m in Sources */ = {isa = PBXBuildFile; fileRef = 006C794C209304C50061BCD7 /* _LVMAlertController+Private.m */; };
 		006C7966209304C50061BCD7 /* UIView+LVMCornerRadius.m in Sources */ = {isa = PBXBuildFile; fileRef = 006C794F209304C50061BCD7 /* UIView+LVMCornerRadius.m */; };
 		006C7967209304C50061BCD7 /* img_alertHUD_statusBar_warning_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 006C7951209304C50061BCD7 /* img_alertHUD_statusBar_warning_icon@2x.png */; };
 		006C7968209304C50061BCD7 /* img_alertHUD_statusBar_warning_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 006C7952209304C50061BCD7 /* img_alertHUD_statusBar_warning_icon@3x.png */; };
 		006C7969209304C50061BCD7 /* LVMStatusBarHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 006C7955209304C50061BCD7 /* LVMStatusBarHUD.m */; };
 		006C796A209304C50061BCD7 /* LVMToastHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 006C7958209304C50061BCD7 /* LVMToastHUD.m */; };
+		0076B4F220E78778007D9CA9 /* LVMAlertHUDConfigure.m in Sources */ = {isa = PBXBuildFile; fileRef = 0076B4D320E78778007D9CA9 /* LVMAlertHUDConfigure.m */; };
+		0076B4F320E78778007D9CA9 /* LVMAlertAction+DSL.m in Sources */ = {isa = PBXBuildFile; fileRef = 0076B4D720E78778007D9CA9 /* LVMAlertAction+DSL.m */; };
+		0076B4F420E78778007D9CA9 /* LVMAlertTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 0076B4DB20E78778007D9CA9 /* LVMAlertTransition.m */; };
+		0076B4F520E78778007D9CA9 /* LVMAlertPresentationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0076B4DE20E78778007D9CA9 /* LVMAlertPresentationController.m */; };
+		0076B4F620E78778007D9CA9 /* LVMAlertCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0076B4E220E78778007D9CA9 /* LVMAlertCell.m */; };
+		0076B4F720E78778007D9CA9 /* LVMAlertButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0076B4E420E78778007D9CA9 /* LVMAlertButtonCell.m */; };
+		0076B4F820E78778007D9CA9 /* _LVMAlertController+Private.m in Sources */ = {isa = PBXBuildFile; fileRef = 0076B4E620E78778007D9CA9 /* _LVMAlertController+Private.m */; };
+		0076B4F920E78778007D9CA9 /* _LVMAlertAction+Private.m in Sources */ = {isa = PBXBuildFile; fileRef = 0076B4E720E78778007D9CA9 /* _LVMAlertAction+Private.m */; };
+		0076B4FA20E78778007D9CA9 /* LVMAlertAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 0076B4EA20E78778007D9CA9 /* LVMAlertAction.m */; };
+		0076B4FB20E78778007D9CA9 /* LVMAlertController+Convenient.m in Sources */ = {isa = PBXBuildFile; fileRef = 0076B4EC20E78778007D9CA9 /* LVMAlertController+Convenient.m */; };
+		0076B4FC20E78778007D9CA9 /* LVMAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0076B4ED20E78778007D9CA9 /* LVMAlertController.m */; };
+		0076B4FD20E78778007D9CA9 /* LVMAlertController+DSL.m in Sources */ = {isa = PBXBuildFile; fileRef = 0076B4EE20E78778007D9CA9 /* LVMAlertController+DSL.m */; };
+		0076B4FE20E78778007D9CA9 /* LVMAlertHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0076B4F120E78778007D9CA9 /* LVMAlertHeaderView.m */; };
 		B843D83C1CF95AA2001A5CB9 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B843D83B1CF95AA2001A5CB9 /* DetailViewController.m */; };
 		B86570691CFE9587002AE898 /* secoo_logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B86570671CFE9587002AE898 /* secoo_logo@2x.png */; };
 		B865706A1CFE9587002AE898 /* secoo_logo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B86570681CFE9587002AE898 /* secoo_logo@3x.png */; };
@@ -37,33 +37,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		006C792E209304C50061BCD7 /* LVMAlertPresentationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVMAlertPresentationController.h; sourceTree = "<group>"; };
-		006C792F209304C50061BCD7 /* LVMAlertPresentationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVMAlertPresentationController.m; sourceTree = "<group>"; };
-		006C7930209304C50061BCD7 /* LVMAlertTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVMAlertTransition.h; sourceTree = "<group>"; };
-		006C7931209304C50061BCD7 /* LVMAlertTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVMAlertTransition.m; sourceTree = "<group>"; };
-		006C7933209304C50061BCD7 /* LVMAlertButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVMAlertButtonCell.h; sourceTree = "<group>"; };
-		006C7934209304C50061BCD7 /* LVMAlertButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVMAlertButtonCell.m; sourceTree = "<group>"; };
-		006C7935209304C50061BCD7 /* LVMAlertCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVMAlertCell.h; sourceTree = "<group>"; };
-		006C7936209304C50061BCD7 /* LVMAlertCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVMAlertCell.m; sourceTree = "<group>"; };
-		006C7938209304C50061BCD7 /* LVMAlertHUDConfigure.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVMAlertHUDConfigure.h; sourceTree = "<group>"; };
-		006C7939209304C50061BCD7 /* LVMAlertHUDConfigure.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVMAlertHUDConfigure.m; sourceTree = "<group>"; };
-		006C793A209304C50061BCD7 /* LVMAlertHUDDefinition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVMAlertHUDDefinition.h; sourceTree = "<group>"; };
-		006C793C209304C50061BCD7 /* LVMAlertHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVMAlertHeaderView.h; sourceTree = "<group>"; };
-		006C793D209304C50061BCD7 /* LVMAlertHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVMAlertHeaderView.m; sourceTree = "<group>"; };
-		006C793E209304C50061BCD7 /* LVMAlertAction+DSL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LVMAlertAction+DSL.h"; sourceTree = "<group>"; };
-		006C793F209304C50061BCD7 /* LVMAlertAction+DSL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LVMAlertAction+DSL.m"; sourceTree = "<group>"; };
-		006C7940209304C50061BCD7 /* LVMAlertAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVMAlertAction.h; sourceTree = "<group>"; };
-		006C7941209304C50061BCD7 /* LVMAlertAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVMAlertAction.m; sourceTree = "<group>"; };
-		006C7942209304C50061BCD7 /* LVMAlertController+Convenient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LVMAlertController+Convenient.h"; sourceTree = "<group>"; };
-		006C7943209304C50061BCD7 /* LVMAlertController+Convenient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LVMAlertController+Convenient.m"; sourceTree = "<group>"; };
-		006C7944209304C50061BCD7 /* LVMAlertController+DSL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LVMAlertController+DSL.h"; sourceTree = "<group>"; };
-		006C7945209304C50061BCD7 /* LVMAlertController+DSL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LVMAlertController+DSL.m"; sourceTree = "<group>"; };
-		006C7946209304C50061BCD7 /* LVMAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVMAlertController.h; sourceTree = "<group>"; };
-		006C7947209304C50061BCD7 /* LVMAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVMAlertController.m; sourceTree = "<group>"; };
-		006C7949209304C50061BCD7 /* _LVMAlertAction+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "_LVMAlertAction+Private.h"; sourceTree = "<group>"; };
-		006C794A209304C50061BCD7 /* _LVMAlertAction+Private.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "_LVMAlertAction+Private.m"; sourceTree = "<group>"; };
-		006C794B209304C50061BCD7 /* _LVMAlertController+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "_LVMAlertController+Private.h"; sourceTree = "<group>"; };
-		006C794C209304C50061BCD7 /* _LVMAlertController+Private.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "_LVMAlertController+Private.m"; sourceTree = "<group>"; };
 		006C794E209304C50061BCD7 /* UIView+LVMCornerRadius.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+LVMCornerRadius.h"; sourceTree = "<group>"; };
 		006C794F209304C50061BCD7 /* UIView+LVMCornerRadius.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+LVMCornerRadius.m"; sourceTree = "<group>"; };
 		006C7951209304C50061BCD7 /* img_alertHUD_statusBar_warning_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "img_alertHUD_statusBar_warning_icon@2x.png"; sourceTree = "<group>"; };
@@ -72,6 +45,33 @@
 		006C7955209304C50061BCD7 /* LVMStatusBarHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVMStatusBarHUD.m; sourceTree = "<group>"; };
 		006C7957209304C50061BCD7 /* LVMToastHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVMToastHUD.h; sourceTree = "<group>"; };
 		006C7958209304C50061BCD7 /* LVMToastHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVMToastHUD.m; sourceTree = "<group>"; };
+		0076B4D320E78778007D9CA9 /* LVMAlertHUDConfigure.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVMAlertHUDConfigure.m; sourceTree = "<group>"; };
+		0076B4D420E78778007D9CA9 /* LVMAlertHUDDefinition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVMAlertHUDDefinition.h; sourceTree = "<group>"; };
+		0076B4D520E78778007D9CA9 /* LVMAlertHUDConfigure.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVMAlertHUDConfigure.h; sourceTree = "<group>"; };
+		0076B4D620E78778007D9CA9 /* LVMAlertController+Convenient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LVMAlertController+Convenient.h"; sourceTree = "<group>"; };
+		0076B4D720E78778007D9CA9 /* LVMAlertAction+DSL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LVMAlertAction+DSL.m"; sourceTree = "<group>"; };
+		0076B4D820E78778007D9CA9 /* LVMAlertAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVMAlertAction.h; sourceTree = "<group>"; };
+		0076B4D920E78778007D9CA9 /* LVMAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVMAlertController.h; sourceTree = "<group>"; };
+		0076B4DB20E78778007D9CA9 /* LVMAlertTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVMAlertTransition.m; sourceTree = "<group>"; };
+		0076B4DC20E78778007D9CA9 /* LVMAlertPresentationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVMAlertPresentationController.h; sourceTree = "<group>"; };
+		0076B4DD20E78778007D9CA9 /* LVMAlertTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVMAlertTransition.h; sourceTree = "<group>"; };
+		0076B4DE20E78778007D9CA9 /* LVMAlertPresentationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVMAlertPresentationController.m; sourceTree = "<group>"; };
+		0076B4DF20E78778007D9CA9 /* LVMAlertController+DSL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LVMAlertController+DSL.h"; sourceTree = "<group>"; };
+		0076B4E120E78778007D9CA9 /* LVMAlertButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVMAlertButtonCell.h; sourceTree = "<group>"; };
+		0076B4E220E78778007D9CA9 /* LVMAlertCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVMAlertCell.m; sourceTree = "<group>"; };
+		0076B4E320E78778007D9CA9 /* LVMAlertCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVMAlertCell.h; sourceTree = "<group>"; };
+		0076B4E420E78778007D9CA9 /* LVMAlertButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVMAlertButtonCell.m; sourceTree = "<group>"; };
+		0076B4E620E78778007D9CA9 /* _LVMAlertController+Private.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "_LVMAlertController+Private.m"; sourceTree = "<group>"; };
+		0076B4E720E78778007D9CA9 /* _LVMAlertAction+Private.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "_LVMAlertAction+Private.m"; sourceTree = "<group>"; };
+		0076B4E820E78778007D9CA9 /* _LVMAlertAction+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "_LVMAlertAction+Private.h"; sourceTree = "<group>"; };
+		0076B4E920E78778007D9CA9 /* _LVMAlertController+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "_LVMAlertController+Private.h"; sourceTree = "<group>"; };
+		0076B4EA20E78778007D9CA9 /* LVMAlertAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVMAlertAction.m; sourceTree = "<group>"; };
+		0076B4EB20E78778007D9CA9 /* LVMAlertAction+DSL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LVMAlertAction+DSL.h"; sourceTree = "<group>"; };
+		0076B4EC20E78778007D9CA9 /* LVMAlertController+Convenient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LVMAlertController+Convenient.m"; sourceTree = "<group>"; };
+		0076B4ED20E78778007D9CA9 /* LVMAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVMAlertController.m; sourceTree = "<group>"; };
+		0076B4EE20E78778007D9CA9 /* LVMAlertController+DSL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LVMAlertController+DSL.m"; sourceTree = "<group>"; };
+		0076B4F020E78778007D9CA9 /* LVMAlertHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVMAlertHeaderView.h; sourceTree = "<group>"; };
+		0076B4F120E78778007D9CA9 /* LVMAlertHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVMAlertHeaderView.m; sourceTree = "<group>"; };
 		7141002772F78B936C928362 /* Pods_LVMAlertHUD.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LVMAlertHUD.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B843D83A1CF95AA2001A5CB9 /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
 		B843D83B1CF95AA2001A5CB9 /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
@@ -103,87 +103,13 @@
 		006C792B209304C50061BCD7 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				006C792C209304C50061BCD7 /* AlertController */,
+				0076B4D120E78778007D9CA9 /* AlertController */,
 				006C7956209304C50061BCD7 /* Toast */,
 				006C7953209304C50061BCD7 /* StatusBarHUD */,
 				006C7950209304C50061BCD7 /* Resource */,
 				006C794D209304C50061BCD7 /* Helper */,
 			);
 			path = Source;
-			sourceTree = "<group>";
-		};
-		006C792C209304C50061BCD7 /* AlertController */ = {
-			isa = PBXGroup;
-			children = (
-				006C7940209304C50061BCD7 /* LVMAlertAction.h */,
-				006C7941209304C50061BCD7 /* LVMAlertAction.m */,
-				006C7946209304C50061BCD7 /* LVMAlertController.h */,
-				006C7947209304C50061BCD7 /* LVMAlertController.m */,
-				006C7942209304C50061BCD7 /* LVMAlertController+Convenient.h */,
-				006C7943209304C50061BCD7 /* LVMAlertController+Convenient.m */,
-				006C793E209304C50061BCD7 /* LVMAlertAction+DSL.h */,
-				006C793F209304C50061BCD7 /* LVMAlertAction+DSL.m */,
-				006C7944209304C50061BCD7 /* LVMAlertController+DSL.h */,
-				006C7945209304C50061BCD7 /* LVMAlertController+DSL.m */,
-				006C792D209304C50061BCD7 /* Animation */,
-				006C7932209304C50061BCD7 /* Cell */,
-				006C7937209304C50061BCD7 /* Configuration */,
-				006C793B209304C50061BCD7 /* Header */,
-				006C7948209304C50061BCD7 /* Private */,
-			);
-			path = AlertController;
-			sourceTree = "<group>";
-		};
-		006C792D209304C50061BCD7 /* Animation */ = {
-			isa = PBXGroup;
-			children = (
-				006C792E209304C50061BCD7 /* LVMAlertPresentationController.h */,
-				006C792F209304C50061BCD7 /* LVMAlertPresentationController.m */,
-				006C7930209304C50061BCD7 /* LVMAlertTransition.h */,
-				006C7931209304C50061BCD7 /* LVMAlertTransition.m */,
-			);
-			path = Animation;
-			sourceTree = "<group>";
-		};
-		006C7932209304C50061BCD7 /* Cell */ = {
-			isa = PBXGroup;
-			children = (
-				006C7933209304C50061BCD7 /* LVMAlertButtonCell.h */,
-				006C7934209304C50061BCD7 /* LVMAlertButtonCell.m */,
-				006C7935209304C50061BCD7 /* LVMAlertCell.h */,
-				006C7936209304C50061BCD7 /* LVMAlertCell.m */,
-			);
-			path = Cell;
-			sourceTree = "<group>";
-		};
-		006C7937209304C50061BCD7 /* Configuration */ = {
-			isa = PBXGroup;
-			children = (
-				006C7938209304C50061BCD7 /* LVMAlertHUDConfigure.h */,
-				006C7939209304C50061BCD7 /* LVMAlertHUDConfigure.m */,
-				006C793A209304C50061BCD7 /* LVMAlertHUDDefinition.h */,
-			);
-			path = Configuration;
-			sourceTree = "<group>";
-		};
-		006C793B209304C50061BCD7 /* Header */ = {
-			isa = PBXGroup;
-			children = (
-				006C793C209304C50061BCD7 /* LVMAlertHeaderView.h */,
-				006C793D209304C50061BCD7 /* LVMAlertHeaderView.m */,
-			);
-			path = Header;
-			sourceTree = "<group>";
-		};
-		006C7948209304C50061BCD7 /* Private */ = {
-			isa = PBXGroup;
-			children = (
-				006C7949209304C50061BCD7 /* _LVMAlertAction+Private.h */,
-				006C794A209304C50061BCD7 /* _LVMAlertAction+Private.m */,
-				006C794B209304C50061BCD7 /* _LVMAlertController+Private.h */,
-				006C794C209304C50061BCD7 /* _LVMAlertController+Private.m */,
-			);
-			path = Private;
 			sourceTree = "<group>";
 		};
 		006C794D209304C50061BCD7 /* Helper */ = {
@@ -220,6 +146,80 @@
 				006C7958209304C50061BCD7 /* LVMToastHUD.m */,
 			);
 			path = Toast;
+			sourceTree = "<group>";
+		};
+		0076B4D120E78778007D9CA9 /* AlertController */ = {
+			isa = PBXGroup;
+			children = (
+				0076B4D920E78778007D9CA9 /* LVMAlertController.h */,
+				0076B4ED20E78778007D9CA9 /* LVMAlertController.m */,
+				0076B4D820E78778007D9CA9 /* LVMAlertAction.h */,
+				0076B4EA20E78778007D9CA9 /* LVMAlertAction.m */,
+				0076B4EB20E78778007D9CA9 /* LVMAlertAction+DSL.h */,
+				0076B4D720E78778007D9CA9 /* LVMAlertAction+DSL.m */,
+				0076B4DF20E78778007D9CA9 /* LVMAlertController+DSL.h */,
+				0076B4EE20E78778007D9CA9 /* LVMAlertController+DSL.m */,
+				0076B4D620E78778007D9CA9 /* LVMAlertController+Convenient.h */,
+				0076B4EC20E78778007D9CA9 /* LVMAlertController+Convenient.m */,
+				0076B4DA20E78778007D9CA9 /* Animation */,
+				0076B4E020E78778007D9CA9 /* Cell */,
+				0076B4E520E78778007D9CA9 /* Private */,
+				0076B4D220E78778007D9CA9 /* Configuration */,
+				0076B4EF20E78778007D9CA9 /* Header */,
+			);
+			path = AlertController;
+			sourceTree = "<group>";
+		};
+		0076B4D220E78778007D9CA9 /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				0076B4D420E78778007D9CA9 /* LVMAlertHUDDefinition.h */,
+				0076B4D520E78778007D9CA9 /* LVMAlertHUDConfigure.h */,
+				0076B4D320E78778007D9CA9 /* LVMAlertHUDConfigure.m */,
+			);
+			path = Configuration;
+			sourceTree = "<group>";
+		};
+		0076B4DA20E78778007D9CA9 /* Animation */ = {
+			isa = PBXGroup;
+			children = (
+				0076B4DD20E78778007D9CA9 /* LVMAlertTransition.h */,
+				0076B4DB20E78778007D9CA9 /* LVMAlertTransition.m */,
+				0076B4DC20E78778007D9CA9 /* LVMAlertPresentationController.h */,
+				0076B4DE20E78778007D9CA9 /* LVMAlertPresentationController.m */,
+			);
+			path = Animation;
+			sourceTree = "<group>";
+		};
+		0076B4E020E78778007D9CA9 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				0076B4E320E78778007D9CA9 /* LVMAlertCell.h */,
+				0076B4E220E78778007D9CA9 /* LVMAlertCell.m */,
+				0076B4E120E78778007D9CA9 /* LVMAlertButtonCell.h */,
+				0076B4E420E78778007D9CA9 /* LVMAlertButtonCell.m */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		0076B4E520E78778007D9CA9 /* Private */ = {
+			isa = PBXGroup;
+			children = (
+				0076B4E820E78778007D9CA9 /* _LVMAlertAction+Private.h */,
+				0076B4E720E78778007D9CA9 /* _LVMAlertAction+Private.m */,
+				0076B4E920E78778007D9CA9 /* _LVMAlertController+Private.h */,
+				0076B4E620E78778007D9CA9 /* _LVMAlertController+Private.m */,
+			);
+			path = Private;
+			sourceTree = "<group>";
+		};
+		0076B4EF20E78778007D9CA9 /* Header */ = {
+			isa = PBXGroup;
+			children = (
+				0076B4F020E78778007D9CA9 /* LVMAlertHeaderView.h */,
+				0076B4F120E78778007D9CA9 /* LVMAlertHeaderView.m */,
+			);
+			path = Header;
 			sourceTree = "<group>";
 		};
 		57B3872E8AACC39AC80D237A /* Frameworks */ = {
@@ -315,6 +315,7 @@
 				TargetAttributes = {
 					B8719F721CF833FE0049FD5B = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = K2VBE95LX6;
 					};
 				};
 			};
@@ -358,26 +359,26 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				006C7960209304C50061BCD7 /* LVMAlertAction.m in Sources */,
-				006C795C209304C50061BCD7 /* LVMAlertCell.m in Sources */,
+				0076B4FA20E78778007D9CA9 /* LVMAlertAction.m in Sources */,
+				0076B4F620E78778007D9CA9 /* LVMAlertCell.m in Sources */,
+				0076B4F720E78778007D9CA9 /* LVMAlertButtonCell.m in Sources */,
 				B843D83C1CF95AA2001A5CB9 /* DetailViewController.m in Sources */,
 				B8719F7B1CF833FE0049FD5B /* AppDelegate.m in Sources */,
 				B8719F911CF834C70049FD5B /* MainViewController.m in Sources */,
-				006C7963209304C50061BCD7 /* LVMAlertController.m in Sources */,
-				006C795E209304C50061BCD7 /* LVMAlertHeaderView.m in Sources */,
+				0076B4F520E78778007D9CA9 /* LVMAlertPresentationController.m in Sources */,
+				0076B4F220E78778007D9CA9 /* LVMAlertHUDConfigure.m in Sources */,
+				0076B4FC20E78778007D9CA9 /* LVMAlertController.m in Sources */,
 				006C796A209304C50061BCD7 /* LVMToastHUD.m in Sources */,
-				006C7961209304C50061BCD7 /* LVMAlertController+Convenient.m in Sources */,
-				006C7965209304C50061BCD7 /* _LVMAlertController+Private.m in Sources */,
 				006C7966209304C50061BCD7 /* UIView+LVMCornerRadius.m in Sources */,
-				006C7959209304C50061BCD7 /* LVMAlertPresentationController.m in Sources */,
-				006C795F209304C50061BCD7 /* LVMAlertAction+DSL.m in Sources */,
+				0076B4FB20E78778007D9CA9 /* LVMAlertController+Convenient.m in Sources */,
+				0076B4F320E78778007D9CA9 /* LVMAlertAction+DSL.m in Sources */,
+				0076B4F820E78778007D9CA9 /* _LVMAlertController+Private.m in Sources */,
+				0076B4FE20E78778007D9CA9 /* LVMAlertHeaderView.m in Sources */,
+				0076B4F920E78778007D9CA9 /* _LVMAlertAction+Private.m in Sources */,
 				006C7969209304C50061BCD7 /* LVMStatusBarHUD.m in Sources */,
-				006C795B209304C50061BCD7 /* LVMAlertButtonCell.m in Sources */,
-				006C7962209304C50061BCD7 /* LVMAlertController+DSL.m in Sources */,
+				0076B4FD20E78778007D9CA9 /* LVMAlertController+DSL.m in Sources */,
 				B8719F781CF833FE0049FD5B /* main.m in Sources */,
-				006C795D209304C50061BCD7 /* LVMAlertHUDConfigure.m in Sources */,
-				006C7964209304C50061BCD7 /* _LVMAlertAction+Private.m in Sources */,
-				006C795A209304C50061BCD7 /* LVMAlertTransition.m in Sources */,
+				0076B4F420E78778007D9CA9 /* LVMAlertTransition.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -491,6 +492,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = K2VBE95LX6;
 				INFOPLIST_FILE = LVMAlertHUD/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -503,6 +505,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = K2VBE95LX6;
 				INFOPLIST_FILE = LVMAlertHUD/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
