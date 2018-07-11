@@ -8,6 +8,8 @@
 	
 
 @import UIKit;
+#import "LVMTransitionProtocol.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 
@@ -29,6 +31,8 @@ typedef NS_ENUM(NSInteger, LVMAlertTransitionType) {
 @end
 
 @interface LVMActionSheetTransition : LVMAlertBaseTransition
+
+@property (nonatomic, weak) id<LVMActionSheetTransitionProtocol> delegate;
 
 @end
 

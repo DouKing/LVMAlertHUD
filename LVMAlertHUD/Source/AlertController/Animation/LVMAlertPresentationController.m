@@ -9,17 +9,14 @@
 
 #import "LVMAlertPresentationController.h"
 
-static inline UIColor *LVMAlertShowBackgroundColor() {
-    return [UIColor colorWithRed:26/255.0 green:25/255.0 blue:30/255.0 alpha:0.4];
-}
-
-static inline UIColor *LVMAlertDismissBackgroundColor() {
-    return [UIColor clearColor];
-}
-
 @implementation LVMBasePresentationController {
     @public
     CGRect _keyboardRect;
+}
+
+- (void)dealloc {
+    [[UIDevice currentDevice] endGeneratingDeviceOrientationNotifications];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (instancetype)initWithPresentedViewController:(UIViewController *)presentedViewController presentingViewController:(UIViewController *)presentingViewController {
@@ -34,47 +31,46 @@ static inline UIColor *LVMAlertDismissBackgroundColor() {
                                                  selector:@selector(_keyboardWillHide:)
                                                      name:UIKeyboardWillHideNotification
                                                    object:nil];
+        [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(_handleDeviceOrientationDidChangeNotification:)
+                                                     name:UIDeviceOrientationDidChangeNotification object:nil];
     }
     return self;
 }
 
 - (void)presentationTransitionWillBegin {
     if (!self.containerView) { return; }
+    self.bgView.alpha = 0;
     [self.containerView addSubview:self.bgView];
+    self.bgView.frame = self.containerView.bounds;
     [self.presentingViewController.transitionCoordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
         [UIView animateWithDuration:0.25 animations:^{
-            self.bgView.backgroundColor = LVMAlertShowBackgroundColor();
+            self.bgView.alpha = 1;
         }];
     } completion:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
     }];
 }
 
-- (void)containerViewWillLayoutSubviews {
-    [super containerViewWillLayoutSubviews];
-    self.bgView.frame = self.containerView.bounds;
-    self.presentedView.frame = self.frameOfPresentedViewInContainerView;
-}
-
 - (void)dismissalTransitionWillBegin {
     [self.presentingViewController.transitionCoordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
         [UIView animateWithDuration:0.25 animations:^{
-            self.bgView.backgroundColor = LVMAlertDismissBackgroundColor();
+            self.bgView.alpha = 0;
         }];
     } completion:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
         [self.bgView removeFromSuperview];
     }];
 }
 
-- (UIView *)presentedView {
-    UIView *v = self.presentedViewController.view;
-    v.layer.cornerRadius = 4;
-    v.clipsToBounds = YES;
-    return v;
+- (void)_handleDeviceOrientationDidChangeNotification:(NSNotification *)note {
+    self.bgView.frame = self.containerView.bounds;
+    self.presentedView.frame = self.frameOfPresentedViewInContainerView;
 }
 
 - (UIView *)bgView {
     if (!_bgView) {
         _bgView = [[UIView alloc] init];
+        _bgView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.4];
     }
     return _bgView;
 }
@@ -82,6 +78,7 @@ static inline UIColor *LVMAlertDismissBackgroundColor() {
 #pragma mark -
 
 - (void)_keyboardWillShow:(NSNotification *)note {
+    if (self.ignoreKeyboardShowing) { return; }
     CGRect keyboardRect = [note.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
     _keyboardRect = keyboardRect;
     [UIView animateWithDuration:[note.userInfo[UIKeyboardAnimationDurationUserInfoKey] floatValue] animations:^{
@@ -90,6 +87,7 @@ static inline UIColor *LVMAlertDismissBackgroundColor() {
 }
 
 - (void)_keyboardWillHide:(NSNotification *)note {
+    if (self.ignoreKeyboardShowing) { return; }
     _keyboardRect = CGRectZero;
     [UIView animateWithDuration:[note.userInfo[UIKeyboardAnimationDurationUserInfoKey] floatValue] animations:^{
         self.presentedView.frame = self.frameOfPresentedViewInContainerView;
@@ -99,6 +97,13 @@ static inline UIColor *LVMAlertDismissBackgroundColor() {
 @end
 
 @implementation LVMAlertPresentationController
+
+- (UIView *)presentedView {
+    UIView *v = self.presentedViewController.view;
+    v.layer.cornerRadius = 4;
+    v.clipsToBounds = YES;
+    return v;
+}
 
 - (CGRect)frameOfPresentedViewInContainerView {
     if (!self.containerView) {
@@ -113,7 +118,7 @@ static inline UIColor *LVMAlertDismissBackgroundColor() {
 
 @end
 
-@interface LVMActionSheetPresentationController ()
+@interface LVMActionSheetPresentationController ()<UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) UITapGestureRecognizer *tapGesture;
 
@@ -140,21 +145,55 @@ static inline UIColor *LVMAlertDismissBackgroundColor() {
         bottom = self.presentingViewController.view.safeAreaInsets.bottom;
     }
     CGSize contentSize = self.presentedViewController.preferredContentSize;
-    CGFloat height = MIN(contentSize.height, CGRectGetHeight(self.containerView.bounds) - _keyboardRect.size.height);
+    CGFloat height = MIN(contentSize.height + bottom, CGRectGetHeight(self.containerView.bounds) - _keyboardRect.size.height);
     return CGRectMake((self.containerView.bounds.size.width - contentSize.width) / 2.0,
-                      (self.containerView.bounds.size.height - height - bottom),
+                      (self.containerView.bounds.size.height - height),
                       contentSize.width, height);
 }
 
+- (UIView *)presentedView {
+    UIView *v = self.presentedViewController.view;
+    return v;
+}
+
 - (void)_dismiss {
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    if ([self.presentationDelegate respondsToSelector:@selector(presentedViewControllerShouldDismiss:from:completion:)]) {
+        [self.presentationDelegate presentedViewControllerShouldDismiss:self.presentedViewController
+                                                                   from:self.presentingViewController
+                                                             completion:nil];
+    } else {
+        [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    }
 }
 
 - (UITapGestureRecognizer *)tapGesture {
     if (!_tapGesture) {
         _tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(_dismiss)];
+        _tapGesture.delegate = self;
     }
     return _tapGesture;
+}
+
+#pragma mark - UIGestureRecognizerDelegate
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    UIView *v = touch.view;
+    if (v != self.bgView) {
+        return NO;
+    }
+    CGFloat maxY;
+    CGFloat contentHeight = self.presentedViewController.preferredContentSize.height;
+    CGFloat totalHeight = self.containerView.bounds.size.height;
+    if (contentHeight > 0 && totalHeight >= contentHeight) {
+        maxY = totalHeight - contentHeight;
+    } else {
+        maxY = 200;
+    }
+    CGPoint point = [touch locationInView:v];
+    if (point.y > maxY) {
+        return NO;
+    }
+    return YES;
 }
 
 @end

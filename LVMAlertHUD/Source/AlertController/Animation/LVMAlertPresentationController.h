@@ -8,10 +8,15 @@
 	
 
 #import <UIKit/UIKit.h>
+#import "LVMPresentationProtocol.h"
+
+//the default width of alert
+extern CGFloat const kLVMAlertControllerAlertWidth;
 
 @interface LVMBasePresentationController : UIPresentationController
 
 @property (nonatomic, strong) UIView *bgView;
+@property (nonatomic, assign) BOOL ignoreKeyboardShowing;
 
 @end
 
@@ -20,6 +25,8 @@
 @end
 
 @interface LVMActionSheetPresentationController : LVMAlertPresentationController
+
+@property (nonatomic, weak) id<LVMPresentationProtocol> presentationDelegate;
 
 @end
 

@@ -20,13 +20,14 @@
 #define HIDDEN_COLOR    [UIColor clearColor]
 
 static CGFloat const kLVMAlertControllerActionHeight = 50.0f;
-static CGFloat const kLVMAlertControllerCornerRadius = 5.0f;
+static CGFloat const kLVMAlertControllerActionSheetHeight = 55.0f;
+//static CGFloat const kLVMAlertControllerCornerRadius = 5.0f;
 static CGFloat const kLVMAlertControllerAnimationDuration = 0.3f;
 static CGFloat const kLVMAlertControllerFastAnimationDuration = 0.2f;
 
-static CGFloat const kLVMAlertControllerCancelInsert = 2.5f;
+static CGFloat const kLVMAlertControllerCancelInsert = 0;
 
-static CGFloat const kLVMAlertControllerAlertWidth = 285.0f;
+CGFloat const kLVMAlertControllerAlertWidth = 285.0f;
 static CGFloat const kLVMAlertControllerAlertContrainerRatio = 0.8;
 static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按钮个数限制
 
@@ -88,6 +89,7 @@ static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按�
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.backgroundColor = [UIColor whiteColor];
     [self _setupSubViews];
 }
 
@@ -97,10 +99,10 @@ static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按�
     CGFloat maxWidth = CGRectGetWidth(self.view.bounds);
     switch (self.preferredStyle) {
         case LVMAlertControllerStyleActionSheet: {
-            CGFloat totalHeight = self.userActions.count * kLVMAlertControllerActionHeight;
+            CGFloat totalHeight = self.userActions.count * kLVMAlertControllerActionSheetHeight;
             totalHeight += [LVMAlertHeaderView heightWithAttributedTitle:self.attributedAlertTitle attributedMessage:self.attributedAlertMessage image:self.alertImage textFields:self.textFields maxWidth:maxWidth];
             if (self.cancelAction) {
-                totalHeight += kLVMAlertControllerActionHeight + kLVMAlertControllerCancelInsert;
+                totalHeight += kLVMAlertControllerActionSheetHeight + kLVMAlertControllerCancelInsert;
             }
             if (totalHeight > maxHeight) { totalHeight = maxHeight; }
             CGRect frame = CGRectMake(0, 0, maxWidth, totalHeight);
@@ -118,14 +120,14 @@ static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按�
         } break;
     }
 
-    CGRect frame = CGRectMake(0, CGRectGetHeight(self.containerView.bounds) - kLVMAlertControllerActionHeight,
-                              CGRectGetWidth(self.containerView.bounds), kLVMAlertControllerActionHeight);
+    CGRect frame = CGRectMake(0, CGRectGetHeight(self.containerView.bounds) - kLVMAlertControllerActionSheetHeight,
+                              CGRectGetWidth(self.containerView.bounds), kLVMAlertControllerActionSheetHeight);
     self.cancelButton.frame = frame;
 
     CGFloat height = CGRectGetHeight(self.containerView.bounds);
     if (self.cancelAction &&
         LVMAlertControllerStyleActionSheet == self.preferredStyle) {
-        height -= kLVMAlertControllerActionHeight + kLVMAlertControllerCancelInsert;
+        height -= kLVMAlertControllerActionSheetHeight + kLVMAlertControllerCancelInsert;
     }
     frame = CGRectMake(0, 0, CGRectGetWidth(self.containerView.bounds), height);
     self.tableView.frame = frame;
@@ -152,10 +154,10 @@ static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按�
 - (void)_setupContainerViewForActionSheet {
     CGFloat maxHeight = CGRectGetHeight(self.view.bounds);
     CGFloat maxWidth = CGRectGetWidth(self.view.bounds);
-    CGFloat totalHeight = self.userActions.count * kLVMAlertControllerActionHeight;
+    CGFloat totalHeight = self.userActions.count * kLVMAlertControllerActionSheetHeight;
     totalHeight += [LVMAlertHeaderView heightWithAttributedTitle:self.attributedAlertTitle attributedMessage:self.attributedAlertMessage image:self.alertImage textFields:self.textFields maxWidth:maxWidth];
     if (self.cancelAction) {
-        totalHeight += kLVMAlertControllerActionHeight + kLVMAlertControllerCancelInsert;
+        totalHeight += kLVMAlertControllerActionSheetHeight + kLVMAlertControllerCancelInsert;
     }
     if (totalHeight > maxHeight) {
         totalHeight = maxHeight;
@@ -188,15 +190,15 @@ static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按�
 
 - (void)_setupCancelButtonForActionSheet {
     if (!self.cancelAction) { return; }
-    CGRect frame = CGRectMake(0, CGRectGetHeight(self.containerView.bounds) - kLVMAlertControllerActionHeight,
-                              CGRectGetWidth(self.containerView.bounds), kLVMAlertControllerActionHeight);
+    CGRect frame = CGRectMake(0, CGRectGetHeight(self.containerView.bounds) - kLVMAlertControllerActionSheetHeight,
+                              CGRectGetWidth(self.containerView.bounds), kLVMAlertControllerActionSheetHeight);
     UIButton *cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     cancelBtn.frame = frame;
     cancelBtn.backgroundColor = [UIColor whiteColor];
     [cancelBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     cancelBtn.titleLabel.font = [UIFont systemFontOfSize:15];
-    [cancelBtn lvm_setCornerRadii:CGSizeMake(kLVMAlertControllerCornerRadius, kLVMAlertControllerCornerRadius)
-               forRoundingCorners:UIRectCornerTopLeft | UIRectCornerTopRight];
+//    [cancelBtn lvm_setCornerRadii:CGSizeMake(kLVMAlertControllerCornerRadius, kLVMAlertControllerCornerRadius)
+//               forRoundingCorners:UIRectCornerTopLeft | UIRectCornerTopRight];
     [cancelBtn setTitle:self.cancelAction.title forState:UIControlStateNormal];
     [cancelBtn addTarget:self action:@selector(_handleCancelButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     _cancelButton = cancelBtn;
@@ -211,18 +213,20 @@ static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按�
     }
     CGRect frame = CGRectMake(0, 0, CGRectGetWidth(self.containerView.bounds), height);
     UITableView *tableView = [[UITableView alloc] initWithFrame:frame style:UITableViewStylePlain];
-    tableView.layer.cornerRadius = kLVMAlertControllerCornerRadius;
     tableView.layer.masksToBounds = YES;
-    tableView.separatorColor = kLVMAlertHUDSeparatorColor;
     tableView.bounces = NO;
+    tableView.showsVerticalScrollIndicator = NO;
     tableView.delegate = self;
     tableView.dataSource = self;
-    tableView.rowHeight = kLVMAlertControllerActionHeight;
-//    tableView.sectionHeaderHeight = [LVMAlertHeaderView heightWithTitle:self.alertTitle message:self.alertMessage image:self.alertImage textFields:self.textFields maxWidth:CGRectGetWidth(self.containerView.bounds)];
     [tableView registerClass:[LVMAlertCell class] forCellReuseIdentifier:kLVMAlertCellId];
     [tableView registerClass:[LVMAlertHeaderView class] forHeaderFooterViewReuseIdentifier:kLVMAlertHeaderViewId];
     if (LVMAlertControllerStyleAlert == self.preferredStyle) {
+        tableView.separatorColor = kLVMAlertHUDSeparatorColor;
+        tableView.rowHeight = kLVMAlertControllerActionHeight;
         [tableView registerClass:[LVMAlertButtonCell class] forCellReuseIdentifier:kLVMAlertButtonCellId];
+    } else {
+        tableView.separatorColor = kLVMActionSheetSeparatorColor;
+        tableView.rowHeight = kLVMAlertControllerActionSheetHeight;
     }
     
     if ([tableView respondsToSelector:@selector(setSeparatorInset:)]) {
@@ -235,8 +239,12 @@ static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按�
     [self.containerView addSubview:tableView];
 
     CGFloat h = [LVMAlertHeaderView heightWithAttributedTitle:self.attributedAlertTitle attributedMessage:self.attributedAlertMessage image:self.alertImage textFields:self.textFields maxWidth:CGRectGetWidth(self.containerView.bounds)];
-    LVMAlertHeaderView *headerView = [[LVMAlertHeaderView alloc] initWithFrame:CGRectMake(0, 0, 0, h)];
+    LVMAlertHeaderView *headerView = [[LVMAlertHeaderView alloc] initWithReuseIdentifier:@"alertHeader"];//initWithFrame:CGRectMake(0, 0, 0, h)
+    headerView.frame = (CGRect){CGPointZero, {0, h}};
     [headerView setupWithAttributedTitle:self.attributedAlertTitle attributedMessage:self.attributedAlertMessage image:self.alertImage textFields:self.textFields];
+    if (LVMAlertControllerStyleActionSheet == self.preferredStyle) {
+        headerView.backgroundView.backgroundColor = LVMAlertRGBColor(0xF5F5F5);
+    }
     tableView.tableHeaderView = headerView;
 }
 
@@ -422,6 +430,7 @@ static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按�
     if (LVMAlertControllerStyleActionSheet == self.preferredStyle) {
         LVMAlertAction *action = self.userActions[indexPath.row];
         LVMAlertCell *cell = [tableView dequeueReusableCellWithIdentifier:kLVMAlertCellId forIndexPath:indexPath];
+        cell.backgroundColor = LVMAlertRGBColor(0xF5F5F5);
         [cell setupWithAlertAction:action];
         return cell;
     }
@@ -437,12 +446,6 @@ static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按�
     [cell setupWithAlertAction:action];
     return cell;
 }
-
-//- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-//    LVMAlertHeaderView *headerView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:kLVMAlertHeaderViewId];
-//    [headerView setupWithTitle:self.alertTitle message:self.alertMessage image:self.alertImage textFields:self.textFields];
-//    return headerView;
-//}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     LVMAlertAction *action = nil;
@@ -484,9 +487,11 @@ static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按�
 - (UIPresentationController *)presentationControllerForPresentedViewController:(UIViewController *)presented presentingViewController:(nullable UIViewController *)presenting sourceViewController:(UIViewController *)source {
     if (LVMAlertControllerStyleAlert == self.preferredStyle) {
         LVMAlertPresentationController *presentationController = [[LVMAlertPresentationController alloc] initWithPresentedViewController:presented presentingViewController:presenting];
+        presentationController.ignoreKeyboardShowing = self.textFields.count <= 0;
         return presentationController;
     }
     LVMActionSheetPresentationController *presentationController = [[LVMActionSheetPresentationController alloc] initWithPresentedViewController:presented presentingViewController:presenting];
+    presentationController.ignoreKeyboardShowing = self.textFields.count <= 0;
     return presentationController;
 }
 

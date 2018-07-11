@@ -7,6 +7,11 @@
 //
 
 #import "LVMToastHUD.h"
+#if __has_include(<POP.h>)
+    #import <POP.h>
+#else
+    #import "POP.h"
+#endif
 
 static NSInteger const kLVMToastHUDTag = 99999;
 static CGFloat const kLVMToastHUDSubViewInsert = 18;
@@ -16,7 +21,7 @@ static CGFloat const kLVMToastHUDHeight = 40.0f;
 static CGFloat const kLVMToastHUDTransformY = 40.0f;
 
 static inline CGFloat LVMToastHUDTransformYFrom(UIView *hud) {
-    CGFloat maxTransfromY = CGRectGetHeight(hud.superview.bounds) - CGRectGetMinY(hud.frame);
+    CGFloat maxTransfromY = floorf(CGRectGetHeight(hud.superview.bounds) - CGRectGetMinY(hud.frame));
     return MIN(maxTransfromY, kLVMToastHUDTransformY);
 }
 
@@ -30,10 +35,11 @@ static inline CGFloat LVMToastHUDTransformYFrom(UIView *hud) {
 
 + (void)showMessage:(NSString *)message toView:(UIView *)view {
     LVMToastHUD *hud = [view viewWithTag:kLVMToastHUDTag];
-    if (hud) {
-        return;
+    if (hud) { return; }
+    if (!view) {
+        //如果没有view，用window代替
+        view = [UIApplication sharedApplication].keyWindow;
     }
-    if (!view) { view = [UIApplication sharedApplication].keyWindow; }
     hud = [self toastHUDWithMessage:message view:view];
     hud.messageLabel.text = message;
     [hud _show];
@@ -43,19 +49,23 @@ static inline CGFloat LVMToastHUDTransformYFrom(UIView *hud) {
     CGFloat maxWidth = CGRectGetWidth(view.bounds);
     CGFloat maxHeight = CGRectGetHeight(view.bounds);
     CGFloat messageWidth = [message boundingRectWithSize:CGSizeMake(maxWidth - kLVMToastHUDSubViewInsert * 2, maxHeight) options:NSStringDrawingUsesFontLeading | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingTruncatesLastVisibleLine attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:kLVMToastHUDMessageFontSize]} context:nil].size.width;
-    CGFloat width = messageWidth + kLVMToastHUDSubViewInsert * 2;
-    LVMToastHUD *hud = [[LVMToastHUD alloc] initWithFrame:CGRectMake(0.5 * (maxWidth - width),
-                                                                     0.6 * (maxHeight - kLVMToastHUDHeight),
-                                                                     width,
-                                                                     kLVMToastHUDHeight)];
-    hud.backgroundColor = [UIColor colorWithRed:26 / 255.0 green:25 / 255.0 blue:30 / 255.0 alpha:1];
-    hud.layer.cornerRadius = 3;
-    hud.layer.masksToBounds = YES;
-    hud.alpha = 0;
-    hud.tag = kLVMToastHUDTag;
-    [view addSubview:hud];
+    CGFloat width = ceilf(messageWidth + kLVMToastHUDSubViewInsert * 2);
+    LVMToastHUD *hud = [view viewWithTag:kLVMToastHUDTag];
+    if (!hud) {
+        hud = [[LVMToastHUD alloc] initWithFrame:CGRectMake(ceilf(0.5 * (maxWidth - width)),
+                                                            ceilf(0.5 * (maxHeight - kLVMToastHUDHeight)),
+                                                            width,
+                                                            kLVMToastHUDHeight)];
+        hud.backgroundColor = [UIColor colorWithRed:26 / 255.0 green:25 / 255.0 blue:30 / 255.0 alpha:1];
+        hud.layer.cornerRadius = 3;
+        hud.layer.masksToBounds = YES;
+        hud.tag = kLVMToastHUDTag;
+        [view addSubview:hud];
+        
+        hud.alpha = 0;
+        hud.center = CGPointMake(hud.center.x, hud.center.y + LVMToastHUDTransformYFrom(hud));
+    }
     
-    hud.transform = CGAffineTransformMakeTranslation(0, LVMToastHUDTransformYFrom(hud));
     return hud;
 }
 
@@ -69,7 +79,7 @@ static inline CGFloat LVMToastHUDTransformYFrom(UIView *hud) {
 
 - (void)_setupSubViews {
     UILabel *label = [[UILabel alloc] initWithFrame:self.bounds];
-    label.font = [UIFont systemFontOfSize:kLVMToastHUDMessageFontSize];
+    label.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:kLVMToastHUDMessageFontSize];
     label.textColor = [UIColor whiteColor];
     label.textAlignment = NSTextAlignmentCenter;
     _messageLabel = label;
@@ -78,30 +88,44 @@ static inline CGFloat LVMToastHUDTransformYFrom(UIView *hud) {
 
 - (void)_show {
     [[self superview] bringSubviewToFront:self];
-    
-    [UIView animateWithDuration:0.2 animations:^{
-        self.transform = CGAffineTransformIdentity;
-        self.alpha = 1;
-    } completion:^(BOOL finished) {
-        [self _dismiss];
+    __weak typeof(self) weakSelf = self;
+
+    POPSpringAnimation *centerAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPViewCenter];
+    centerAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(self.center.x, self.center.y - LVMToastHUDTransformYFrom(self))];
+    centerAnimation.springSpeed = 15;
+    [centerAnimation setCompletionBlock:^(POPAnimation *animation, BOOL finish) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            [strongSelf _dismiss];
+        });
     }];
+    [self pop_addAnimation:centerAnimation forKey:@"centerAnimation"];
+    
+    POPSpringAnimation *alphaAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPViewAlpha];
+    alphaAnimation.toValue = @(1);
+    [self pop_addAnimation:alphaAnimation forKey:@"alphaAnimation"];
 }
 
 - (void)_dismiss {
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [UIView animateWithDuration:0.2 animations:^{
-            self.transform = CGAffineTransformMakeScale(0.8, 0.8);
-        } completion:^(BOOL finished) {
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.05 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [UIView animateWithDuration:0.2 animations:^{
-                    self.alpha = 0;
-                    self.transform = CGAffineTransformTranslate(self.transform, 0, LVMToastHUDTransformYFrom(self));
-                } completion:^(BOOL finished) {
-                    [self removeFromSuperview];
-                }];
-            });
-        }];
-    });
+    POPSpringAnimation *scalAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPViewScaleXY];
+    scalAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(0.8, 0.8)];
+    scalAnimation.springSpeed = 15;
+    [self pop_addAnimation:scalAnimation forKey:@"scalAnimation"];
+    
+    CFTimeInterval beginTime = CACurrentMediaTime() + 0.2;
+    
+    POPSpringAnimation *centerAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPViewCenter];
+    centerAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(self.center.x, self.center.y + LVMToastHUDTransformYFrom(self))];
+    centerAnimation.beginTime = beginTime;
+    [self pop_addAnimation:centerAnimation forKey:@"centerAnimation"];
+    
+    POPSpringAnimation *alphaAnimation = [POPSpringAnimation animationWithPropertyNamed:kPOPViewAlpha];
+    alphaAnimation.toValue = @(0);
+    alphaAnimation.beginTime = beginTime;
+    [alphaAnimation setCompletionBlock:^(POPAnimation *animation, BOOL finish) {
+        [self removeFromSuperview];
+    }];
+    [self pop_addAnimation:alphaAnimation forKey:@"alphaAnimation"];
 }
 
 @end
