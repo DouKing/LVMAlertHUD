@@ -65,7 +65,7 @@ static inline NSAttributedString * LVMAlertHeaderAttributeStringFor(NSAttributed
     if (title) {
         [attributedString appendAttributedString:title];
     }
-    if (message) {
+    if (message.length) {
         if (title.length) {
             NSAttributedString *enter = [[NSAttributedString alloc] initWithString:@"\n" attributes:[message attributesAtIndex:0 effectiveRange:nil]];
             [attributedString appendAttributedString:enter];
