@@ -10,33 +10,26 @@
 #import "DetailViewController.h"
 #import "LVMStatusBarHUD.h"
 #import "LVMToastHUD.h"
-#import "LVMAlertController.h"
-#import "LVMAlertController+Convenient.h"
+#import "LVMAlertHeader.h"
 #import "DetailViewController.h"
 
 typedef NS_ENUM(NSInteger, DataSourceType){
     DataSourceTypeNextPage,
     DataSourceTypeStatusBarHud,
-    DataSourceTypeAlert,
-    DataSourceTypeActionSheet,
     DataSourceTypeToastHud,
-    DataSourceTypeAlertConvenience,
-    DataSourceTypeActionSheetConvenience,
-    DataSourceTypeAlertNoTitle,
-    DataSourceTypeActionSheetNoTitle,
+    DataSourceTypeAlertBase,
+    DataSourceTypeAlertImage,
+    DataSourceTypeAlertTextField,
 
     DataSourceTypeCount
 };
 static NSString * const DataSourceTypeNameMapping[] = {
-    [DataSourceTypeNextPage] = @"下一级",
-    [DataSourceTypeStatusBarHud] = @"导航条提示",
-    [DataSourceTypeAlert] = @"Alert",
-    [DataSourceTypeActionSheet] = @"ActionSheet",
+    [DataSourceTypeNextPage] = @"push a view controller",
+    [DataSourceTypeStatusBarHud] = @"Status bar hud",
     [DataSourceTypeToastHud] = @"Toast",
-    [DataSourceTypeAlertConvenience] = @"Alert Convenience",
-    [DataSourceTypeActionSheetConvenience] = @"ActionSheet Convenience",
-    [DataSourceTypeAlertNoTitle] = @"Alert NO Title",
-    [DataSourceTypeActionSheetNoTitle] = @"ActionSheet NO Title",
+    [DataSourceTypeAlertBase] = @"Alert simple",
+    [DataSourceTypeAlertImage] = @"Alert a image",
+    [DataSourceTypeAlertTextField] = @"Alert text fields",
 };
 
 static NSString * const kMainViewControllerCellId = @"kMainViewControllerCellId";
@@ -44,6 +37,7 @@ static NSString * const kMainViewControllerCellId = @"kMainViewControllerCellId"
 @interface MainViewController ()
 
 @property (nonatomic, strong) NSArray<NSString *> *dataSource;
+@property (nonatomic, assign) LVMAlertControllerStyle alertStyle;
 
 @end
 
@@ -57,6 +51,11 @@ static NSString * const kMainViewControllerCellId = @"kMainViewControllerCellId"
     }
     self.dataSource = [temp copy];
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:kMainViewControllerCellId];
+
+    UISegmentedControl *segmentControl = [[UISegmentedControl alloc] initWithItems:@[@"Action sheet", @"Alert"]];
+    [segmentControl addTarget:self action:@selector(_handleSegmentControlEvent:) forControlEvents:UIControlEventValueChanged];
+    segmentControl.selectedSegmentIndex = 0;
+    self.navigationItem.titleView = segmentControl;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -80,133 +79,71 @@ static NSString * const kMainViewControllerCellId = @"kMainViewControllerCellId"
         case DataSourceTypeStatusBarHud: {
             [self _showStatusBarHUD];
         } break;
-        case DataSourceTypeAlert: {
-            [self _showAlert];
-        } break;
-        case DataSourceTypeActionSheet: {
-            [self _showActionSheet];
-        } break;
         case DataSourceTypeToastHud: {
             [self _showToastHUD];
-            break;
-        }
-        case DataSourceTypeAlertConvenience: {
-            [self _alertConvenience];
         } break;
-        case DataSourceTypeActionSheetConvenience: {
-            [self _actionSheetConvenience];
-        }  break;
-        case DataSourceTypeAlertNoTitle: {
-            [self _alertNOTitle];
+        case DataSourceTypeAlertBase: {
+            [self _showAlert];
         } break;
-        case DataSourceTypeActionSheetNoTitle: {
-            [self _actionSheetNOTitle];
+        case DataSourceTypeAlertImage: {
+            [self _showAlertImage];
+        } break;
+        case DataSourceTypeAlertTextField: {
+            [self _showAlertTextField];
         } break;
         case DataSourceTypeCount: break;
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
+- (void)_handleSegmentControlEvent:(UISegmentedControl *)segmentControl {
+    self.alertStyle = segmentControl.selectedSegmentIndex;
+}
+
 - (void)_showStatusBarHUD {
     NSString *text = [NSString stringWithFormat:@"message %d", arc4random()];
     [LVMStatusBarHUD showWithMessage:text completion:^{
-        NSLog(@"啊啊啊啊啊啊啊啊啊啊");
+        NSLog(@"status bar hud");
     }];
-}
-
-- (void)_showAlert {
-    LVMAlertController *alertController = [LVMAlertController alertControllerWithTitle:@"测试" message:@"这是一个测试信息" image:[UIImage imageNamed:@"secoo_logo"] preferredStyle:LVMAlertControllerStyleAlert];
-    LVMAlertAction *action = [LVMAlertAction actionWithTitle:@"呵呵" style:LVMAlertActionStyleDefault handler:^(LVMAlertAction * _Nonnull action) {
-    }];
-    [alertController addAction:action];
-    action = [LVMAlertAction actionWithTitle:@"嘿嘿" style:LVMAlertActionStyleDefault handler:^(LVMAlertAction * _Nonnull action) {
-        NSLog(@"%@", action.title);
-    }];
-    [alertController addAction:action];
-    action = [LVMAlertAction actionWithTitle:@"哈哈" style:LVMAlertActionStyleDestructive handler:^(LVMAlertAction * _Nonnull action) {
-        NSLog(@"%@", action.title);
-    }];
-    [alertController addAction:action];
-    action = [LVMAlertAction actionWithTitle:@"嘻嘻" style:LVMAlertActionStyleCancel handler:^(LVMAlertAction * _Nonnull action) {
-        NSLog(@"%@", action.title);
-    }];
-    [alertController addAction:action];
-    
-    [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
-       textField.placeholder = @"这是输入框";
-    }];
-    
-    [self presentViewController:alertController animated:YES completion:nil];
-}
-
-- (void)_showActionSheet {
-    LVMAlertController *alertController = [LVMAlertController alertControllerWithTitle:@"测试测试测试测试测试测试测试测试测试测试测试测试测" message:@"这是一个测试信息这是一个测试信息这是一个测试信息这是一个测试信息这是一个测试信息这是一个测试信息这是一个测试信息这是一个测试信息这是一个测试信息" image:[UIImage imageNamed:@"secoo_logo"] preferredStyle:LVMAlertControllerStyleActionSheet];
-    LVMAlertAction *action = [LVMAlertAction actionWithTitle:@"呵呵" style:LVMAlertActionStyleDefault handler:^(LVMAlertAction * _Nonnull action) {
-        NSLog(@"%@", action.title);
-    }];
-    [alertController addAction:action];
-    action = [LVMAlertAction actionWithTitle:@"嘿嘿" style:LVMAlertActionStyleDefault handler:^(LVMAlertAction * _Nonnull action) {
-        NSLog(@"%@", action.title);
-    }];
-    [alertController addAction:action];
-    action = [LVMAlertAction actionWithTitle:@"哈哈" style:LVMAlertActionStyleDestructive handler:^(LVMAlertAction * _Nonnull action) {
-        NSLog(@"%@", action.title);
-    }];
-    [alertController addAction:action];
-    action = [LVMAlertAction actionWithTitle:@"嘻嘻" style:LVMAlertActionStyleCancel handler:^(LVMAlertAction * _Nonnull action) {
-        NSLog(@"%@", action.title);
-    }];
-    [alertController addAction:action];
-    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 - (void)_showToastHUD {
-    [LVMToastHUD showMessage:@"提示信息" toView:self.view];
+    [LVMToastHUD showMessage:@"some message" toView:self.view];
 }
 
-- (void)_alertConvenience {
-    LVMAlertController *alertController = [LVMAlertController alertWithTitle:@"Title" message:@"Message" preferredStyle:LVMAlertControllerStyleAlert actionHandler:^(NSInteger index) {
-        if (0 == index) {
-            NSLog(@"Convenience 确定");
-        } else if (1 == index) {
-            NSLog(@"Convenience 取消");
-        }
-    } cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+- (void)_showAlert {
+    LVMAlertController.alert
+        .useStyle(self.alertStyle)
+        .setupTitle(@"Title")
+        .setupMessage(@"Message")
+        .addActionsWithTitles(@"Ok", nil)
+        .addCancelActionWithTitle(@"Cancel")
+        .actionsHandler(^(NSInteger index, LVMAlertAction * _Nonnull action) {
+            NSLog(@"%ld, %@", index, action.title);
+        })
+        .showOn(self, YES, ^{
+            NSLog(@"show completion");
+        });
+}
+
+- (void)_showAlertImage {
+    LVMAlertController *alertController =
+    [LVMAlertController alertControllerWithTitle:@"Title"
+                                         message:@"Message"
+                                           image:[UIImage imageNamed:@"IMG_1132"]
+                                  preferredStyle:self.alertStyle];
+    LVMAlertAction *cancel = [LVMAlertAction actionWithTitle:@"Cancel" style:LVMAlertActionStyleCancel handler:nil];
+    [alertController addAction:cancel];
     [self presentViewController:alertController animated:YES completion:nil];
 }
 
-- (void)_actionSheetConvenience {
-    LVMAlertController *alertController = [LVMAlertController alertWithTitle:@"Title" message:@"Message" preferredStyle:LVMAlertControllerStyleActionSheet actionHandler:^(NSInteger index) {
-        if (0 == index) {
-            NSLog(@"Convenience 神秘");
-        } else if (1 == index) {
-            NSLog(@"Convenience 男");
-        } else if (2 == index) {
-            NSLog(@"Convenience 女");
-        } else if (3 == index) {
-            NSLog(@"Convenience 取消");
-        }
-    } cancelButtonTitle:@"取消" otherButtonTitles:@"神秘", @"男", @"女", nil];
-    [self presentViewController:alertController animated:YES completion:nil];
-}
-
-- (void)_alertNOTitle {
-    LVMAlertController *alertController = [LVMAlertController alertWithTitle:nil message:@"This is a message" preferredStyle:LVMAlertControllerStyleAlert actionHandler:^(NSInteger index) {
-        if (0 == index) {
-            NSLog(@"Convenience 确定");
-        }
-    } cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-    [self presentViewController:alertController animated:YES completion:nil];
-}
-
-- (void)_actionSheetNOTitle {
-    LVMAlertController *alertController = [LVMAlertController alertWithTitle:nil message:nil preferredStyle:LVMAlertControllerStyleActionSheet actionHandler:^(NSInteger index) {
-        if (0 == index) {
-            NSLog(@"Convenience 啦啦");
-        } else if (1 == index) {
-            NSLog(@"Convenience 取消");
-        }
-    } cancelButtonTitle:@"取消" otherButtonTitles:@"啦啦", nil];
+- (void)_showAlertTextField {
+    LVMAlertController *alertController = LVMAlertController.alert
+                                            .setupTitle(@"Title")
+                                            .addCancelActionWithTitle(@"Cancel");
+    [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+        textField.placeholder = @"This is a text field.";
+    }];
     [self presentViewController:alertController animated:YES completion:nil];
 }
 

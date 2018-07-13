@@ -26,8 +26,6 @@
 		007BE56320F5AD070087B75C /* img_alertHUD_statusBar_warning_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 007BE54F20F5AD070087B75C /* img_alertHUD_statusBar_warning_icon@2x.png */; };
 		007BE56420F5AD070087B75C /* UIView+LVMCornerRadius.m in Sources */ = {isa = PBXBuildFile; fileRef = 007BE55220F5AD070087B75C /* UIView+LVMCornerRadius.m */; };
 		B843D83C1CF95AA2001A5CB9 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B843D83B1CF95AA2001A5CB9 /* DetailViewController.m */; };
-		B86570691CFE9587002AE898 /* secoo_logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B86570671CFE9587002AE898 /* secoo_logo@2x.png */; };
-		B865706A1CFE9587002AE898 /* secoo_logo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B86570681CFE9587002AE898 /* secoo_logo@3x.png */; };
 		B8719F781CF833FE0049FD5B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B8719F771CF833FE0049FD5B /* main.m */; };
 		B8719F7B1CF833FE0049FD5B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B8719F7A1CF833FE0049FD5B /* AppDelegate.m */; };
 		B8719F811CF833FE0049FD5B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B8719F7F1CF833FE0049FD5B /* Main.storyboard */; };
@@ -81,8 +79,6 @@
 		6F2C9B434C75DDE8B68631AA /* Pods-LVMAlertHUD.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LVMAlertHUD.release.xcconfig"; path = "Pods/Target Support Files/Pods-LVMAlertHUD/Pods-LVMAlertHUD.release.xcconfig"; sourceTree = "<group>"; };
 		B843D83A1CF95AA2001A5CB9 /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
 		B843D83B1CF95AA2001A5CB9 /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
-		B86570671CFE9587002AE898 /* secoo_logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "secoo_logo@2x.png"; sourceTree = "<group>"; };
-		B86570681CFE9587002AE898 /* secoo_logo@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "secoo_logo@3x.png"; sourceTree = "<group>"; };
 		B8719F731CF833FE0049FD5B /* LVMAlertHUD.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LVMAlertHUD.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B8719F771CF833FE0049FD5B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		B8719F791CF833FE0049FD5B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -286,8 +282,6 @@
 		B8719F761CF833FE0049FD5B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				B86570671CFE9587002AE898 /* secoo_logo@2x.png */,
-				B86570681CFE9587002AE898 /* secoo_logo@3x.png */,
 				B8719F771CF833FE0049FD5B /* main.m */,
 			);
 			name = "Supporting Files";
@@ -363,12 +357,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B865706A1CFE9587002AE898 /* secoo_logo@3x.png in Resources */,
 				B8719F861CF833FE0049FD5B /* LaunchScreen.storyboard in Resources */,
 				B8719F831CF833FE0049FD5B /* Assets.xcassets in Resources */,
 				B8719F811CF833FE0049FD5B /* Main.storyboard in Resources */,
 				007BE56220F5AD070087B75C /* img_alertHUD_statusBar_warning_icon@3x.png in Resources */,
-				B86570691CFE9587002AE898 /* secoo_logo@2x.png in Resources */,
 				007BE56320F5AD070087B75C /* img_alertHUD_statusBar_warning_icon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
