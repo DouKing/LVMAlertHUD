@@ -138,13 +138,13 @@ static NSString * const kMainViewControllerCellId = @"kMainViewControllerCellId"
 }
 
 - (void)_showAlertTextField {
-    LVMAlertController *alertController = LVMAlertController.alert
-                                            .setupTitle(@"Title")
-                                            .addCancelActionWithTitle(@"Cancel");
-    [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
-        textField.placeholder = @"This is a text field.";
-    }];
-    [self presentViewController:alertController animated:YES completion:nil];
+    LVMAlertController.alert
+        .setupTitle(@"Title")
+        .addCancelActionWithTitle(@"Cancel")
+        .addTextFieldWithCompletion(^(UITextField * _Nonnull textField){
+            textField.placeholder = @"This is a text field.";
+        })
+        .show(nil);
 }
 
 @end

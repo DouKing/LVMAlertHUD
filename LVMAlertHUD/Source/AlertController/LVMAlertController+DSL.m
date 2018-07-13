@@ -62,6 +62,20 @@ FOUNDATION_EXPORT NSAttributedString * LVMAlertMessageAttributedStringFor(NSStri
   };
 }
 
+- (LVMAlertController * _Nonnull (^)(UIImage * _Nonnull))setupImage {
+    return ^LVMAlertController *(UIImage *image) {
+        self.alertImage = image;
+        return self;
+    };
+}
+
+- (LVMAlertController * _Nonnull (^)(void (^ _Nullable)(UITextField * _Nonnull)))addTextFieldWithCompletion {
+    return ^LVMAlertController *(void (^configure)(UITextField *textField)) {
+        [self addTextFieldWithConfigurationHandler:configure];
+        return self;
+    };
+}
+
 - (LVMAlertController *(^)(LVMAlertAction *))addAction {
   return ^LVMAlertController *(LVMAlertAction *action) {
     [self addAction:action];
