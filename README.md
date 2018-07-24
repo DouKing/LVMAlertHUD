@@ -3,38 +3,40 @@
 
 ## LVMAlertController
 
-> 仿系统API弹框
+> An alert control that follows the system's API.
 
 ![](./capture.gif)
 
-- 使用方式
+## Usage
+
+- The basic
 
 ```
 
-LVMAlertController *alertController = [LVMAlertController alertControllerWithTitle:@"测试" message:@"这是一个测试信息" preferredStyle:LVMAlertControllerStyleAlert];
+LVMAlertController *alertController = [LVMAlertController alertControllerWithTitle:@"TITLE" message:@"some message" preferredStyle:LVMAlertControllerStyleAlert];
 
-LVMAlertAction *action = [LVMAlertAction actionWithTitle:@"呵呵" style:LVMAlertActionStyleDefault handler:nil];
+LVMAlertAction *action = [LVMAlertAction actionWithTitle:@"OK" style:LVMAlertActionStyleDefault handler:nil];
 [alertController addAction:action];
 
-action = [LVMAlertAction actionWithTitle:@"嘻嘻" style:LVMAlertActionStyleCancel handler:^(LVMAlertAction * _Nonnull action) {
+action = [LVMAlertAction actionWithTitle:@"Cancel" style:LVMAlertActionStyleCancel handler:^(LVMAlertAction * _Nonnull action) {
     NSLog(@"%@", action.title);
 }];
 [alertController addAction:action];
 
 [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
-   textField.placeholder = @"这是输入框";
+   textField.placeholder = @"A text field placeholder";
 }];
 
 [self presentViewController:alertController animated:YES completion:nil];
 
 ```
 
-- 链式调用
+- support for DSL
 
 ```
 
 LVMAlertController.alert
-	          .setupTitle(@"title")
+	          .setupTitle(@"Title")
 	          .setupMessage(@"message")
 	          .addActionsWithTitles(@"ok", @"later", @"know", nil)
 	          .addCancelActionWithTitle(@"cancel")
@@ -47,19 +49,31 @@ LVMAlertController.alert
 
 ```
 
-## 其他
+## The other UI controls contain
 
-- LVMStatusBarHUD	导航条提示
-- LVMToastHUD		toast提示
+- LVMStatusBarHUD
+- LVMToastHUD
 
-## 使用 CocoaPods 安装
+## Install with CocoaPods
+
+Add the following content to your Podfile.
 
 ```
 pod 'LVMAlertHUD'
+```
 
-或
+OR
 
+```
 pod 'LVMAlertHUD/AlertController' 
 pod 'LVMAlertHUD/StatusBarHUD'
 pod 'LVMAlertHUD/Toast'
 ```
+#### Compatibility
+
+- iOS 8.0+
+- Xcode 9.4
+
+## License
+
+See LICENSE.
