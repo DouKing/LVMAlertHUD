@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		00476E39210EDAEB000F70E6 /* LVMStatusBarHud.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 00476E38210EDAEB000F70E6 /* LVMStatusBarHud.bundle */; };
 		007BE55320F5AD070087B75C /* LVMAlertHUDConfigure.m in Sources */ = {isa = PBXBuildFile; fileRef = 007BE52520F5AD070087B75C /* LVMAlertHUDConfigure.m */; };
 		007BE55420F5AD070087B75C /* LVMAlertAction+DSL.m in Sources */ = {isa = PBXBuildFile; fileRef = 007BE52920F5AD070087B75C /* LVMAlertAction+DSL.m */; };
 		007BE55520F5AD070087B75C /* LVMAlertTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 007BE52D20F5AD070087B75C /* LVMAlertTransition.m */; };
@@ -22,8 +23,6 @@
 		007BE55F20F5AD070087B75C /* LVMAlertHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 007BE54520F5AD070087B75C /* LVMAlertHeaderView.m */; };
 		007BE56020F5AD070087B75C /* LVMToastHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 007BE54820F5AD070087B75C /* LVMToastHUD.m */; };
 		007BE56120F5AD070087B75C /* LVMStatusBarHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 007BE54C20F5AD070087B75C /* LVMStatusBarHUD.m */; };
-		007BE56220F5AD070087B75C /* img_alertHUD_statusBar_warning_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 007BE54E20F5AD070087B75C /* img_alertHUD_statusBar_warning_icon@3x.png */; };
-		007BE56320F5AD070087B75C /* img_alertHUD_statusBar_warning_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 007BE54F20F5AD070087B75C /* img_alertHUD_statusBar_warning_icon@2x.png */; };
 		007BE56420F5AD070087B75C /* UIView+LVMCornerRadius.m in Sources */ = {isa = PBXBuildFile; fileRef = 007BE55220F5AD070087B75C /* UIView+LVMCornerRadius.m */; };
 		B843D83C1CF95AA2001A5CB9 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B843D83B1CF95AA2001A5CB9 /* DetailViewController.m */; };
 		B8719F781CF833FE0049FD5B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B8719F771CF833FE0049FD5B /* main.m */; };
@@ -36,6 +35,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		00476E38210EDAEB000F70E6 /* LVMStatusBarHud.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = LVMStatusBarHud.bundle; sourceTree = "<group>"; };
 		007BE52520F5AD070087B75C /* LVMAlertHUDConfigure.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVMAlertHUDConfigure.m; sourceTree = "<group>"; };
 		007BE52620F5AD070087B75C /* LVMAlertHUDDefinition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVMAlertHUDDefinition.h; sourceTree = "<group>"; };
 		007BE52720F5AD070087B75C /* LVMAlertHUDConfigure.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVMAlertHUDConfigure.h; sourceTree = "<group>"; };
@@ -70,8 +70,6 @@
 		007BE54920F5AD070087B75C /* LVMAlertHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVMAlertHeader.h; sourceTree = "<group>"; };
 		007BE54B20F5AD070087B75C /* LVMStatusBarHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVMStatusBarHUD.h; sourceTree = "<group>"; };
 		007BE54C20F5AD070087B75C /* LVMStatusBarHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVMStatusBarHUD.m; sourceTree = "<group>"; };
-		007BE54E20F5AD070087B75C /* img_alertHUD_statusBar_warning_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "img_alertHUD_statusBar_warning_icon@3x.png"; sourceTree = "<group>"; };
-		007BE54F20F5AD070087B75C /* img_alertHUD_statusBar_warning_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "img_alertHUD_statusBar_warning_icon@2x.png"; sourceTree = "<group>"; };
 		007BE55120F5AD070087B75C /* UIView+LVMCornerRadius.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+LVMCornerRadius.h"; sourceTree = "<group>"; };
 		007BE55220F5AD070087B75C /* UIView+LVMCornerRadius.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+LVMCornerRadius.m"; sourceTree = "<group>"; };
 		435C29BE885E4C6E425123F4 /* libPods-LVMAlertHUD.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LVMAlertHUD.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -213,8 +211,7 @@
 		007BE54D20F5AD070087B75C /* Resource */ = {
 			isa = PBXGroup;
 			children = (
-				007BE54E20F5AD070087B75C /* img_alertHUD_statusBar_warning_icon@3x.png */,
-				007BE54F20F5AD070087B75C /* img_alertHUD_statusBar_warning_icon@2x.png */,
+				00476E38210EDAEB000F70E6 /* LVMStatusBarHud.bundle */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -360,8 +357,7 @@
 				B8719F861CF833FE0049FD5B /* LaunchScreen.storyboard in Resources */,
 				B8719F831CF833FE0049FD5B /* Assets.xcassets in Resources */,
 				B8719F811CF833FE0049FD5B /* Main.storyboard in Resources */,
-				007BE56220F5AD070087B75C /* img_alertHUD_statusBar_warning_icon@3x.png in Resources */,
-				007BE56320F5AD070087B75C /* img_alertHUD_statusBar_warning_icon@2x.png in Resources */,
+				00476E39210EDAEB000F70E6 /* LVMStatusBarHud.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

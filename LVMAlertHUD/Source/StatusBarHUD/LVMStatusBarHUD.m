@@ -171,21 +171,25 @@ static CGFloat const kLVMStatusBarHUDAnimateDuration = 0.3f;
 #pragma mark - Helper
 
 - (UIImage *)_imageWithType:(LVMStatusBarHUDType)type {
+    NSBundle *bundle = [NSBundle bundleWithPath:[[NSBundle bundleForClass:[LVMStatusBarHUD class]]
+                                                 pathForResource:@"LVMStatusBarHud" ofType:@"bundle"]];
+    NSString *piex = [UIScreen mainScreen].scale < 3.0 ? @"@2x" : @"@3x";
+    NSString *name = [NSString stringWithFormat:@"img_alertHUD_statusBar_warning_icon%@", piex];
     switch (type) {
         case LVMStatusBarHUDTypeNone: {
             return nil;
             break;
         }
         case LVMStatusBarHUDTypeWarning: {
-            return [UIImage imageNamed:@"img_alertHUD_statusBar_warning_icon"];
+            return [UIImage imageWithContentsOfFile:[bundle pathForResource:name ofType:@"png"]];
             break;
         }
         case LVMStatusBarHUDTypeError: {
-            return [UIImage imageNamed:@"img_alertHUD_statusBar_warning_icon"];
+            return [UIImage imageWithContentsOfFile:[bundle pathForResource:name ofType:@"png"]];
             break;
         }
         case LVMStatusBarHUDTypeSuccess: {
-            return [UIImage imageNamed:@"img_alertHUD_statusBar_warning_icon"];
+            return [UIImage imageWithContentsOfFile:[bundle pathForResource:name ofType:@"png"]];
             break;
         }
     }
