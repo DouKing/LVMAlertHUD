@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "LVMAlertHUD"
-  s.version      = "2"
+  s.version      = "3"
   s.summary      = "仿系统API弹框"
   s.homepage     = "https://github.com/DouKing/LVMAlertHUD"
   s.license      = "MIT"
@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
   end
 
   s.subspec 'StatusBarHUD' do |ss|
-    ss.source_files = 'LVMAlertHUD/Source/StatusBarHUD/**/*.{h,m}', 'LVMAlertHUD/Source/Resource/*.png'
+    ss.source_files = 'LVMAlertHUD/Source/StatusBarHUD/**/*.{h,m}', 'LVMAlertHUD/Source/Resource/*'
   end
 
   s.subspec 'Toast' do |ss|
