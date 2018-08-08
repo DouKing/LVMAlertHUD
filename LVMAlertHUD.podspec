@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "LVMAlertHUD"
-  s.version      = "3"
+  s.version      = "4"
   s.summary      = "仿系统API弹框"
   s.homepage     = "https://github.com/DouKing/LVMAlertHUD"
   s.license      = "MIT"
