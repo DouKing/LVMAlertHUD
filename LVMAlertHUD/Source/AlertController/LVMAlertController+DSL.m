@@ -11,9 +11,6 @@
 #import "LVMAlertController+DSL.h"
 #import "_LVMAlertController+Private.h"
 
-FOUNDATION_EXPORT NSAttributedString * LVMAlertTitleAttributedStringFor(NSString *title, BOOL strikethroughHeader);
-FOUNDATION_EXPORT NSAttributedString * LVMAlertMessageAttributedStringFor(NSString *message, NSTextAlignment textAlignment);
-
 @implementation LVMAlertController (DSL)
 
 #pragma clang diagnostic push
@@ -37,7 +34,7 @@ FOUNDATION_EXPORT NSAttributedString * LVMAlertMessageAttributedStringFor(NSStri
 - (LVMAlertController *(^)(NSString *))setupTitle {
   return ^LVMAlertController *(NSString *title) {
     self.alertTitle = title;
-    return self.setupAttributedTitle(LVMAlertTitleAttributedStringFor(title, self.strikethroughHeader));
+    return self.setupAttributedTitle(LVMAlertTitleAttributedStringFor(title));
   };
 }
 
@@ -51,7 +48,7 @@ FOUNDATION_EXPORT NSAttributedString * LVMAlertMessageAttributedStringFor(NSStri
 - (LVMAlertController *(^)(NSString *))setupMessage {
   return ^LVMAlertController *(NSString *message) {
     self.alertMessage = message;
-    return self.setupattributedMessage(LVMAlertMessageAttributedStringFor(message, self.textAlignment));
+    return self.setupattributedMessage(LVMAlertMessageAttributedStringFor(message));
   };
 }
 

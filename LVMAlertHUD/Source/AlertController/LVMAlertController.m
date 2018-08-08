@@ -21,7 +21,6 @@
 
 static CGFloat const kLVMAlertControllerActionHeight = 50.0f;
 static CGFloat const kLVMAlertControllerActionSheetHeight = 55.0f;
-//static CGFloat const kLVMAlertControllerCornerRadius = 5.0f;
 static CGFloat const kLVMAlertControllerAnimationDuration = 0.3f;
 static CGFloat const kLVMAlertControllerFastAnimationDuration = 0.2f;
 
@@ -74,10 +73,10 @@ static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按�
         _textAlignment = NSTextAlignmentCenter;
 
         if (_alertTitle) {
-            _attributedAlertTitle = LVMAlertTitleAttributedStringFor(_alertTitle, NO);
+            _attributedAlertTitle = LVMAlertTitleAttributedStringFor(_alertTitle);
         }
         if (_alertMessage) {
-            _attributedAlertMessage = LVMAlertMessageAttributedStringFor(_alertMessage, _textAlignment);
+            _attributedAlertMessage = LVMAlertMessageAttributedStringFor(_alertMessage);
         }
     }
     return self;
@@ -382,14 +381,14 @@ static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按�
 - (void)setStrikethroughHeader:(BOOL)strikethroughHeader {
     _strikethroughHeader = strikethroughHeader;
     if (self.alertTitle) {
-        _attributedAlertTitle = LVMAlertTitleAttributedStringFor(self.alertTitle, strikethroughHeader);
+        _attributedAlertTitle = [LVMAlertTitleAttributedStringFor(self.alertTitle) attributedForStrikethrough:strikethroughHeader];
     }
 }
 
 - (void)setTextAlignment:(NSTextAlignment)textAlignment {
     _textAlignment = textAlignment;
     if (self.alertMessage) {
-        _attributedAlertMessage = LVMAlertMessageAttributedStringFor(self.alertMessage, textAlignment);
+        _attributedAlertMessage = [LVMAlertMessageAttributedStringFor(self.alertMessage) attributedForTextAlignment:textAlignment];
     }
 }
 
@@ -528,12 +527,69 @@ static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按�
 }
 
 - (void)dismissWithCompletion:(void (^)())completion {
-  [self _dismissContainerViewWithCompletion:^{
-    [self dismissViewControllerAnimated:NO completion:^{
-      if (completion) { completion(); }
-    }];
-  }];
+  [self dismissViewControllerAnimated:NO completion:completion];
 }
 
 @end
 
+static CGFloat const kLVMAlertHeaderViewTitleFontSize = 15;
+static CGFloat const kLVMAlertHeaderViewMessageFontSize = 14;
+static CGFloat const kLVMAlertHeaderViewParagraphSpace = 8;
+
+NSAttributedString * LVMAlertTitleAttributedStringFor(NSString *title) {
+    if (!title) { return nil; }
+    NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
+    style.paragraphSpacing = kLVMAlertHeaderViewParagraphSpace;
+    style.alignment = NSTextAlignmentCenter;
+    NSMutableAttributedString *attribute = [[NSMutableAttributedString alloc] initWithString:title];
+    [attribute addAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:kLVMAlertHeaderViewTitleFontSize],
+                               NSForegroundColorAttributeName : LVMAlertRGBColor(0x1a191e),
+                               NSParagraphStyleAttributeName : style,
+                               NSStrikethroughColorAttributeName : LVMAlertRGBColor(0x1a191e)}
+                       range:NSMakeRange(0, attribute.length)];
+    return attribute;
+}
+
+NSAttributedString * LVMAlertMessageAttributedStringFor(NSString *message) {
+    if (!message) { return nil; }
+    NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:message];
+    NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
+    style.paragraphSpacing = kLVMAlertHeaderViewParagraphSpace;
+    style.lineSpacing = 4;
+    style.alignment = NSTextAlignmentCenter;
+    [text addAttributes:@{NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Light" size:kLVMAlertHeaderViewMessageFontSize],
+                          NSParagraphStyleAttributeName : style,
+                          NSForegroundColorAttributeName : LVMAlertRGBColor(0x333333)}
+                  range:NSMakeRange(0, text.length)];
+
+    return text;
+}
+
+@implementation NSAttributedString (LVMAlertController)
+
+- (NSAttributedString *)attributedForStrikethrough:(BOOL)strikethrough {
+    NSMutableAttributedString *attribute = [self mutableCopy];
+    NSDictionary *strikethroughAttributes = @{
+                                              NSStrikethroughStyleAttributeName: strikethrough ? @(NSUnderlineStyleSingle) : @(NSUnderlineStyleNone),
+                                              };
+    if (@available(iOS 10.0, *)) {
+        strikethroughAttributes = @{
+                                    NSStrikethroughStyleAttributeName: strikethrough ? @(NSUnderlineStyleThick) : @(NSUnderlineStyleNone),
+                                    NSBaselineOffsetAttributeName : @(NSUnderlineStyleNone),
+                                    };
+    }
+    [attribute addAttributes:strikethroughAttributes range:NSMakeRange(0, attribute.length)];
+    return attribute;
+}
+
+- (NSAttributedString *)attributedForTextAlignment:(NSTextAlignment)textAlignment {
+    NSMutableAttributedString *text = [self mutableCopy];
+    NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
+    style.paragraphSpacing = kLVMAlertHeaderViewParagraphSpace;
+    style.lineSpacing = 4;
+    style.alignment = textAlignment;
+    [text addAttribute:NSParagraphStyleAttributeName value:style range:NSMakeRange(0, text.length)];
+    return text;
+}
+
+@end

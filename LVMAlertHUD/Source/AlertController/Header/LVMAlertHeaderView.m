@@ -13,49 +13,7 @@ NSString * const kLVMAlertHeaderViewId = @"kLVMAlertHeaderViewId";
 
 static CGFloat const kLVMAlertHeaderViewTextFieldHeight = 35;
 static CGFloat const kLVMAlertHeaderViewVerticalInsert = 10;
-static CGFloat const kLVMAlertHeaderViewTitleFontSize = 15;
-static CGFloat const kLVMAlertHeaderViewMessageFontSize = 14;
-static CGFloat const kLVMAlertHeaderViewParagraphSpace = 8;
 static CGFloat const kLVMAlertHeaderViewContentInsert  = 26;
-
-NSAttributedString * LVMAlertTitleAttributedStringFor(NSString *title, BOOL strikethroughHeader) {
-    if (!title) { return nil; }
-    NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
-    style.paragraphSpacing = kLVMAlertHeaderViewParagraphSpace;
-    style.alignment = NSTextAlignmentCenter;
-    NSMutableAttributedString *attribute = [[NSMutableAttributedString alloc] initWithString:title];
-    [attribute addAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:kLVMAlertHeaderViewTitleFontSize],
-                               NSForegroundColorAttributeName : LVMAlertRGBColor(0x1a191e),
-                               NSParagraphStyleAttributeName : style,
-                               NSStrikethroughColorAttributeName : LVMAlertRGBColor(0x1a191e)}
-                       range:NSMakeRange(0, attribute.length)];
-
-    NSDictionary *strikethrough = @{
-                                    NSStrikethroughStyleAttributeName: strikethroughHeader ? @(NSUnderlineStyleSingle) : @(NSUnderlineStyleNone),
-                                    };
-    if (@available(iOS 10.0, *)) {
-        strikethrough = @{
-                          NSStrikethroughStyleAttributeName: strikethroughHeader ? @(NSUnderlineStyleThick) : @(NSUnderlineStyleNone),
-                          NSBaselineOffsetAttributeName : @(NSUnderlineStyleNone),
-                          };
-    }
-    [attribute addAttributes:strikethrough range:NSMakeRange(0, attribute.length)];
-
-    return attribute;
-}
-
-NSAttributedString * LVMAlertMessageAttributedStringFor(NSString *message, NSTextAlignment textAlignment) {
-    NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:message];
-    NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
-    style.paragraphSpacing = kLVMAlertHeaderViewParagraphSpace;
-    style.lineSpacing = 4;
-    style.alignment = textAlignment;
-    [text addAttributes:@{NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Light" size:kLVMAlertHeaderViewMessageFontSize],
-                          NSParagraphStyleAttributeName : style,
-                          NSForegroundColorAttributeName : LVMAlertRGBColor(0x333333)}
-                  range:NSMakeRange(0, text.length)];
-    return text;
-}
 
 static inline NSAttributedString * LVMAlertHeaderAttributeStringFor(NSAttributedString *title, NSAttributedString *message) {
     if (!title && !message) {
@@ -82,12 +40,6 @@ static inline CGFloat LVMAttributeStringHeightFor(NSAttributedString *attributeS
                                                            NSStringDrawingTruncatesLastVisibleLine
                                                    context:nil].size.height;
     return ceilf(height);
-}
-
-static inline NSAttributedString * LVMAlertHeaderViewAttributeStringFor(NSString *title, NSString *message, BOOL strikethroughHeader, NSTextAlignment textAlignment) {
-    NSAttributedString *titleAttributed = LVMAlertTitleAttributedStringFor(title, strikethroughHeader);
-    NSAttributedString *messageAttributed = LVMAlertMessageAttributedStringFor(message, textAlignment);
-    return LVMAlertHeaderAttributeStringFor(titleAttributed, messageAttributed);
 }
 
 @interface LVMAlertHeaderView ()
@@ -117,14 +69,13 @@ static inline NSAttributedString * LVMAlertHeaderViewAttributeStringFor(NSString
                           textFields:(NSArray<UITextField *> *)textFields
                             maxWidth:(CGFloat)maxWidth {
     CGFloat maxHeight = CGRectGetHeight([UIScreen mainScreen].bounds);
-    CGSize maxSize = CGSizeMake(maxWidth -
-                                kLVMAlertHeaderViewContentInsert * 2,
-                                maxHeight);
+    maxWidth = maxWidth - kLVMAlertHeaderViewContentInsert * 2;
+    CGSize maxSize = CGSizeMake(maxWidth, maxHeight);
     CGFloat totalHeight = 0;
     NSAttributedString *attributeString = LVMAlertHeaderAttributeStringFor(attributedTitle, attributedMessage);
     BOOL has = NO;
     if (image) {
-        totalHeight += image.size.height;
+        totalHeight += image.size.height / image.size.width * maxWidth;
         has = YES;
     }
     if (attributeString.length) {
@@ -160,18 +111,17 @@ static inline NSAttributedString * LVMAlertHeaderViewAttributeStringFor(NSString
     [super layoutSubviews];
     CGFloat maxWidth = CGRectGetWidth(self.contentView.bounds);
     CGFloat maxHeight = CGRectGetHeight(self.contentView.bounds);
-    CGFloat height = ceilf(self.imageView.image.size.height);
-    CGRect frame = CGRectMake(kLVMAlertHeaderViewContentInsert, kLVMAlertHeaderViewContentInsert,
-                              maxWidth - kLVMAlertHeaderViewContentInsert * 2, height);
+    CGFloat contentWidth = maxWidth - kLVMAlertHeaderViewContentInsert * 2;
+    UIImage *image = self.imageView.image;
+    CGFloat height = image ? image.size.height / image.size.width * contentWidth : 0;
+    CGRect frame = CGRectMake(kLVMAlertHeaderViewContentInsert, kLVMAlertHeaderViewContentInsert, contentWidth, height);
     self.imageView.frame = frame;
     UIView *lastView = self.imageView;
     
     if (CGRectGetHeight(lastView.frame) > 0) {
         frame.origin.y = CGRectGetMaxY(lastView.frame) + kLVMAlertHeaderViewVerticalInsert;
     }
-    frame.size.height = LVMAttributeStringHeightFor(self.titleLabel.attributedText,
-                                                    CGSizeMake(maxWidth - kLVMAlertHeaderViewContentInsert * 2,
-                                                               maxHeight));
+    frame.size.height = LVMAttributeStringHeightFor(self.titleLabel.attributedText, CGSizeMake(contentWidth, maxHeight));
     self.titleLabel.frame = frame;
     lastView = self.titleLabel;
     
@@ -196,7 +146,7 @@ static inline NSAttributedString * LVMAlertHeaderViewAttributeStringFor(NSString
     [self.contentView addSubview:label];
     
     UIImageView *imageView = [[UIImageView alloc] init];
-    imageView.contentMode = UIViewContentModeCenter;
+    imageView.contentMode = UIViewContentModeScaleAspectFit;
     imageView.clipsToBounds = YES;
     _imageView = imageView;
     [self.contentView addSubview:imageView];
@@ -222,46 +172,3 @@ static inline NSAttributedString * LVMAlertHeaderViewAttributeStringFor(NSString
 }
 
 @end
-
-@implementation LVMAlertHeaderView (Deprecated)
-
-- (void)setupWithTitle:(NSString *)title message:(NSString *)message image:(UIImage *)image textFields:(NSArray<UITextField *> *)textFields textAlignment:(NSTextAlignment)textAlignment {
-    self.textFields = textFields;
-    NSAttributedString *attributeString = LVMAlertHeaderViewAttributeStringFor(title, message, self.strikethroughHeader, textAlignment);
-    self.titleLabel.attributedText = attributeString;
-    self.imageView.image = image;
-    [self _removeTextFields];
-    [self _addTextFields:textFields];
-}
-
-+ (CGFloat)heightWithTitle:(NSString *)title message:(NSString *)message image:(UIImage *)image textFields:(NSArray<UITextField *> *)textFields maxWidth:(CGFloat)maxWidth textAlignment:(NSTextAlignment)textAlignment {
-    CGFloat maxHeight = CGRectGetHeight([UIScreen mainScreen].bounds);
-    CGSize maxSize = CGSizeMake(maxWidth -
-                                kLVMAlertHeaderViewContentInsert * 2,
-                                maxHeight);
-    CGFloat totalHeight = 0;
-    NSAttributedString *attributeString = LVMAlertHeaderViewAttributeStringFor(title, message, NO, textAlignment);
-    BOOL has = NO;
-    if (image) {
-        totalHeight += image.size.height;
-        has = YES;
-    }
-    if (attributeString.length) {
-        if (has) { totalHeight += kLVMAlertHeaderViewVerticalInsert; }
-        has = YES;
-        totalHeight += LVMAttributeStringHeightFor(attributeString, maxSize);
-    }
-    if (textFields.count) {
-        if (has) { totalHeight += kLVMAlertHeaderViewVerticalInsert; }
-        has = YES;
-        totalHeight += textFields.count * kLVMAlertHeaderViewTextFieldHeight;
-        totalHeight += (textFields.count - 1) * kLVMAlertHeaderViewVerticalInsert;
-    }
-    if (has) {
-        totalHeight += kLVMAlertHeaderViewContentInsert * 2;
-    }
-    return ceilf(totalHeight);
-}
-
-@end
-

@@ -65,5 +65,14 @@ typedef NS_ENUM(NSInteger, LVMAlertControllerStyle) {
 
 @end
 
+FOUNDATION_EXPORT NSAttributedString * LVMAlertTitleAttributedStringFor(NSString *title);
+FOUNDATION_EXPORT NSAttributedString * LVMAlertMessageAttributedStringFor(NSString *message);
+
+@interface NSAttributedString (LVMAlertController)
+
+- (NSAttributedString *)attributedForStrikethrough:(BOOL)strikethrough;
+- (NSAttributedString *)attributedForTextAlignment:(NSTextAlignment)textAlignment;
+
+@end
 
 NS_ASSUME_NONNULL_END
