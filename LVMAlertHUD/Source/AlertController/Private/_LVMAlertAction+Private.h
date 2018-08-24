@@ -11,12 +11,14 @@
 #import "LVMAlertAction.h"
 
 NS_ASSUME_NONNULL_BEGIN
-
+@class LVMAlertCell, UIButton;
 
 @interface LVMAlertAction ()
 @property (nullable, nonatomic) NSString *title;
 @property (nonatomic, nullable) LVMAlertActionHandler actionHandler;
 @property (nonatomic) LVMAlertActionStyle style;
+@property (nullable, nonatomic, weak) LVMAlertCell *associatedCell;
+@property (nullable, nonatomic, weak) UIButton *associatedButton;
 @end
 
 

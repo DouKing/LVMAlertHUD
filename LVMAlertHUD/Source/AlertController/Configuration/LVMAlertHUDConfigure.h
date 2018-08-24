@@ -13,5 +13,8 @@
 FOUNDATION_EXPORT UIColor * LVMAlertActionColorWithActionStytle(LVMAlertActionStyle style);
 FOUNDATION_EXPORT UIFont  * LVMAlertActionFontWithActionStytle(LVMAlertActionStyle style);
 
+FOUNDATION_EXPORT UIColor * LVMAlertActionColorWithAction(LVMAlertAction *action);
+FOUNDATION_EXPORT UIFont  * LVMAlertActionFontWithAction(LVMAlertAction *action);
+
 @interface LVMAlertHUDConfigure : NSObject
 @end

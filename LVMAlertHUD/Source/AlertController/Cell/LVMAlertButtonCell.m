@@ -7,7 +7,7 @@
 //
 
 #import "LVMAlertButtonCell.h"
-#import "LVMAlertAction.h"
+#import "_LVMAlertAction+Private.h"
 #import "LVMAlertHUDDefinition.h"
 #import "LVMAlertHUDConfigure.h"
 
@@ -59,6 +59,7 @@ static NSInteger const kLVMAlertButtonCellButtonBaseTag = 555555;
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
         btn.frame = frame;
         btn.backgroundColor = [UIColor whiteColor];
+        btn.enabled = action.enabled;
         btn.tag = kLVMAlertButtonCellButtonBaseTag + i;
         btn.titleLabel.font = LVMAlertActionFontWithActionStytle(action.style);
         [btn setTitleColor:[self _textColorWithAlertAction:action] forState:UIControlStateNormal];
@@ -70,6 +71,7 @@ static NSInteger const kLVMAlertButtonCellButtonBaseTag = 555555;
         [btn addTarget:self action:@selector(_handleTouchCancel:) forControlEvents:UIControlEventTouchCancel];
         [btn addTarget:self action:@selector(_handleTouchCancel:) forControlEvents:UIControlEventTouchDragExit];
         [self.contentView addSubview:btn];
+        action.associatedButton = btn;
         if (0 == i) { continue; }
         frame = CGRectMake(0, 0, kLVMSingleLineWidth, height);
         UIView *line = [[UIView alloc] initWithFrame:frame];
@@ -79,7 +81,7 @@ static NSInteger const kLVMAlertButtonCellButtonBaseTag = 555555;
 }
 
 - (UIColor *)_textColorWithAlertAction:(LVMAlertAction *)action {
-    return LVMAlertActionColorWithActionStytle(action.style);
+    return LVMAlertActionColorWithAction(action);
 }
 
 - (void)_handleTouchSelect:(UIButton *)sender {

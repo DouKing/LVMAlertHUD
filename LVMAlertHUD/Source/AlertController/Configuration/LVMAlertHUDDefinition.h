@@ -19,6 +19,6 @@
 #define kLVMSingleLineWidth                          (1.f / [UIScreen mainScreen].scale)
 #define kLVMAlertHUDSeparatorColor                   LVMAlertRGBColor(0xE1E1E1)
 #define kLVMActionSheetSeparatorColor                LVMAlertRGBColor(0xE1E1E1)
-#define kLVMAlertButtonSelectedColor                 LVMAlertRGBColor(0xF5F5F5)
+#define kLVMAlertButtonSelectedColor                 LVMAlertRGBColor(0xEEEEEE)
 
 #endif /* LVMAlertHUDDefinition_h */

@@ -8,6 +8,9 @@
 
 #import "LVMAlertAction.h"
 #import "_LVMAlertAction+Private.h"
+#import "LVMAlertHUDConfigure.h"
+#import "LVMAlertCell.h"
+@import UIKit;
 
 @implementation LVMAlertAction
 
@@ -21,6 +24,7 @@
         _style = style;
         _title = [title copy];
         _actionHandler = [handler copy];
+        _enabled = YES;
     }
     return self;
 }
@@ -28,6 +32,16 @@
 - (id)copyWithZone:(NSZone *)zone {
     LVMAlertAction *action = [LVMAlertAction actionWithTitle:self.title style:self.style handler:self.actionHandler];
     return action;
+}
+
+- (void)setEnabled:(BOOL)enabled {
+    if (_enabled == enabled) { return; }
+    [self willChangeValueForKey:@"enabled"];
+    _enabled = enabled;
+    self.associatedButton.enabled = enabled;
+    [self.associatedButton setTitleColor:LVMAlertActionColorWithAction(self) forState:UIControlStateNormal];
+    [self.associatedCell _changeTextColorWithAlertAction:self];
+    [self didChangeValueForKey:@"enabled"];
 }
 
 @end

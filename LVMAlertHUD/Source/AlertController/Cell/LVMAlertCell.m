@@ -10,6 +10,7 @@
 #import "LVMAlertAction.h"
 #import "LVMAlertHUDDefinition.h"
 #import "LVMAlertHUDConfigure.h"
+#import "_LVMAlertAction+Private.h"
 
 NSString * const kLVMAlertCellId = @"kLVMAlertCellId";
 
@@ -34,13 +35,15 @@ NSString * const kLVMAlertCellId = @"kLVMAlertCellId";
 }
 
 - (void)setupWithAlertAction:(LVMAlertAction *)action {
+    action.associatedCell = self;
     self.textLabel.text = action.title;
     [self _changeTextColorWithAlertAction:action];
 }
 
 - (void)_changeTextColorWithAlertAction:(LVMAlertAction *)action {
-    self.textLabel.textColor = LVMAlertActionColorWithActionStytle(action.style);
-    self.textLabel.font = LVMAlertActionFontWithActionStytle(action.style);
+    self.textLabel.textColor = LVMAlertActionColorWithAction(action);
+    self.textLabel.font = LVMAlertActionFontWithAction(action);
+    self.userInteractionEnabled = action.isEnabled;
 }
 
 @end

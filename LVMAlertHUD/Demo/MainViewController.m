@@ -112,11 +112,14 @@ static NSString * const kMainViewControllerCellId = @"kMainViewControllerCellId"
 }
 
 - (void)_showAlert {
+    LVMAlertAction *destructive = LVMAlertAction.action.setupTitle(@"Destructive").useStyle(LVMAlertActionStyleDestructive);
+    LVMAlertAction *ok = LVMAlertAction.action.setupTitle(@"OK").setupEnable(NO);
     LVMAlertController.alert
         .useStyle(self.alertStyle)
         .setupTitle(@"Title")
         .setupMessage(@"Message")
-        .addActionsWithTitles(@"Ok", nil)
+        .addAction(destructive)
+        .addAction(ok)
         .addCancelActionWithTitle(@"Cancel")
         .actionsHandler(^(NSInteger index, LVMAlertAction * _Nonnull action) {
             NSLog(@"%ld, %@", index, action.title);
@@ -124,6 +127,10 @@ static NSString * const kMainViewControllerCellId = @"kMainViewControllerCellId"
         .showOn(self, YES, ^{
             NSLog(@"show completion");
         });
+
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        ok.enabled = YES;
+    });
 }
 
 - (void)_showAlertImage {

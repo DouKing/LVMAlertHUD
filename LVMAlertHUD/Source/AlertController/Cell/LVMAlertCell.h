@@ -17,3 +17,7 @@ extern NSString * const kLVMAlertCellId;
 - (void)setupWithAlertAction:(LVMAlertAction *)action;
 
 @end
+
+@interface LVMAlertCell (Private)
+- (void)_changeTextColorWithAlertAction:(LVMAlertAction *)action;
+@end

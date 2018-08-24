@@ -12,6 +12,7 @@
 #define LVMAlertHeader_h
 
 #import "LVMAlertController+DSL.h"
+#import "LVMAlertAction+DSL.h"
 #import "LVMAlertController+Convenient.h"
 
 #endif /* LVMAlertHeader_h */

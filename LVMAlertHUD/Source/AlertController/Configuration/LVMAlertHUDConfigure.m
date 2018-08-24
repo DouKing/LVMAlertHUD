@@ -47,6 +47,17 @@ UIFont  * LVMAlertActionFontWithActionStytle(LVMAlertActionStyle style) {
     }
 }
 
+UIColor * LVMAlertActionColorWithAction(LVMAlertAction *action) {
+    if (!action.isEnabled) {
+        return LVMAlertRGBColor(0xBBBBBB);
+    }
+    return LVMAlertActionColorWithActionStytle(action.style);
+}
+
+UIFont  * LVMAlertActionFontWithAction(LVMAlertAction *action) {
+    return LVMAlertActionFontWithActionStytle(action.style);
+}
+
 @implementation LVMAlertHUDConfigure
 
 @end
