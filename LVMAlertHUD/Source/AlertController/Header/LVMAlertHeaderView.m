@@ -48,6 +48,8 @@ static inline CGFloat LVMAttributeStringHeightFor(NSAttributedString *attributeS
 @property (nonatomic, weak) UIImageView *imageView;
 @property (nonatomic, weak) UIView *lineView;
 @property (nonatomic, strong) NSArray<UITextField *> *textFields;
+@property (nonatomic, weak) UIView *customView;
+@property (nullable, nonatomic, weak) UIViewController *contentVC;
 
 @end
 
@@ -67,6 +69,7 @@ static inline CGFloat LVMAttributeStringHeightFor(NSAttributedString *attributeS
                    attributedMessage:(NSAttributedString *)attributedMessage
                                image:(UIImage *)image
                           textFields:(NSArray<UITextField *> *)textFields
+               contentViewController:(UIViewController *)contentVC
                             maxWidth:(CGFloat)maxWidth {
     CGFloat maxHeight = CGRectGetHeight([UIScreen mainScreen].bounds);
     maxWidth = maxWidth - kLVMAlertHeaderViewContentInsert * 2;
@@ -89,6 +92,11 @@ static inline CGFloat LVMAttributeStringHeightFor(NSAttributedString *attributeS
         totalHeight += textFields.count * kLVMAlertHeaderViewTextFieldHeight;
         totalHeight += (textFields.count - 1) * kLVMAlertHeaderViewVerticalInsert;
     }
+    if (contentVC) {
+        if (has) { totalHeight += kLVMAlertHeaderViewVerticalInsert; }
+        has = YES;
+        totalHeight += contentVC.preferredContentSize.height;
+    }
     if (has) {
         totalHeight += kLVMAlertHeaderViewContentInsert * 2;
     }
@@ -98,13 +106,22 @@ static inline CGFloat LVMAttributeStringHeightFor(NSAttributedString *attributeS
 - (void)setupWithAttributedTitle:(NSAttributedString *)attributedTitle
                attributedMessage:(NSAttributedString *)attributedMessage
                            image:(UIImage *)image
-                      textFields:(NSArray<UITextField *> *)textFields {
+                      textFields:(NSArray<UITextField *> *)textFields
+           contentViewController:(UIViewController *)contentVC {
+    self.contentVC = contentVC;
     self.textFields = textFields;
     NSAttributedString *attributeString = LVMAlertHeaderAttributeStringFor(attributedTitle, attributedMessage);
     self.titleLabel.attributedText = attributeString;
     self.imageView.image = image;
     [self _removeTextFields];
     [self _addTextFields:textFields];
+
+    [self.customView.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [obj removeFromSuperview];
+    }];
+    if (contentVC) {
+        [self.customView addSubview:contentVC.view];
+    }
 }
 
 - (void)layoutSubviews {
@@ -134,7 +151,14 @@ static inline CGFloat LVMAttributeStringHeightFor(NSAttributedString *attributeS
         textField.frame = frame;
         lastView = textField;
     }
-    
+
+    if (_contentVC && CGRectGetHeight(lastView.frame) > 0) {
+        frame.origin.y = CGRectGetMaxY(lastView.frame) + kLVMAlertHeaderViewVerticalInsert;
+    }
+    frame.size.height = _contentVC.preferredContentSize.height;
+    self.customView.frame = frame;
+    self.contentVC.view.frame = self.customView.bounds;
+
     frame = CGRectMake(0, maxHeight - kLVMSingleLineWidth, maxWidth, kLVMSingleLineWidth);
     self.lineView.frame = frame;
 }
@@ -150,6 +174,10 @@ static inline CGFloat LVMAttributeStringHeightFor(NSAttributedString *attributeS
     imageView.clipsToBounds = YES;
     _imageView = imageView;
     [self.contentView addSubview:imageView];
+
+    UIView *customView = [[UIView alloc] init];
+    _customView = customView;
+    [self.contentView addSubview:customView];
     
     UIView *lineView = [[UIView alloc] init];
     lineView.backgroundColor = kLVMAlertHUDSeparatorColor;

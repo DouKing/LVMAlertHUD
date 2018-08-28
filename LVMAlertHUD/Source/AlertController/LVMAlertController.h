@@ -32,6 +32,8 @@ typedef NS_ENUM(NSInteger, LVMAlertControllerStyle) {
 - (void)addAction:(LVMAlertAction *)action;
 @property (nonatomic, readonly) NSArray<LVMAlertAction *> *actions;
 
+@property (nullable, nonatomic, strong) UIViewController *contentViewController;
+
 - (void)addTextFieldWithConfigurationHandler:(void (^ __nullable)(UITextField *textField))configurationHandler;
 @property (nullable, nonatomic, readonly) NSArray<UITextField *> *textFields;
 
@@ -48,20 +50,6 @@ typedef NS_ENUM(NSInteger, LVMAlertControllerStyle) {
 
 @property (nonatomic, assign) BOOL strikethroughHeader;
 @property (nonatomic, assign) NSTextAlignment textAlignment;
-
-@end
-
-@interface LVMAlertController (Deprecated)
-
-/// if presenting vc is nil, use the top vc
-- (void)presentOn:(nullable UIViewController *)presentingVC withCompletion:(void (^ __nullable)())completion
-        API_DEPRECATED("Use UIViewController's -presentViewController:animated: completion: instead", ios(2.0,2.0));
-
-- (void)showWithCompletion:(void (^ __nullable)())completion
-        API_DEPRECATED("Use UIViewController's -presentViewController:animated:completion: instead", ios(2.0,2.0));
-
-- (void)dismissWithCompletion:(void (^ __nullable)())completion
-        API_DEPRECATED("Use UIViewController's -dismissViewControllerAnimated:completion: instead", ios(2.0,2.0));
 
 @end
 

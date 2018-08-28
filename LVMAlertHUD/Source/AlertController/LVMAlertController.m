@@ -21,13 +21,10 @@
 
 static CGFloat const kLVMAlertControllerActionHeight = 50.0f;
 static CGFloat const kLVMAlertControllerActionSheetHeight = 55.0f;
-static CGFloat const kLVMAlertControllerAnimationDuration = 0.3f;
-static CGFloat const kLVMAlertControllerFastAnimationDuration = 0.2f;
 
 static CGFloat const kLVMAlertControllerCancelInsert = 0;
 
 CGFloat const kLVMAlertControllerAlertWidth = 285.0f;
-static CGFloat const kLVMAlertControllerAlertContrainerRatio = 0.8;
 static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按钮个数限制
 
 @interface LVMAlertController ()<UITableViewDelegate, UITableViewDataSource, LVMAlertButtonCellDelegate, UITextFieldDelegate, UIViewControllerTransitioningDelegate>
@@ -99,7 +96,7 @@ static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按�
     switch (self.preferredStyle) {
         case LVMAlertControllerStyleActionSheet: {
             CGFloat totalHeight = self.userActions.count * kLVMAlertControllerActionSheetHeight;
-            totalHeight += [LVMAlertHeaderView heightWithAttributedTitle:self.attributedAlertTitle attributedMessage:self.attributedAlertMessage image:self.alertImage textFields:self.textFields maxWidth:maxWidth];
+            totalHeight += [LVMAlertHeaderView heightWithAttributedTitle:self.attributedAlertTitle attributedMessage:self.attributedAlertMessage image:self.alertImage textFields:self.textFields contentViewController:self.contentViewController maxWidth:maxWidth];
             if (self.cancelAction) {
                 totalHeight += kLVMAlertControllerActionSheetHeight + kLVMAlertControllerCancelInsert;
             }
@@ -112,7 +109,7 @@ static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按�
             CGFloat count = self.actions.count;
             if (kLVMAlertControllerAlertTiledLimit == count) { count = 1; }
             CGFloat totalHeight = count * kLVMAlertControllerActionHeight;
-            totalHeight += [LVMAlertHeaderView heightWithAttributedTitle:self.attributedAlertTitle attributedMessage:self.attributedAlertMessage image:self.alertImage textFields:self.textFields maxWidth:kLVMAlertControllerAlertWidth];
+            totalHeight += [LVMAlertHeaderView heightWithAttributedTitle:self.attributedAlertTitle attributedMessage:self.attributedAlertMessage image:self.alertImage textFields:self.textFields contentViewController:self.contentViewController maxWidth:kLVMAlertControllerAlertWidth];
             if (totalHeight > maxHeight) { totalHeight = maxHeight; }
             CGRect frame = CGRectMake(0, 0, kLVMAlertControllerAlertWidth, totalHeight);
             self.containerView.frame = frame;
@@ -154,7 +151,7 @@ static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按�
     CGFloat maxHeight = CGRectGetHeight(self.view.bounds);
     CGFloat maxWidth = CGRectGetWidth(self.view.bounds);
     CGFloat totalHeight = self.userActions.count * kLVMAlertControllerActionSheetHeight;
-    totalHeight += [LVMAlertHeaderView heightWithAttributedTitle:self.attributedAlertTitle attributedMessage:self.attributedAlertMessage image:self.alertImage textFields:self.textFields maxWidth:maxWidth];
+    totalHeight += [LVMAlertHeaderView heightWithAttributedTitle:self.attributedAlertTitle attributedMessage:self.attributedAlertMessage image:self.alertImage textFields:self.textFields contentViewController:self.contentViewController maxWidth:maxWidth];
     if (self.cancelAction) {
         totalHeight += kLVMAlertControllerActionSheetHeight + kLVMAlertControllerCancelInsert;
     }
@@ -174,7 +171,7 @@ static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按�
     CGFloat count = self.actions.count;
     if (kLVMAlertControllerAlertTiledLimit == count) { count = 1; }
     CGFloat totalHeight = count * kLVMAlertControllerActionHeight;
-    totalHeight += [LVMAlertHeaderView heightWithAttributedTitle:self.attributedAlertTitle attributedMessage:self.attributedAlertMessage image:self.alertImage textFields:self.textFields maxWidth:kLVMAlertControllerAlertWidth];
+    totalHeight += [LVMAlertHeaderView heightWithAttributedTitle:self.attributedAlertTitle attributedMessage:self.attributedAlertMessage image:self.alertImage textFields:self.textFields contentViewController:self.contentViewController maxWidth:kLVMAlertControllerAlertWidth];
     if (totalHeight > maxHeight) {
         totalHeight = maxHeight;
     }
@@ -196,8 +193,6 @@ static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按�
     cancelBtn.backgroundColor = [UIColor whiteColor];
     [cancelBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     cancelBtn.titleLabel.font = [UIFont systemFontOfSize:15];
-//    [cancelBtn lvm_setCornerRadii:CGSizeMake(kLVMAlertControllerCornerRadius, kLVMAlertControllerCornerRadius)
-//               forRoundingCorners:UIRectCornerTopLeft | UIRectCornerTopRight];
     [cancelBtn setTitle:self.cancelAction.title forState:UIControlStateNormal];
     [cancelBtn addTarget:self action:@selector(_handleCancelButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     _cancelButton = cancelBtn;
@@ -237,10 +232,14 @@ static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按�
     _tableView = tableView;
     [self.containerView addSubview:tableView];
 
-    CGFloat h = [LVMAlertHeaderView heightWithAttributedTitle:self.attributedAlertTitle attributedMessage:self.attributedAlertMessage image:self.alertImage textFields:self.textFields maxWidth:CGRectGetWidth(self.containerView.bounds)];
+    if (self.contentViewController) {
+        [self addChildViewController:self.contentViewController];
+        [self.contentViewController didMoveToParentViewController:self];
+    }
+    CGFloat h = [LVMAlertHeaderView heightWithAttributedTitle:self.attributedAlertTitle attributedMessage:self.attributedAlertMessage image:self.alertImage textFields:self.textFields contentViewController:self.contentViewController maxWidth:CGRectGetWidth(self.containerView.bounds)];
     LVMAlertHeaderView *headerView = [[LVMAlertHeaderView alloc] initWithReuseIdentifier:@"alertHeader"];//initWithFrame:CGRectMake(0, 0, 0, h)
     headerView.frame = (CGRect){CGPointZero, {0, h}};
-    [headerView setupWithAttributedTitle:self.attributedAlertTitle attributedMessage:self.attributedAlertMessage image:self.alertImage textFields:self.textFields];
+    [headerView setupWithAttributedTitle:self.attributedAlertTitle attributedMessage:self.attributedAlertMessage image:self.alertImage textFields:self.textFields contentViewController:self.contentViewController];
     if (LVMAlertControllerStyleActionSheet == self.preferredStyle) {
         headerView.backgroundView.backgroundColor = LVMAlertRGBColor(0xF5F5F5);
     }
@@ -275,74 +274,6 @@ static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按�
 }
 
 #pragma mark - Private Methods -
-
-- (void)_showContainerView {
-    switch (self.preferredStyle) {
-        case LVMAlertControllerStyleActionSheet: {
-            [self _showContainerViewForActionSheet];
-            break;
-        }
-        case LVMAlertControllerStyleAlert: {
-            [self _showContainerViewForAlert];
-            break;
-        }
-    }
-}
-
-- (void)_dismissContainerViewWithCompletion:(void (^)())completion {
-    switch (self.preferredStyle) {
-        case LVMAlertControllerStyleActionSheet: {
-            [self _dismissContainerViewForActionSheetWithCompletion:completion];
-            break;
-        }
-        case LVMAlertControllerStyleAlert: {
-            [self _dismissContainerViewForAlertWithCompletion:completion];
-            break;
-        }
-    }
-}
-
-- (void)_showContainerViewForActionSheet {
-    [UIView animateWithDuration:kLVMAlertControllerAnimationDuration animations:^{
-        self.containerView.transform = CGAffineTransformIdentity;
-        self.view.backgroundColor = DEFAULT_COLOR;
-    } completion:nil];
-}
-
-- (void)_showContainerViewForAlert {
-    [UIView animateWithDuration:kLVMAlertControllerAnimationDuration delay:0 usingSpringWithDamping:0.7 initialSpringVelocity:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        self.containerView.transform = CGAffineTransformIdentity;
-    } completion:nil];
-    
-    [UIView animateWithDuration:kLVMAlertControllerFastAnimationDuration delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        self.containerView.alpha = 1;
-        self.view.backgroundColor = DEFAULT_COLOR;
-    } completion:nil];
-}
-
-- (void)_dismissContainerViewForActionSheetWithCompletion:(void (^)())completion {
-    [UIView animateWithDuration:kLVMAlertControllerAnimationDuration animations:^{
-        self.containerView.transform = CGAffineTransformMakeTranslation(0, CGRectGetHeight(self.containerView.bounds));
-        self.view.backgroundColor = HIDDEN_COLOR;
-    } completion:^(BOOL finished) {
-        if (completion) { completion(); }
-    }];
-}
-
-- (void)_dismissContainerViewForAlertWithCompletion:(void (^)())completion {
-    [UIView animateWithDuration:kLVMAlertControllerAnimationDuration animations:^{
-        self.containerView.transform = CGAffineTransformMakeScale(kLVMAlertControllerAlertContrainerRatio,
-                                                                  kLVMAlertControllerAlertContrainerRatio);
-    } completion:^(BOOL finished) {
-        if (completion) { completion(); }
-    }];
-    
-    [UIView animateWithDuration:kLVMAlertControllerFastAnimationDuration delay:kLVMAlertControllerAnimationDuration - kLVMAlertControllerFastAnimationDuration options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        self.containerView.alpha = 0;
-        self.view.backgroundColor = HIDDEN_COLOR;
-    } completion:nil];
-}
-
 #pragma mark - Actions
 
 - (void)_cancelAction {
@@ -510,24 +441,6 @@ static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按�
     }
     LVMActionSheetTransition *transition = [[LVMActionSheetTransition alloc] initWithTransitionType:LVMAlertTransitionTypeDismiss];
     return transition;
-}
-
-@end
-
-@implementation LVMAlertController (Deprecated)
-
-- (void)presentOn:(UIViewController *)presentingVC withCompletion:(void (^)())completion {
-  if (self.presentingViewController) { return; }
-  UIViewController *topVC = presentingVC ?: [self _stackTopViewController];
-  [topVC presentViewController:self animated:YES completion:completion];
-}
-
-- (void)showWithCompletion:(void (^)())completion {
-  [self presentOn:nil withCompletion:completion];
-}
-
-- (void)dismissWithCompletion:(void (^)())completion {
-  [self dismissViewControllerAnimated:NO completion:completion];
 }
 
 @end

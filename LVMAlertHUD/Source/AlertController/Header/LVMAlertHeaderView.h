@@ -16,10 +16,12 @@ extern NSString * const kLVMAlertHeaderViewId;
                    attributedMessage:(NSAttributedString *)attributedMessage
                                image:(UIImage *)image
                           textFields:(NSArray<UITextField *> *)textFields
+               contentViewController:(UIViewController *)contentVC
                             maxWidth:(CGFloat)maxWidth;
 
 - (void)setupWithAttributedTitle:(NSAttributedString *)attributedTitle
                attributedMessage:(NSAttributedString *)attributedMessage
                            image:(UIImage *)image
-                      textFields:(NSArray<UITextField *> *)textFields;
+                      textFields:(NSArray<UITextField *> *)textFields
+           contentViewController:(UIViewController *)contentVC;
 @end

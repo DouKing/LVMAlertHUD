@@ -66,6 +66,13 @@
     };
 }
 
+- (LVMAlertController * _Nonnull (^)(UIViewController * _Nonnull))setupContentViewController {
+    return ^LVMAlertController *(UIViewController *contentVC) {
+        self.contentViewController = contentVC;
+        return self;
+    };
+}
+
 - (LVMAlertController * _Nonnull (^)(void (^ _Nullable)(UITextField * _Nonnull)))addTextFieldWithCompletion {
     return ^LVMAlertController *(void (^configure)(UITextField *textField)) {
         [self addTextFieldWithConfigurationHandler:configure];

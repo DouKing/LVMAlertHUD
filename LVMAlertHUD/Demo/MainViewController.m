@@ -20,6 +20,7 @@ typedef NS_ENUM(NSInteger, DataSourceType){
     DataSourceTypeAlertBase,
     DataSourceTypeAlertImage,
     DataSourceTypeAlertTextField,
+    DataSourceTypeAlertCustomView,
 
     DataSourceTypeCount
 };
@@ -30,6 +31,7 @@ static NSString * const DataSourceTypeNameMapping[] = {
     [DataSourceTypeAlertBase] = @"Alert simple",
     [DataSourceTypeAlertImage] = @"Alert a image",
     [DataSourceTypeAlertTextField] = @"Alert text fields",
+    [DataSourceTypeAlertCustomView] = @"Alert custom view",
 };
 
 static NSString * const kMainViewControllerCellId = @"kMainViewControllerCellId";
@@ -91,6 +93,9 @@ static NSString * const kMainViewControllerCellId = @"kMainViewControllerCellId"
         case DataSourceTypeAlertTextField: {
             [self _showAlertTextField];
         } break;
+        case DataSourceTypeAlertCustomView: {
+            [self _showAlertCustomView];
+        } break;
         case DataSourceTypeCount: break;
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -151,6 +156,18 @@ static NSString * const kMainViewControllerCellId = @"kMainViewControllerCellId"
         .addTextFieldWithCompletion(^(UITextField * _Nonnull textField){
             textField.placeholder = @"This is a text field.";
         })
+        .show(nil);
+}
+
+- (void)_showAlertCustomView {
+    DetailViewController *vc = [[DetailViewController alloc] init];
+    vc.preferredContentSize = CGSizeMake(0, 200);
+
+    LVMAlertController.alert.useStyle(self.alertStyle)
+        .setupTitle(@"Title")
+        .setupMessage(@"Message")
+        .setupContentViewController(vc)
+        .addCancelActionWithTitle(@"Cancel")
         .show(nil);
 }
 
