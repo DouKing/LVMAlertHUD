@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)action;
 @property (nonatomic, copy, readonly) LVMAlertAction *(^useStyle)(LVMAlertActionStyle style);
-@property (nonatomic, copy, readonly) LVMAlertAction *(^setupTitle)(NSString *title);
+@property (nonatomic, copy, readonly) LVMAlertAction *(^setupTitle)(NSString * _Nullable title);
 @property (nonatomic, copy, readonly) LVMAlertAction *(^setupEnable)(BOOL enabled);
 @property (nonatomic, copy, readonly) LVMAlertAction *(^setupHandler)(LVMAlertActionHandler _Nullable handler);
 
