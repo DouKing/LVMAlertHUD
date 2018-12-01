@@ -34,18 +34,19 @@ static inline CGFloat LVMToastHUDTransformYFrom(UIView *hud) {
 @implementation LVMToastHUD
 
 + (void)showMessage:(NSString *)message toView:(UIView *)view {
-    LVMToastHUD *hud = [view viewWithTag:kLVMToastHUDTag];
-    if (hud) { return; }
     if (!view) {
         //如果没有view，用window代替
         view = [UIApplication sharedApplication].keyWindow;
     }
+    LVMToastHUD *hud = [view viewWithTag:kLVMToastHUDTag];
+    if (hud) { return; }
     hud = [self toastHUDWithMessage:message view:view];
     hud.messageLabel.text = message;
     [hud _show];
 }
 
 + (instancetype)toastHUDWithMessage:(NSString *)message view:(UIView *)view {
+    if (!message || ![message isKindOfClass:NSString.class] || !message.length) { return nil; }
     CGFloat maxWidth = CGRectGetWidth(view.bounds);
     CGFloat maxHeight = CGRectGetHeight(view.bounds);
     CGFloat messageWidth = [message boundingRectWithSize:CGSizeMake(maxWidth - kLVMToastHUDSubViewInsert * 2, maxHeight) options:NSStringDrawingUsesFontLeading | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingTruncatesLastVisibleLine attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:kLVMToastHUDMessageFontSize]} context:nil].size.width;
