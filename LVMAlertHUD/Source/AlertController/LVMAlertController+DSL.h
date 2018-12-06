@@ -16,17 +16,17 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  DSL for `LVMAlertController`, you can use it like this:
 
- LVMAlertController.alert.useStyle(LVMAlertControllerStyleAlert)
-                   .setupTitle(@"title")
-                   .setupMessage(@"message")
-                   .addActionsWithTitles(@"ok", @"later", @"know", nil)
-                   .addCancelActionWithTitle(@"cancel")
-                   .actionsHandler(^(NSInteger index, LVMAlertAction *action) {
-                      NSLog(@"click %ld, %@", index, action.title);
-                   })
- .show(^{
-    NSLog(@"show");
- });
+ LVMAlertController.alert
+   .setupTitle(@"title")
+   .setupMessage(@"message")
+   .addActionsWithTitles(@"ok", @"later", @"know", nil)
+   .addCancelActionWithTitle(@"cancel")
+   .actionsHandler(^(NSInteger index, LVMAlertAction *action) {
+      NSLog(@"click %ld, %@", index, action.title);
+   })
+   .show(^{
+      NSLog(@"show");
+   });
 
  */
 @interface LVMAlertController ()
@@ -47,6 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
                                                                     BOOL animated,
                                                                     void (^ __nullable completion)());
 
+@property (nonatomic, copy, readonly) LVMAlertController *(^addActionsWithTitleArray)(NSArray<NSString *> *actionTitles);
 @property (nonatomic, copy, readonly) LVMAlertController *(^addActionsWithTitles)(NSString *actionTitles, ...);
 @property (nonatomic, copy, readonly) LVMAlertController *(^addCancelActionWithTitle)(NSString *cancelTitle);
 @property (nonatomic, copy, readonly) LVMAlertController *(^actionsHandler)(void(^)(NSInteger index, LVMAlertAction *action));

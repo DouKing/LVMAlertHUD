@@ -29,7 +29,6 @@ static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按�
 
 @interface LVMAlertController ()<UITableViewDelegate, UITableViewDataSource, LVMAlertButtonCellDelegate, UITextFieldDelegate, UIViewControllerTransitioningDelegate>
 
-@property (nonatomic, strong) NSArray<LVMAlertAction *> *userActions;
 @property (nonatomic, strong) LVMAlertAction *cancelAction;
 
 @property (nonatomic, weak) UIView *containerView;
@@ -251,6 +250,7 @@ static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按�
 - (void)addAction:(LVMAlertAction *)action {
     if (!action) { return; }
     if (LVMAlertActionStyleCancel == action.style) {
+        NSAssert(!self.cancelAction, @"[LVMAlertController] Only support one cancel style");
         self.cancelAction = action;
         return;
     }

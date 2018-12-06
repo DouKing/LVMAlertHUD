@@ -104,6 +104,24 @@
   };
 }
 
+- (LVMAlertController * _Nonnull (^)(NSArray<NSString *> * _Nonnull))addActionsWithTitleArray {
+  return ^LVMAlertController *(NSArray<NSString *> *actionTitleArray) {
+    NSArray<NSString *> *argsArray = [actionTitleArray copy];
+    for (NSInteger i = 0; i < argsArray.count; ++i) {
+      NSString *actionTitle = argsArray[i];
+      NSInteger index = self.userActions.count;
+      LVMAlertActionStyle style = (LVMAlertControllerStyleAlert == self.preferredStyle) ? LVMAlertActionStyleDefault : LVMAlertActionStyleMessage;
+      LVMAlertAction *action = [LVMAlertAction actionWithTitle:actionTitle style:style handler:^(LVMAlertAction * _Nonnull action) {
+        if (self.actionHandler) {
+          self.actionHandler(index, action);
+        }
+      }];
+      [self addAction:action];
+    }
+    return self;
+  };
+}
+
 - (LVMAlertController *(^)(NSString *, ...))addActionsWithTitles {
   return ^LVMAlertController *(NSString *actionTitles, ...) {
     va_list varList;
@@ -117,29 +135,15 @@
       }
       va_end(varList);
     }
-
-    for (NSInteger i = 0; i < argsArray.count; ++i) {
-      NSString *actionTitle = argsArray[i];
-      NSInteger index = self.actions.count;
-      LVMAlertActionStyle style = (LVMAlertControllerStyleAlert == self.preferredStyle) ? LVMAlertActionStyleDefault : LVMAlertActionStyleMessage;
-      LVMAlertAction *action = [LVMAlertAction actionWithTitle:actionTitle style:style handler:^(LVMAlertAction * _Nonnull action) {
-        if (self.actionHandler) {
-          self.actionHandler(index, action);
-        }
-      }];
-      [self addAction:action];
-    }
-
-    return self;
+    return self.addActionsWithTitleArray(argsArray);
   };
 }
 
 - (LVMAlertController *(^)(NSString *))addCancelActionWithTitle {
   return ^LVMAlertController *(NSString *cancelTitle) {
-    NSInteger index = self.actions.count;
     LVMAlertAction *action = [LVMAlertAction actionWithTitle:cancelTitle style:LVMAlertActionStyleCancel handler:^(LVMAlertAction * _Nonnull action) {
       if (self.actionHandler) {
-        self.actionHandler(index, action);
+        self.actionHandler(self.userActions.count, action);
       }
     }];
     [self addAction:action];
