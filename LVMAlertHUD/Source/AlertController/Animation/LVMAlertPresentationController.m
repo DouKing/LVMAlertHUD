@@ -144,10 +144,13 @@
     if (@available (iOS 11.0, *)) {
         bottom = self.presentingViewController.view.safeAreaInsets.bottom;
     }
+    if (_keyboardRect.size.height > 0) {
+        bottom = 0;
+    }
     CGSize contentSize = self.presentedViewController.preferredContentSize;
     CGFloat height = MIN(contentSize.height + bottom, CGRectGetHeight(self.containerView.bounds) - _keyboardRect.size.height);
     return CGRectMake((self.containerView.bounds.size.width - contentSize.width) / 2.0,
-                      (self.containerView.bounds.size.height - height),
+                      (self.containerView.bounds.size.height - height - _keyboardRect.size.height),
                       contentSize.width, height);
 }
 
@@ -172,6 +175,10 @@
         _tapGesture.delegate = self;
     }
     return _tapGesture;
+}
+
+- (BOOL)ignoreKeyboardShowing {
+    return NO;
 }
 
 #pragma mark - UIGestureRecognizerDelegate
