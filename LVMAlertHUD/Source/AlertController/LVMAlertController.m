@@ -276,24 +276,26 @@ static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按�
 #pragma mark - Private Methods -
 #pragma mark - Actions
 
-- (void)_cancelAction {
-    __weak typeof(self) weakSelf = self;
-    [self dismissViewControllerAnimated:YES completion:^{
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        if (strongSelf.cancelAction.actionHandler) {
-            strongSelf.cancelAction.actionHandler(strongSelf.cancelAction);
+- (void)_handleAction:(LVMAlertAction *)action {
+    void (^callback)(void) = ^() {
+        if (action.actionHandler) {
+            action.actionHandler(action);
         }
+    };
+    if (action.presentAutoClose) {
+        callback();
+        return;
+    }
+    [self dismissViewControllerAnimated:YES completion:^{
+        callback();
     }];
 }
 
-- (void)_handleCancelButtonAction:(UIButton *)sender {
-    [self _cancelAction];
+- (void)_cancelAction {
+    [self _handleAction:self.cancelAction];
 }
 
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    if (LVMAlertControllerStyleAlert == self.preferredStyle) {
-        return;
-    }
+- (void)_handleCancelButtonAction:(UIButton *)sender {
     [self _cancelAction];
 }
 
@@ -388,21 +390,13 @@ static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按�
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    [self dismissViewControllerAnimated:YES completion:^{
-        if (action.actionHandler) {
-            action.actionHandler(action);
-        }
-    }];
+    [self _handleAction:action];
 }
 
 #pragma mark - LVMAlertButtonCellDelegate
 
 - (void)alertButtonCell:(LVMAlertButtonCell *)cell didSelectAction:(LVMAlertAction *)action {
-    [self dismissViewControllerAnimated:YES completion:^{
-        if (action.actionHandler) {
-            action.actionHandler(action);
-        }
-    }];
+    [self _handleAction:action];
 }
 
 #pragma mark - UITextFieldDelegate

@@ -31,6 +31,9 @@ typedef NS_ENUM(NSInteger, LVMAlertActionStyle) {
 @property (nonatomic, nullable, readonly) LVMAlertActionHandler actionHandler;
 @property (nonatomic, readonly) LVMAlertActionStyle style;
 @property (nonatomic, getter=isEnabled) BOOL enabled;
+// When a user click an alert action, the alert controller will be closed automatically.
+// Set this property to `YES` will present this behavious. The default value is `NO`.
+@property (nonatomic, assign) BOOL presentAutoClose;
 
 @end
 
