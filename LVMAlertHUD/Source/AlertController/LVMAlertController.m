@@ -411,11 +411,11 @@ static NSInteger const kLVMAlertControllerAlertTiledLimit = 2;//alert水平按�
 - (UIPresentationController *)presentationControllerForPresentedViewController:(UIViewController *)presented presentingViewController:(nullable UIViewController *)presenting sourceViewController:(UIViewController *)source {
     if (LVMAlertControllerStyleAlert == self.preferredStyle) {
         LVMAlertPresentationController *presentationController = [[LVMAlertPresentationController alloc] initWithPresentedViewController:presented presentingViewController:presenting];
-        presentationController.ignoreKeyboardShowing = self.textFields.count <= 0;
+        presentationController.ignoreKeyboardShowing = self.ignoreKeyboardShowing;
         return presentationController;
     }
     LVMActionSheetPresentationController *presentationController = [[LVMActionSheetPresentationController alloc] initWithPresentedViewController:presented presentingViewController:presenting];
-    presentationController.ignoreKeyboardShowing = self.textFields.count <= 0;
+    presentationController.ignoreKeyboardShowing = self.ignoreKeyboardShowing;
     return presentationController;
 }
 

@@ -50,6 +50,7 @@ typedef NS_ENUM(NSInteger, LVMAlertControllerStyle) {
 
 @property (nonatomic, assign) BOOL strikethroughHeader;
 @property (nonatomic, assign) NSTextAlignment textAlignment;
+@property (nonatomic, assign) BOOL ignoreKeyboardShowing;
 
 @end
 
