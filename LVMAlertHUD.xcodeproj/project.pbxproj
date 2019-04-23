@@ -336,6 +336,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -527,7 +528,7 @@
 				INFOPLIST_FILE = LVMAlertHUD/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.secoo.www.LVMAlertHUD;
+				PRODUCT_BUNDLE_IDENTIFIER = com.douking.www.LVMAlertHUD;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -541,7 +542,7 @@
 				INFOPLIST_FILE = LVMAlertHUD/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.secoo.www.LVMAlertHUD;
+				PRODUCT_BUNDLE_IDENTIFIER = com.douking.www.LVMAlertHUD;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

@@ -4,7 +4,7 @@
 //  Secoo-iPhone
 //
 //  Created by WuYikai on 2017/1/20.
-//  Copyright © 2017年 secoo. All rights reserved.
+//  Copyright © 2017年 douking. All rights reserved.
 //
 
 #ifndef LVMPresentationProtocol_h

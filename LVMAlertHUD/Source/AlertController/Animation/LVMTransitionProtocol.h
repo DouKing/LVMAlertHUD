@@ -3,7 +3,7 @@
 // Secoo-iPhone
 //
 // Created by WuYikai on 2018/7/6.
-// Copyright © 2018 secoo. All rights reserved.
+// Copyright © 2018 douking. All rights reserved.
 //
 	
 
